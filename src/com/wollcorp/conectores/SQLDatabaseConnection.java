@@ -22,27 +22,27 @@ public class SQLDatabaseConnection {
     //Errores
     private String error = null;
         
-    public SQLDatabaseConnection() {
+    public SQLDatabaseConnection(String user, String password) {
         
-        driver = "jdbc:sqlserver://";
-        server = "delfines\\exactus;";
-        database = "database=GACELA;";
-        user = "user=supervisor;";
-        password = "password=system;";
+        this.driver = "jdbc:sqlserver://";
+        this.server = "delfines\\exactus;";
+        this.database = "database=GACELA;";
+        this.user = "user=" + user + ";";
+        this.password = "password=" + password + ";";
         
-        connectionUrl = driver + server + database + user + password;
+        this.connectionUrl = this.driver + this.server + this.database + this.user + this.password;
         
-        error = null;
+        this.error = null;
 
         try {
         	
-        	connection = DriverManager.getConnection(connectionUrl);
+        	this.connection = DriverManager.getConnection(connectionUrl);
             
         	System.out.println(getConnection());
         	
         }catch (SQLException e) {
         	
-            error = "Message: " + e.getMessage() + " SQLState: " + e.getSQLState() + " Error Code: " + e.getErrorCode();
+            this.error = "Message: " + e.getMessage() + " SQLState: " + e.getSQLState() + " Error Code: " + e.getErrorCode();
             
         }
     }
@@ -50,7 +50,7 @@ public class SQLDatabaseConnection {
     
     public void closeConnection() {
     	
-    	error = null;
+    	this.error = null;
     	
     	try {
     		
@@ -58,7 +58,7 @@ public class SQLDatabaseConnection {
     		
     	}catch(Exception e){
     		
-    		error = "Message: " + e.getMessage();
+    		this.error = "Message: " + e.getMessage();
     		
     	}
     	
@@ -66,12 +66,12 @@ public class SQLDatabaseConnection {
     
 
 	public Connection getConnection() {
-		return connection;
+		return this.connection;
 	}
 	
 	
     public String getError() {
-		return error;
+		return this.error;
 	}
 
 }

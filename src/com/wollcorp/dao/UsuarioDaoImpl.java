@@ -49,7 +49,7 @@ public class UsuarioDaoImpl implements IUsuarioDao {
 		String idUser = null;
 		String noUser = null;
 		
-		SQLDatabaseConnection conector = new SQLDatabaseConnection();
+		SQLDatabaseConnection conector = null;
 		
 		String sql = "SELECT ID_USER, NO_USER FROM USUARIOS WHERE CO_USER = ?";
 		
