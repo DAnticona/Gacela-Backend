@@ -7,15 +7,16 @@ import java.util.Date;
 import java.util.List;
 
 import com.wollcorp.conectores.SQLDatabaseConnection;
+import com.wollcorp.globales.Globales;
 import com.wollcorp.beans.Usuario;
 
 public class UsuarioDaoImpl implements IUsuarioDao {
 	
-	//List<Usuario> usuarios;
+	private Date fechaSistema = new Date();
 	
-	Date fechaSistema = new Date();
+	private String error = null;
 	
-	String error = null;
+	private String info = null;
 	
 	public UsuarioDaoImpl() {
 		
@@ -42,16 +43,16 @@ public class UsuarioDaoImpl implements IUsuarioDao {
 	}
 	
 	@Override
-	public Usuario obtenerUsuario(String coUser) {
+	public Usuario obtenerUsuario(String idUser) {
 		
 		Usuario usuario = null;
 		
-		String idUser = null;
+		String coUser = null;
 		String noUser = null;
 		
-		SQLDatabaseConnection conector = null;
+		SQLDatabaseConnection conector = (SQLDatabaseConnection) Globales.variablesGlobales.get(0);
 		
-		String sql = "SELECT ID_USER, NO_USER FROM USUARIOS WHERE CO_USER = ?";
+		String sql = "SELECT CO_USER, ID_USER, NO_USER FROM USUARIOS WHERE ID_USER = ?";
 		
 		if (conector.getError() == null) {
 			
@@ -60,12 +61,13 @@ public class UsuarioDaoImpl implements IUsuarioDao {
 			try {
 				
 				PreparedStatement ps = conector.getConnection().prepareStatement(sql);
-				ps.setString(1, coUser);
+				ps.setString(1, idUser);
 				
 				ResultSet rs = ps.executeQuery();
 				
 				while(rs.next()) {
 					
+					coUser = rs.getString("CO_USER");
 					idUser = rs.getString("ID_USER");
 					noUser = rs.getString("NO_USER");
 					
@@ -83,7 +85,7 @@ public class UsuarioDaoImpl implements IUsuarioDao {
 			System.err.println(fechaSistema + "- ERROR -" + conector.getError());
 		}
 		
-		conector.closeConnection();
+		conector = null;
 		
 		return usuario;
 		

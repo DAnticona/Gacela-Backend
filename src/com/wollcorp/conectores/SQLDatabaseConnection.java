@@ -11,46 +11,49 @@ public class SQLDatabaseConnection {
 
 	//Cadena de Conexion
 	private String connectionUrl;
-	
-	//Parametros de conexion
-    private String driver;
-    private String server;
-    private String database;
-    private String user;
-    private String password;
     
     //Errores
     private String error = null;
+    
+    //Informativos
+    private String info = null;
         
     public SQLDatabaseConnection(String user, String password) {
+    	
+        connectionUrl = "jdbc:sqlserver://delfines\\exactus;database=GACELA";
         
-        this.driver = "jdbc:sqlserver://";
-        this.server = "delfines\\exactus;";
-        this.database = "database=GACELA;";
-        this.user = "user=" + user + ";";
-        this.password = "password=" + password + ";";
+        info = null;
         
-        this.connectionUrl = this.driver + this.server + this.database + this.user + this.password;
-        
-        this.error = null;
+        error = null;
 
         try {
+        	//Carga clase de Maven
+        	Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver"); 
         	
-        	this.connection = DriverManager.getConnection(connectionUrl);
+        	//Conecta
+        	connection = DriverManager.getConnection(connectionUrl,user,password);
+        	
+        	info = "Conectado a la BD - Connection: " + connection;
+		
+        } catch (SQLException e) {
+        	
+            error = "Exception: " + e.toString() + 
+            			 "\nMessage: " + e.getMessage() + 
+            			 "\nSQLState: " + e.getSQLState() + 
+            			 "\nError Code: " + e.getErrorCode();
             
-        	System.out.println(getConnection());
+        } catch (ClassNotFoundException e) {
         	
-        }catch (SQLException e) {
+        	error = "Exception: " + e.toString() + 
+        				"\nMessage: " + e.getMessage();
         	
-            this.error = "Message: " + e.getMessage() + " SQLState: " + e.getSQLState() + " Error Code: " + e.getErrorCode();
-            
-        }
+		}
     }
     
     
     public void closeConnection() {
     	
-    	this.error = null;
+    	error = null;
     	
     	try {
     		
@@ -58,20 +61,26 @@ public class SQLDatabaseConnection {
     		
     	}catch(Exception e){
     		
-    		this.error = "Message: " + e.getMessage();
+    		error = "Exception: " + e.toString() + "Message: " + e.getMessage();
     		
     	}
-    	
     }
     
-
+    
 	public Connection getConnection() {
-		return this.connection;
+		return connection;
 	}
 	
 	
     public String getError() {
-		return this.error;
+		return error;
+	}
+
+
+	public String getInfo() {
+		
+		return info;
+		
 	}
 
 }

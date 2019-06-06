@@ -53,6 +53,15 @@
 	    <artifactId>genson</artifactId>
 	    <version>1.5</version>
 	</dependency>
+	
+	<!-- https://mvnrepository.com/artifact/com.microsoft.sqlserver/mssql-jdbc -->
+	<dependency>
+	    <groupId>com.microsoft.sqlserver</groupId>
+	    <artifactId>mssql-jdbc</artifactId>
+	    <version>7.2.2.jre8</version>
+	</dependency>
+
+	
 	  
   </dependencies>
   
