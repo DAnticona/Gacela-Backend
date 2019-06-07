@@ -8,15 +8,15 @@ import java.util.List;
 
 import com.wollcorp.conectores.SQLDatabaseConnection;
 import com.wollcorp.globales.Globales;
+import com.wollcorp.globales.Log;
 import com.wollcorp.beans.Usuario;
 
 public class UsuarioDaoImpl implements IUsuarioDao {
 	
 	private Date fechaSistema = new Date();
 	
-	private String error = null;
-	
-	private String info = null;
+	private int errorCode = 0;
+	private String mensaje = null;
 	
 	public UsuarioDaoImpl() {
 		
@@ -45,46 +45,51 @@ public class UsuarioDaoImpl implements IUsuarioDao {
 	@Override
 	public Usuario obtenerUsuario(String idUser) {
 		
+		Log log = new Log();
+		
 		Usuario usuario = null;
 		
 		String coUser = null;
 		String noUser = null;
+		String coPers = null;
 		
 		SQLDatabaseConnection conector = (SQLDatabaseConnection) Globales.variablesGlobales.get(0);
 		
-		String sql = "SELECT CO_USER, ID_USER, NO_USER FROM USUARIOS WHERE ID_USER = ?";
-		
-		if (conector.getError() == null) {
+		String sql = "SELECT CO_USER, ID_USER, NO_USER, CO_PERS FROM USUARIOS WHERE ID_USER = ?";
 			
-			System.out.println(fechaSistema + " - INFO - " + conector.getConnection());
+		try {
 			
-			try {
+			PreparedStatement ps = conector.getConnection().prepareStatement(sql);
+			ps.setString(1, idUser);
+			
+			ResultSet rs = ps.executeQuery();
+			
+			mensaje = "CONSULTA EXITOSA";
+			log.registraInfo(fechaSistema, mensaje);
+			
+			while(rs.next()) {
 				
-				PreparedStatement ps = conector.getConnection().prepareStatement(sql);
-				ps.setString(1, idUser);
-				
-				ResultSet rs = ps.executeQuery();
-				
-				while(rs.next()) {
-					
-					coUser = rs.getString("CO_USER");
-					idUser = rs.getString("ID_USER");
-					noUser = rs.getString("NO_USER");
-					
-				}
-				
-				usuario = new Usuario(coUser, idUser, noUser);
-				
-			} catch (SQLException e) {
-				
-				error = "Message: " + e.getMessage() + " SQLState: " + e.getSQLState() + " Error Code: " + e.getErrorCode();
+				coUser = rs.getString("CO_USER");
+				idUser = rs.getString("ID_USER");
+				noUser = rs.getString("NO_USER");
+				coPers = rs.getString("CO_PERS");
 				
 			}
 			
-		} else {
-			System.err.println(fechaSistema + "- ERROR -" + conector.getError());
+			usuario = new Usuario(coUser, idUser, noUser, coPers);
+			Globales.variablesGlobales.add(usuario);
+			
+		} catch (SQLException e) {
+			
+			mensaje = "MESSAGE: " + e.getMessage() + 
+					" - SQLSTATE: " + e.getSQLState() + 
+					" - ERROR CODE: " + e.getErrorCode();
+			
+			errorCode = e.getErrorCode();
+			
+			log.registraError(fechaSistema, mensaje, this.getClass().getName());
+			
 		}
-		
 		conector = null;
 		
 		return usuario;
@@ -122,10 +127,9 @@ public class UsuarioDaoImpl implements IUsuarioDao {
 		
 	}
 
-	@Override
-	public String getError() {
+	public int getErrorCode() {
 		
-		return error;
+		return errorCode;
 	}
 
 }

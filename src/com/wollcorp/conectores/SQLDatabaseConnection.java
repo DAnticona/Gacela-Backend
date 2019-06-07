@@ -3,6 +3,9 @@ package com.wollcorp.conectores;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
+import java.util.Date;
+
+import com.wollcorp.globales.Log;
 
 public class SQLDatabaseConnection {
     
@@ -12,40 +15,52 @@ public class SQLDatabaseConnection {
 	//Cadena de Conexion
 	private String connectionUrl;
     
-    //Errores
-    private String error = null;
+    private Date fechaSistema = new Date();
     
-    //Informativos
-    private String info = null;
+    //Clase que registra los eventos
+    private Log log = new Log();
+    
+    //Mensaje de respuesta
+    private String mensaje; 
+    private int errorCode;
         
     public SQLDatabaseConnection(String user, String password) {
     	
         connectionUrl = "jdbc:sqlserver://delfines\\exactus;database=GACELA";
-        
-        info = null;
-        
-        error = null;
+        errorCode = 0;
+        mensaje = null;
 
         try {
         	//Carga clase de Maven
         	Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver"); 
         	
         	//Conecta
-        	connection = DriverManager.getConnection(connectionUrl,user,password);
+        	connection = DriverManager.getConnection(connectionUrl, user, password);
         	
-        	info = "Conectado a la BD - Connection: " + connection;
+        	mensaje = "USUARIO:" + user + 
+					" - CONECTADO A LA BD";
+        	
+        	log.registraInfo(fechaSistema, mensaje);
 		
         } catch (SQLException e) {
         	
-            error = "Exception: " + e.toString() + 
-            			 "\nMessage: " + e.getMessage() + 
-            			 "\nSQLState: " + e.getSQLState() + 
-            			 "\nError Code: " + e.getErrorCode();
+        	errorCode = e.getErrorCode();
+        	
+        	mensaje = "EXCEPTION : " + e.toString() +
+		 			" - MESSAGE: " + e.getMessage() + 
+		 			" - SQLSTATE: " + e.getSQLState() + 
+		 			" - ERROR CODE: " + e.getErrorCode();
+        	
+        	log.registraError(fechaSistema, mensaje, this.getClass().getName());
             
         } catch (ClassNotFoundException e) {
         	
-        	error = "Exception: " + e.toString() + 
-        				"\nMessage: " + e.getMessage();
+        	errorCode = -1;
+        	
+        	mensaje = "EXCEPTION: " + e.toString() + 
+					" - MESSAGE: " + e.getMessage();
+        	
+        	log.registraError(fechaSistema, mensaje, this.getClass().getName());
         	
 		}
     }
@@ -53,33 +68,46 @@ public class SQLDatabaseConnection {
     
     public void closeConnection() {
     	
-    	error = null;
+    	mensaje = null;
     	
     	try {
     		
     		getConnection().close();
     		
-    	}catch(Exception e){
+    		mensaje = "CONEXIÓN CERRADA";
     		
-    		error = "Exception: " + e.toString() + "Message: " + e.getMessage();
+    		log.registraInfo(fechaSistema, mensaje);
+    		
+    	} catch(Exception e){
+    		
+    		errorCode = -1;
+    		
+    		mensaje = "EXCEPTION: " + e.toString() + 
+					" - MESSAGE: " + e.getMessage();
+    		
+    		log.registraError(fechaSistema, mensaje, this.getClass().getName());
     		
     	}
     }
     
     
 	public Connection getConnection() {
-		return connection;
-	}
-	
-	
-    public String getError() {
-		return error;
-	}
-
-
-	public String getInfo() {
 		
-		return info;
+		return connection;
+		
+	}
+
+
+	public String getMensaje() {
+		
+		return mensaje;
+		
+	}
+
+
+	public int getErrorCode() {
+		
+		return errorCode;
 		
 	}
 

@@ -15,8 +15,6 @@ public interface IUsuarioDao {
 	public void actualizarUsuario(Usuario usuario, String nombre);
 	
 	public void eliminarUsuario(Usuario usuario);
-	
-	public String getError();
 
 }
 
