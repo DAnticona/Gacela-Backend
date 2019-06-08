@@ -47,15 +47,17 @@ public class UsuarioDaoImpl implements IUsuarioDao {
 		
 		Log log = new Log();
 		
-		Usuario usuario = null;
-		
-		String coUser = null;
-		String noUser = null;
-		String coPers = null;
+		Usuario usuario = new Usuario();
 		
 		SQLDatabaseConnection conector = (SQLDatabaseConnection) Globales.variablesGlobales.get(0);
 		
-		String sql = "SELECT CO_USER, ID_USER, NO_USER, CO_PERS FROM USUARIOS WHERE ID_USER = ?";
+		String sql = "SELECT U.CO_USER, U.ID_USER, U.NO_USER," + 
+					" P.CO_PERS, P.NU_DOCU, P.NO_PERS," + 
+					" P.AP_PATE, P.AP_MATE, P.SEXO" + 
+					" FROM USUARIOS U" + 
+					" INNER JOIN PERS P" + 
+					" ON U.CO_PERS = P.CO_PERS" + 
+					" WHERE U.ID_USER = ?";
 			
 		try {
 			
@@ -69,14 +71,19 @@ public class UsuarioDaoImpl implements IUsuarioDao {
 			
 			while(rs.next()) {
 				
-				coUser = rs.getString("CO_USER");
-				idUser = rs.getString("ID_USER");
-				noUser = rs.getString("NO_USER");
-				coPers = rs.getString("CO_PERS");
+				usuario.setCoUser(rs.getString("CO_USER"));
+				usuario.setIdUser(rs.getString("ID_USER"));
+				usuario.setNoUser(rs.getString("NO_USER"));
+				
+				usuario.setCoPers(rs.getString("CO_PERS"));
+				usuario.setNuDocu(rs.getString("NU_DOCU"));
+				usuario.setNoPers(rs.getString("NO_PERS"));
+				usuario.setApPate(rs.getString("AP_PATE"));
+				usuario.setApMate(rs.getString("AP_MATE"));
+				usuario.setSexo(rs.getString("SEXO"));
 				
 			}
 			
-			usuario = new Usuario(coUser, idUser, noUser, coPers);
 			Globales.variablesGlobales.add(usuario);
 			
 		} catch (SQLException e) {

@@ -2,61 +2,74 @@ package com.wollcorp.beans;
 
 public class Persona {
 	
-	private String codigo;
-	private String nuDocumento;
-	private String nombres;
-	private String apPaterno;
-	private String apMaterno;
+	private String coPers;
+	private String nuDocu;
+	private String noPers;
+	private String apPate;
+	private String apMate;
 	private String sexo;
 	
 	public Persona() {
 		
 	}
 	
-	public Persona(String codigo, String nuDocumento, String nombres, String apPaterno, String apMaterno, String sexo) {
-		this.codigo = codigo;
-		this.nuDocumento = nuDocumento;
-		this.nombres = nombres;
-		this.apPaterno = apPaterno;
-		this.apMaterno = apMaterno;
+	public Persona(String coPers, String nuDocu, String noPers, String apPate, String apMate, String sexo) {
+		this.coPers = coPers;
+		this.nuDocu = nuDocu;
+		this.noPers = noPers;
+		this.apPate = apPate;
+		this.apMate = apMate;
 		this.sexo = sexo;
 	}
-	
-	public String getCodigo() {
-		return codigo;
+
+	public String getCoPers() {
+		return coPers;
 	}
-	public void setCodigo(String codigo) {
-		this.codigo = codigo;
+
+	public void setCoPers(String coPers) {
+		this.coPers = coPers;
 	}
-	public String getNuDocumento() {
-		return nuDocumento;
+
+	public String getNuDocu() {
+		return nuDocu;
 	}
-	public void setNuDocumento(String nuDocumento) {
-		this.nuDocumento = nuDocumento;
+
+	public void setNuDocu(String nuDocu) {
+		this.nuDocu = nuDocu;
 	}
-	public String getNombres() {
-		return nombres;
+
+	public String getNoPers() {
+		return noPers;
 	}
-	public void setNombres(String nombres) {
-		this.nombres = nombres;
+
+	public void setNoPers(String noPers) {
+		this.noPers = noPers;
 	}
-	public String getApPaterno() {
-		return apPaterno;
+
+	public String getApPate() {
+		return apPate;
 	}
-	public void setApPaterno(String apPaterno) {
-		this.apPaterno = apPaterno;
+
+	public void setApPate(String apPate) {
+		this.apPate = apPate;
 	}
-	public String getApMaterno() {
-		return apMaterno;
+
+	public String getApMate() {
+		return apMate;
 	}
-	public void setApMaterno(String apMaterno) {
-		this.apMaterno = apMaterno;
+
+	public void setApMate(String apMate) {
+		this.apMate = apMate;
 	}
+
 	public String getSexo() {
 		return sexo;
 	}
+
 	public void setSexo(String sexo) {
 		this.sexo = sexo;
 	}
+	
+
 
 }

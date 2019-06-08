@@ -1,29 +1,27 @@
 package com.wollcorp.beans;
 
-public class Usuario {
+public class Usuario extends Persona{
 	
-	private String codigo;
+	private String coUser;
 	private String idUser;
-	private String nombre;
-	private String coPers;
+	private String noUser;
 	
 	public Usuario() {
-		
+		super();
 	}
 	
-	public Usuario (String codigo, String idUser, String nombre, String coPers) {
-		this.codigo = codigo;
+	public Usuario (String coUser, String idUser, String noUser) {
+		this.coUser = coUser;
 		this.idUser = idUser;
-		this.nombre = nombre;
-		this.coPers = coPers;
+		this.noUser = noUser;
 	}
 	
 	
-	public String getCodigo() {
-		return codigo;
+	public String getCoUser() {
+		return coUser;
 	}
-	public void setCodigo(String codigo) {
-		this.codigo = codigo;
+	public void setCoUser(String coUser) {
+		this.coUser = coUser;
 	}
 	public String getIdUser() {
 		return idUser;
@@ -31,22 +29,11 @@ public class Usuario {
 	public void setIdUser(String idUser) {
 		this.idUser = idUser;
 	}
-	public String getNombre() {
-		return nombre;
+	public String getNoUser() {
+		return noUser;
 	}
 	
-	public void setNombre(String nombre) {
-		this.nombre = nombre;
+	public void setNoUser(String noUser) {
+		this.noUser = noUser;
 	}
-
-	public String getCoPers() {
-		return coPers;
-	}
-
-	public void setCoPers(String coPers) {
-		this.coPers = coPers;
-	}
-	
-	
-
 }
