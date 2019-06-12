@@ -17,7 +17,7 @@ public class LoginDaoImpl implements ILoginDao {
 			
 			return false;
 			
-		} else { //Conectado
+		} else { //Conectado: Login Existe en BD
 						
 			//Registra el conector en las variables Globales del Sistema
 			Globales.variablesGlobales.add(conector);

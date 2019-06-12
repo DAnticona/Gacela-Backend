@@ -26,8 +26,8 @@ public class SQLDatabaseConnection {
         
     public SQLDatabaseConnection(String user, String password) {
     	
-        // connectionUrl = "jdbc:sqlserver://delfines\\exactus;database=GACELA";
-    	connectionUrl = "jdbc:sqlserver://localhost\\EXACTUS:1433;database=GACELA";
+        connectionUrl = "jdbc:sqlserver://delfines\\exactus;database=GACELA";
+    	// connectionUrl = "jdbc:sqlserver://localhost\\EXACTUS:1433;database=GACELA";
         mensaje = null;
 
         try {
