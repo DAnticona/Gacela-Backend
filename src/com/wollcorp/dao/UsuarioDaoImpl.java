@@ -6,9 +6,6 @@ import java.sql.SQLException;
 import java.util.Date;
 import java.util.List;
 
-import org.codehaus.jettison.json.JSONArray;
-import org.codehaus.jettison.json.JSONObject;
-
 import com.wollcorp.conectores.SQLDatabaseConnection;
 import com.wollcorp.globales.Globales;
 import com.wollcorp.globales.Log;
@@ -46,9 +43,7 @@ public class UsuarioDaoImpl implements IUsuarioDao {
 	}
 	
 	@Override
-	public JSONArray obtenerUsuario(String idUser) {
-		
-		JSONArray jsonArray = new JSONArray();
+	public Usuario obtenerUsuario(String idUser) {
 		
 		Log log = new Log();
 		
@@ -75,18 +70,6 @@ public class UsuarioDaoImpl implements IUsuarioDao {
 			log.registraInfo(fechaSistema, mensaje);
 			
 			while(rs.next()) {
-				
-				int total_columns = rs.getMetaData().getColumnCount();
-				
-				JSONObject obj = new JSONObject();
-				
-				for (int i = 0; i < total_columns; i++) {
-					
-	                obj.put(rs.getMetaData().getColumnLabel(i + 1).toLowerCase(), rs.getObject(i + 1));
-	                
-	            }
-				
-				jsonArray.put(obj);
 				
 				usuario.setCoUser(rs.getString("CO_USER"));
 				usuario.setIdUser(rs.getString("ID_USER"));
@@ -115,16 +98,11 @@ public class UsuarioDaoImpl implements IUsuarioDao {
 			
 			log.registraError(fechaSistema, mensaje, this.getClass().getName());
 			
-		} catch (Exception e) {
-			
-			mensaje = "MESSAGE: " + e.getMessage();
-			
-			log.registraError(fechaSistema, mensaje, this.getClass().getName());
-			
 		}
+		
 		conector = null;
 		
-		return jsonArray;
+		return usuario;
 		
 	}
 	

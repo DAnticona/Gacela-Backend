@@ -9,9 +9,6 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
-import org.codehaus.jettison.json.JSONException;
-import org.codehaus.jettison.json.JSONObject;
-
 import com.wollcorp.beans.Login;
 import com.wollcorp.beans.Usuario;
 import com.wollcorp.dao.LoginDaoImpl;
@@ -50,19 +47,9 @@ public class LoginService {
 			mensaje = "CONSULTA DATOS DEL USUARIO: " + login.getUsuario();
 			log.registraInfo(fechaSistema, mensaje);
 			
-			//usuarioConectado = usuarioDao.obtenerUsuario(login.getUsuario());
+			usuarioConectado = usuarioDao.obtenerUsuario(login.getUsuario());
 			
-			JSONObject jsonObject = new JSONObject();
-			try {
-				jsonObject.put("arrayName",usuarioDao.obtenerUsuario(login.getUsuario()));
-				System.out.println("Conversión exitosa");
-			} catch (JSONException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-				System.out.println("Error Json");
-			}
-			
-			return Response.status(Response.Status.OK).entity(jsonObject).build();
+			return Response.status(Response.Status.OK).entity(usuarioConectado).build();
 			
 		} else {
 			
