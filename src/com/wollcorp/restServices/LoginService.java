@@ -49,7 +49,17 @@ public class LoginService {
 			
 			usuarioConectado = usuarioDao.obtenerUsuario(login.getUsuario());
 			
-			return Response.status(Response.Status.OK).entity(usuarioConectado).build();
+			if(usuarioConectado != null) {
+				
+				return Response.status(Response.Status.OK).entity(usuarioConectado).build();
+				
+			} else {
+				
+				return Response.status(Response.Status.BAD_REQUEST).entity("USUARIO NO REGISTRADO EN BD...").build();
+				
+			}
+			
+			
 			
 		} else {
 			

@@ -51,13 +51,14 @@ public class UsuarioDaoImpl implements IUsuarioDao {
 		
 		SQLDatabaseConnection conector = (SQLDatabaseConnection) Globales.variablesGlobales.get(0);
 		
-		String sql = "SELECT U.CO_USER, U.ID_USER, U.NO_USER," + 
-					" P.CO_PERS, P.NU_DOCU, P.NO_PERS," + 
-					" P.AP_PATE, P.AP_MATE, P.SEXO" + 
-					" FROM USUARIOS U" + 
+		String sql = "SELECT U.CO_USUA, U.ID_USUA," + 
+						" P.CO_PERS, P.NU_DOCU," + 
+						" P.NO_PERS, P.AP_PATE," +
+						" P.AP_MATE, P.SEXO" + 
+					" FROM USUA U" + 
 					" INNER JOIN PERS P" + 
 					" ON U.CO_PERS = P.CO_PERS" + 
-					" WHERE U.ID_USER = ?";
+					" WHERE U.ID_USUA = ?";
 			
 		try {
 			
@@ -71,9 +72,8 @@ public class UsuarioDaoImpl implements IUsuarioDao {
 			
 			while(rs.next()) {
 				
-				usuario.setCoUser(rs.getString("CO_USER"));
-				usuario.setIdUser(rs.getString("ID_USER"));
-				usuario.setNoUser(rs.getString("NO_USER"));
+				usuario.setCoUser(rs.getString("CO_USUA"));
+				usuario.setIdUser(rs.getString("ID_USUA"));
 				
 				usuario.setCoPers(rs.getString("CO_PERS"));
 				usuario.setNuDocu(rs.getString("NU_DOCU"));
@@ -82,11 +82,23 @@ public class UsuarioDaoImpl implements IUsuarioDao {
 				usuario.setApMate(rs.getString("AP_MATE"));
 				usuario.setSexo(rs.getString("SEXO"));
 				
+			}
+			
+			if(usuario.getCoUser() == null) {
 				
+				usuario = null;
+				mensaje = "NO SE PUDO ENCONTRAR AL USUARIO EN LA BD";
+				log.registraError(fechaSistema, mensaje, this.getClass().getName());
+				
+			} else {
+				
+				Globales.variablesGlobales.add(usuario);
+				
+				mensaje = "USUARIO ENCONTRADO EXITOSAMENTE EN BD";
+				log.registraInfo(fechaSistema, mensaje);
 				
 			}
 			
-			Globales.variablesGlobales.add(usuario);
 			
 		} catch (SQLException e) {
 			
