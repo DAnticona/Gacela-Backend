@@ -2,7 +2,6 @@ package com.wollcorp.dao;
 
 import com.wollcorp.beans.Login;
 import com.wollcorp.conectores.SQLDatabaseConnection;
-import com.wollcorp.globales.Globales;
 
 public class LoginDaoImpl implements ILoginDao {
 	
@@ -18,9 +17,6 @@ public class LoginDaoImpl implements ILoginDao {
 			return false;
 			
 		} else { //Conectado: Login Existe en BD
-						
-			//Registra el conector en las variables Globales del Sistema
-			Globales.variablesGlobales.add(conector);
 			
 			return true;
 			

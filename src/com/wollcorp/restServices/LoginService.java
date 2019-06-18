@@ -10,9 +10,8 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
 import com.wollcorp.beans.Login;
-import com.wollcorp.beans.Usuario;
-import com.wollcorp.dao.LoginDaoImpl;
-import com.wollcorp.dao.UsuarioDaoImpl;
+import com.wollcorp.controladores.LoginControlador;
+import com.wollcorp.globales.Globales;
 import com.wollcorp.globales.Log;
 
 @Path("/login")
@@ -20,50 +19,31 @@ import com.wollcorp.globales.Log;
 @Produces(MediaType.APPLICATION_JSON)
 public class LoginService {
 	
-	LoginDaoImpl loginDao = null;
-	
-	UsuarioDaoImpl usuarioDao = null;
-	Usuario usuarioConectado = null;
+	LoginControlador loginControlador = new LoginControlador();
 	
 	Date fechaSistema = new Date();
-	
 	Log log = new Log();
-	
 	String mensaje = null;
 	
 	@POST
 	public Response servicioLogin(Login login) {
 		
-		loginDao = new LoginDaoImpl();
-		
-		mensaje = "INTENTO DE LOGIN - USUARIO: " + login.getUsuario();
-		log.registraInfo(fechaSistema, mensaje);
-		
-		if(loginDao.login(login)) {
+		if(loginControlador.validarLogin(login)) {
 			
-			//Devuelve datos del usuario
-			usuarioDao = new UsuarioDaoImpl();
-			
-			mensaje = "CONSULTA DATOS DEL USUARIO: " + login.getUsuario();
-			log.registraInfo(fechaSistema, mensaje);
-			
-			usuarioConectado = usuarioDao.obtenerUsuario(login.getUsuario());
-			
-			if(usuarioConectado != null) {
+			if(loginControlador.obtenerUsuario(login) == 1) {//Encuentra 1 usuario
 				
-				return Response.status(Response.Status.OK).entity(usuarioConectado).build();
+				return Response.status(Response.Status.OK).entity(Globales.variablesGlobales.get(1)).build();
 				
 			} else {
 				
-				return Response.status(Response.Status.BAD_REQUEST).entity("USUARIO NO REGISTRADO EN BD...").build();
+				return Response.status(Response.Status.BAD_REQUEST).entity(loginControlador.getMensaje()).build();
 				
 			}
 			
 			
-			
 		} else {
 			
-			return Response.status(Response.Status.UNAUTHORIZED).entity(loginDao.getConector().getErrorCode()).build();
+			return Response.status(Response.Status.UNAUTHORIZED).entity(loginControlador.getMensaje()).build();
 			
 		}
 	}

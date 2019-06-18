@@ -3,7 +3,7 @@ package com.wollcorp.dao;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.Date;
+import java.util.ArrayList;
 import java.util.List;
 
 import com.wollcorp.conectores.SQLDatabaseConnection;
@@ -13,67 +13,46 @@ import com.wollcorp.beans.Usuario;
 
 public class UsuarioDaoImpl implements IUsuarioDao {
 	
-	private Date fechaSistema = new Date();
-	
-	private int errorCode = 0;
-	private String mensaje = null;
+	Log log = new Log();
 	
 	public UsuarioDaoImpl() {
 		
 	}
 	
 	@Override
-	public List<Usuario> obtenerUsuarios() {
-		/*
-		SQLDatabaseConnection conector = new SQLDatabaseConnection();
+	public List<Usuario> obtenerUsuarios(String noUsua) {
 		
-		if (conector.getError() == null) {
-			
-			System.out.println(fechaSistema + "- INFO -" + conector.getConnection());
-			
-		} else {
-			
-			System.err.println(fechaSistema + "- ERROR -" + conector.getError());
-			
-		}
-		*/
-		
-		return null;
-		
-	}
-	
-	@Override
-	public Usuario obtenerUsuario(String idUser) {
-		
-		Log log = new Log();
-		
-		Usuario usuario = new Usuario();
+		List<Usuario> usuarios = new ArrayList<Usuario>();
+		Usuario usuario = null;
 		
 		SQLDatabaseConnection conector = (SQLDatabaseConnection) Globales.variablesGlobales.get(0);
 		
-		String sql = "SELECT U.CO_USUA, U.ID_USUA," + 
-						" P.CO_PERS, P.NU_DOCU," + 
-						" P.NO_PERS, P.AP_PATE," +
-						" P.AP_MATE, P.SEXO" + 
-					" FROM USUA U" + 
-					" INNER JOIN PERS P" + 
-					" ON U.CO_PERS = P.CO_PERS" + 
-					" WHERE U.ID_USUA = ?";
+		String sql = "EXEC SP_OBTIENE_USUARIO ?";
 			
 		try {
 			
 			PreparedStatement ps = conector.getConnection().prepareStatement(sql);
-			ps.setString(1, idUser);
+			ps.setString(1, noUsua);
 			
 			ResultSet rs = ps.executeQuery();
 			
-			mensaje = "CONSULTA EXITOSA";
-			log.registraInfo(fechaSistema, mensaje);
+			log.setMensaje("CONSULTA EXITOSA");
+			log.setCodigoError(0);
+			log.setEstadoError(null);
+			log.setNombreClase(null);
+			log.registraInfo();
 			
 			while(rs.next()) {
 				
-				usuario.setCoUser(rs.getString("CO_USUA"));
-				usuario.setIdUser(rs.getString("ID_USUA"));
+				usuario = new Usuario();
+				
+				usuario.setCoUsua(rs.getString("CO_USUA"));
+				usuario.setNoUsua(rs.getString("NO_USUA"));
+				usuario.setFeUltSes(rs.getDate("FE_ULT_SES"));
+				usuario.setUsCreaUsua(rs.getString("US_CREA_USUA"));
+				usuario.setUsModiUsua(rs.getString("US_MODI_USUA"));
+				usuario.setFeCreaUsua(rs.getDate("FE_CREA_USUA"));
+				usuario.setFeModiUsua(rs.getDate("FE_MODI_USUA"));
 				
 				usuario.setCoPers(rs.getString("CO_PERS"));
 				usuario.setNuDocu(rs.getString("NU_DOCU"));
@@ -82,43 +61,44 @@ public class UsuarioDaoImpl implements IUsuarioDao {
 				usuario.setApMate(rs.getString("AP_MATE"));
 				usuario.setSexo(rs.getString("SEXO"));
 				
+				usuarios.add(usuario);
+				
 			}
 			
-			if(usuario.getCoUser() == null) {
+			if(usuarios.isEmpty()) {
 				
-				usuario = null;
-				mensaje = "NO SE PUDO ENCONTRAR AL USUARIO EN LA BD";
-				log.registraError(fechaSistema, mensaje, this.getClass().getName());
+				log.setMensaje ("NINGUN USUARIO ENCONTRADO EN BASE DE DATOS");
+				log.setCodigoError(-100);
+				log.setEstadoError(null);
+				log.setNombreClase(this.getClass().getName());
+				log.registraError();
 				
 			} else {
 				
-				Globales.variablesGlobales.add(usuario);
-				
-				mensaje = "USUARIO ENCONTRADO EXITOSAMENTE EN BD";
-				log.registraInfo(fechaSistema, mensaje);
+				log.setMensaje (usuarios.size() + " USUARIOS ENCONTRADOS EN BD");
+				log.setCodigoError(-200);
+				log.setEstadoError(null);
+				log.setNombreClase(this.getClass().getName());
+				log.registraError();
 				
 			}
 			
 			
 		} catch (SQLException e) {
 			
-			mensaje = "MESSAGE: " + e.getMessage() + 
-					" - SQLSTATE: " + e.getSQLState() + 
-					" - ERROR CODE: " + e.getErrorCode();
-			
-			errorCode = e.getErrorCode();
-			
-			log.registraError(fechaSistema, mensaje, this.getClass().getName());
+			log.setMensaje (e.getMessage());
+			log.setCodigoError(e.getErrorCode());
+			log.setEstadoError(e.getSQLState());
+			log.setNombreClase(this.getClass().getName());
+			log.registraError();
 			
 		}
 		
 		conector = null;
 		
-		return usuario;
+		return usuarios;
 		
 	}
-	
-	
 	
 	
 	@Override
@@ -150,11 +130,6 @@ public class UsuarioDaoImpl implements IUsuarioDao {
 		System.out.println("Usuario con código: " + usuario.getCodigo() + " eliminado satisfactoriamente");
 		*/
 		
-	}
-
-	public int getErrorCode() {
-		
-		return errorCode;
 	}
 
 }
