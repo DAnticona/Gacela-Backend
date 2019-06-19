@@ -1,10 +1,9 @@
 package com.wollcorp.globales;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashMap;
 
 public class Globales {
 	
-	public static List<Object> variablesGlobales = new ArrayList<Object>();
+	public static HashMap<String, Object> variablesGlobales = new HashMap<String, Object>();
 
 }

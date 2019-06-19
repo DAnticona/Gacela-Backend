@@ -5,9 +5,10 @@ import java.util.Date;
 public class Log {
 	
 	private String mensaje;
-	private int codigoError;
-	private String estadoError;
+	private int codigo;
+	private String estado;
 	private String nombreClase;
+	private String exception;
 
 	public Log() {
 		
@@ -15,13 +16,17 @@ public class Log {
 	
 	public void registraError() {
 		
-		System.err.println(new Date() + " - ERROR: " + mensaje + " - CLASE: " + nombreClase + " - CODIGO: " + codigoError + " - ESTADO: " + estadoError);
+		System.err.println(new Date() + " - ERROR: " + mensaje + " - EXCEPTION - " + exception +
+				"\n- CODIGO: " + codigo + " - ESTADO: " + estado + " - CLASE: " + nombreClase);
 		
 	}
 	
 	public void registraInfo() {
 		
-		System.out.println(new Date() + " - INFO: " + mensaje);
+		codigo = 0;
+		estado = "OK";
+		
+		System.out.println(new Date() + " - INFO: " + mensaje + " - CODIGO: " + codigo + " - ESTADO: " + estado);
 		
 	}
 
@@ -33,20 +38,20 @@ public class Log {
 		this.mensaje = mensaje;
 	}
 
-	public int getCodigoError() {
-		return codigoError;
+	public int getCodigo() {
+		return codigo;
 	}
 
-	public void setCodigoError(int codigoError) {
-		this.codigoError = codigoError;
+	public void setCodigo(int codigo) {
+		this.codigo = codigo;
 	}
 
-	public String getEstadoError() {
-		return estadoError;
+	public String getEstado() {
+		return estado;
 	}
 
-	public void setEstadoError(String estadoError) {
-		this.estadoError = estadoError;
+	public void setEstado(String estado) {
+		this.estado = estado;
 	}
 
 	public String getNombreClase() {
@@ -55,6 +60,14 @@ public class Log {
 
 	public void setNombreClase(String nombreClase) {
 		this.nombreClase = nombreClase;
+	}
+
+	public String getException() {
+		return exception;
+	}
+
+	public void setException(String exception) {
+		this.exception = exception;
 	}
 	
 }

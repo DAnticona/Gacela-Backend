@@ -3,7 +3,6 @@ package com.wollcorp.dao;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.Date;
 
 import com.wollcorp.beans.Persona;
 import com.wollcorp.conectores.SQLDatabaseConnection;
@@ -11,16 +10,9 @@ import com.wollcorp.globales.Globales;
 import com.wollcorp.globales.Log;
 
 public class PersonaDaoImpl implements IPersonaDao{
-	
-	private Date fechaSistema = new Date();
-	
-	private int errorCode = 0;
-	private String mensaje = null;
 
 	@Override
-	public Persona obtenerPersona(String codigo) {
-		
-		Log log = new Log();
+	public Persona buscarPersonas(String codigo) {
 		
 		Persona persona = null;
 		
@@ -30,7 +22,7 @@ public class PersonaDaoImpl implements IPersonaDao{
 		String apMaterno = null;
 		String sexo = null;
 		
-		SQLDatabaseConnection conector = (SQLDatabaseConnection) Globales.variablesGlobales.get(0);
+		SQLDatabaseConnection conector = (SQLDatabaseConnection)Globales.variablesGlobales.get("conector");
 		
 		String sql = "SELECT CO_PERS, NU_DOCU, NO_PERS, AP_PATE, AP_MATE, SEXO " + 
 					"FROM PERS WHERE CO_PERS = ?";
@@ -42,8 +34,8 @@ public class PersonaDaoImpl implements IPersonaDao{
 			
 			ResultSet rs = ps.executeQuery();
 			
-			mensaje = "CONSULTA EXITOSA";
-			log.registraInfo(fechaSistema, mensaje);
+			((Log)Globales.variablesGlobales.get("log")).setMensaje("CONSULTA EXITOSA");
+			((Log)Globales.variablesGlobales.get("log")).registraInfo();
 			
 			while(rs.next()) {
 				
@@ -56,11 +48,11 @@ public class PersonaDaoImpl implements IPersonaDao{
 				
 			}
 			
-			persona = new Persona(codigo, nuDocumento, nombres, apPaterno, apMaterno, sexo);
-			Globales.variablesGlobales.add(persona);
+			persona = new Persona();
+			Globales.variablesGlobales.put("persona", persona);
 			
 		} catch (SQLException e) {
-			
+			/*
 			mensaje = "MESSAGE: " + e.getMessage() + 
 					" - SQLSTATE: " + e.getSQLState() + 
 					" - ERROR CODE: " + e.getErrorCode();
@@ -68,22 +60,29 @@ public class PersonaDaoImpl implements IPersonaDao{
 			errorCode = e.getErrorCode();
 			
 			log.registraError(fechaSistema, mensaje, this.getClass().getName());
-			
+			*/
 		}
 		conector = null;
 		
 		return persona;
 		
 	}
-	
-	public int getErrorCode() {
-		return errorCode;
+
+	@Override
+	public void registrarPersona(Persona persona) {
+		// TODO Auto-generated method stub
+		
 	}
 
-	public String getMensaje() {
-		return mensaje;
+	@Override
+	public void modificarPersona(Persona persona) {
+		// TODO Auto-generated method stub
+		
 	}
-	
-	
 
+	@Override
+	public void eliminaPersona(String coPers) {
+		// TODO Auto-generated method stub
+		
+	}
 }

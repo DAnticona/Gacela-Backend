@@ -13,8 +13,6 @@ import com.wollcorp.beans.Usuario;
 
 public class UsuarioDaoImpl implements IUsuarioDao {
 	
-	Log log = new Log();
-	
 	public UsuarioDaoImpl() {
 		
 	}
@@ -25,7 +23,7 @@ public class UsuarioDaoImpl implements IUsuarioDao {
 		List<Usuario> usuarios = new ArrayList<Usuario>();
 		Usuario usuario = null;
 		
-		SQLDatabaseConnection conector = (SQLDatabaseConnection) Globales.variablesGlobales.get(0);
+		SQLDatabaseConnection conector = (SQLDatabaseConnection) Globales.variablesGlobales.get("conector");
 		
 		String sql = "EXEC SP_OBTIENE_USUARIO ?";
 			
@@ -36,11 +34,8 @@ public class UsuarioDaoImpl implements IUsuarioDao {
 			
 			ResultSet rs = ps.executeQuery();
 			
-			log.setMensaje("CONSULTA EXITOSA");
-			log.setCodigoError(0);
-			log.setEstadoError(null);
-			log.setNombreClase(null);
-			log.registraInfo();
+			((Log)Globales.variablesGlobales.get("log")).setMensaje("CONSULTA EXITOSA");
+			((Log)Globales.variablesGlobales.get("log")).registraInfo();
 			
 			while(rs.next()) {
 				
@@ -60,37 +55,24 @@ public class UsuarioDaoImpl implements IUsuarioDao {
 				usuario.setApPate(rs.getString("AP_PATE"));
 				usuario.setApMate(rs.getString("AP_MATE"));
 				usuario.setSexo(rs.getString("SEXO"));
+				usuario.setFeNaci(rs.getDate("FE_NACI"));
+				usuario.setUsCreaPers(rs.getString("US_CREA_PERS"));
+				usuario.setUsModiPers(rs.getString("US_MODI_PERS"));
+				usuario.setFeCreaPers(new java.util.Date(rs.getTimestamp("FE_CREA_PERS").getTime()));
+				usuario.setFeModiPers(new java.util.Date(rs.getTimestamp("FE_MODI_PERS").getTime()));
 				
 				usuarios.add(usuario);
 				
 			}
 			
-			if(usuarios.isEmpty()) {
-				
-				log.setMensaje ("NINGUN USUARIO ENCONTRADO EN BASE DE DATOS");
-				log.setCodigoError(-100);
-				log.setEstadoError(null);
-				log.setNombreClase(this.getClass().getName());
-				log.registraError();
-				
-			} else {
-				
-				log.setMensaje (usuarios.size() + " USUARIOS ENCONTRADOS EN BD");
-				log.setCodigoError(-200);
-				log.setEstadoError(null);
-				log.setNombreClase(this.getClass().getName());
-				log.registraError();
-				
-			}
-			
-			
 		} catch (SQLException e) {
 			
-			log.setMensaje (e.getMessage());
-			log.setCodigoError(e.getErrorCode());
-			log.setEstadoError(e.getSQLState());
-			log.setNombreClase(this.getClass().getName());
-			log.registraError();
+			((Log)Globales.variablesGlobales.get("log")).setMensaje (e.getMessage());
+			((Log)Globales.variablesGlobales.get("log")).setException(e.toString());
+			((Log)Globales.variablesGlobales.get("log")).setCodigo(e.getErrorCode());
+			((Log)Globales.variablesGlobales.get("log")).setEstado(e.getSQLState());
+			((Log)Globales.variablesGlobales.get("log")).setNombreClase(this.getClass().getName());
+			((Log)Globales.variablesGlobales.get("log")).registraError();
 			
 		}
 		

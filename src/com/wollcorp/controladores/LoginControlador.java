@@ -1,7 +1,6 @@
 package com.wollcorp.controladores;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import com.wollcorp.beans.Login;
@@ -13,11 +12,9 @@ import com.wollcorp.globales.Log;
 
 public class LoginControlador {
 	
-	Date fechaSistema = new Date();
-	Log log = new Log();
-	String mensaje;
-
 	public LoginControlador() {
+		
+		Globales.variablesGlobales.put("log", new Log());
 		
 	}
 	
@@ -25,90 +22,75 @@ public class LoginControlador {
 		
 		LoginDaoImpl loginDao = new LoginDaoImpl();
 		
-		log.setMensaje("INTENTO DE LOGIN - USUARIO: " + login.getUsuario());
-		log.setCodigoError(0);
-		log.setEstadoError(null);
-		log.setNombreClase(null);
-		log.registraInfo();
+		((Log)Globales.variablesGlobales.get("log")).setMensaje("INTENTO DE LOGIN - USUARIO: " + login.getUsuario());
+		((Log)Globales.variablesGlobales.get("log")).registraInfo();
 		
 		if(loginDao.login(login)) {
 			
-			log.setMensaje("LOGIN VALIDO - USUARIO: " + login.getUsuario());
-			log.setCodigoError(0);
-			log.setEstadoError(null);
-			log.setNombreClase(null);
-			log.registraInfo();
+			((Log)Globales.variablesGlobales.get("log")).setMensaje("LOGIN VALIDO - USUARIO: " + login.getUsuario());
+			((Log)Globales.variablesGlobales.get("log")).registraInfo();
 			
 			//Registra el conector en las variables Globales del Sistema
-			Globales.variablesGlobales.add(loginDao.getConector());
+			Globales.variablesGlobales.put("conector", loginDao.getConector());
+			
 			return true;
 					
 		} else {
-			
-			log.setMensaje("NO PUDO ACCEDER A LA BASE DE DATOS - USUARIO: " + login.getUsuario());
-			log.setCodigoError(0);
-			log.setEstadoError(null);
-			log.setNombreClase(null);
-			log.registraInfo();
 			
 			return false;
 			
 		}
 	}
 	
-	public int obtenerUsuario(Login login) {
+	public boolean obtenerUsuario(Login login) {
 		
 		List<Usuario> usuarios = new ArrayList<Usuario>();
 		
 		//Devuelve datos del usuario
 		UsuarioDaoImpl usuarioDao = new UsuarioDaoImpl();
 		
-		log.setMensaje("CONSULTANDO DATOS DEL USUARIO: " + login.getUsuario());
-		log.setCodigoError(0);
-		log.setEstadoError(null);
-		log.setNombreClase(null);
-		log.registraInfo();
+		((Log)Globales.variablesGlobales.get("log")).setMensaje("CONSULTANDO DATOS DEL USUARIO: " + login.getUsuario());
+		((Log)Globales.variablesGlobales.get("log")).registraInfo();
 		
 		usuarios = usuarioDao.obtenerUsuarios(login.getUsuario());
 		
-		switch (usuarios.size()) {
-		case 0:
+		if(usuarios.size() == 0) {
 			
-			log.setMensaje("NINGUN USUARIO ENCONTRADO EN BASE DE DATOS: " + login.getUsuario());
-			log.setCodigoError(0);
-			log.setEstadoError(null);
-			log.setNombreClase(null);
-			log.registraInfo();
+			((Log)Globales.variablesGlobales.get("log")).setMensaje("NINGUN USUARIO ENCONTRADO EN BASE DE DATOS: " + login.getUsuario());
+			((Log)Globales.variablesGlobales.get("log")).setException(null);
+			((Log)Globales.variablesGlobales.get("log")).setCodigo(-100);
+			((Log)Globales.variablesGlobales.get("log")).setEstado(null);
+			((Log)Globales.variablesGlobales.get("log")).setNombreClase(this.getClass().getName());
+			((Log)Globales.variablesGlobales.get("log")).registraError();
 			
-			return 0;
+			return false;
 			
-		case 1:
+		} else if(usuarios.size() == 1){
 			
-			log.setMensaje("USUARIO ENCONTRADO EN BASE DE DATOS: " + login.getUsuario());
-			log.setCodigoError(0);
-			log.setEstadoError(null);
-			log.setNombreClase(null);
-			log.registraInfo();
+			((Log)Globales.variablesGlobales.get("log")).setMensaje("USUARIO ENCONTRADO EN BASE DE DATOS: " + login.getUsuario());
+			((Log)Globales.variablesGlobales.get("log")).registraInfo();
 			
-			Globales.variablesGlobales.add(usuarios.get(0));
+			Globales.variablesGlobales.put("usuario", usuarios.get(0));
 			
-			return 1;
+			return true;
 			
-		default:
+		} else if(usuarios.size() > 1) {
 			
-			log.setMensaje("MAS DE UN USUARIO ENCONTRADO EN BASE DE DATOS: " + login.getUsuario());
-			log.setCodigoError(0);
-			log.setEstadoError(null);
-			log.setNombreClase(null);
-			log.registraInfo();
+			((Log)Globales.variablesGlobales.get("log")).setMensaje("MAS DE UN USUARIO ENCONTRADO EN BASE DE DATOS: " + login.getUsuario());
+			((Log)Globales.variablesGlobales.get("log")).setException(null);
+			((Log)Globales.variablesGlobales.get("log")).setCodigo(-110);
+			((Log)Globales.variablesGlobales.get("log")).setEstado(null);
+			((Log)Globales.variablesGlobales.get("log")).setNombreClase(this.getClass().getName());
+			((Log)Globales.variablesGlobales.get("log")).registraError();
 			
-			return -1;
+			return false;
+			
+		} else {
+			//ERROR DE BASE DE DATOS, EL ERROR LO JALARA DEL DAO
+			return false;
+			
 		}
 		
-	}
-	
-	public String getMensaje() {
-		return mensaje;
 	}
 	
 }
