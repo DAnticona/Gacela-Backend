@@ -27,17 +27,29 @@ public class LoginService {
 			
 			if(loginControlador.obtenerUsuario(login)) {//Encuentra 1 usuario
 				
-				return Response.status(Response.Status.OK).entity((Usuario)Globales.variablesGlobales.get("usuario")).build();
+				return Response.status(Response.Status.OK)
+						.header("Access-Control-Allow-Origin", "*")
+					    .header("Access-Control-Allow-Methods", "POST, GET, PUT, UPDATE, OPTIONS")
+					    .header("Access-Control-Allow-Headers", "Content-Type, Accept, X-Requested-With")
+						.entity((Usuario)Globales.variablesGlobales.get("usuario")).build();
 				
 			} else {
 				
-				return Response.status(Response.Status.BAD_REQUEST).entity((Log)Globales.variablesGlobales.get("log")).build();
+				return Response.status(Response.Status.BAD_REQUEST)
+						.header("Access-Control-Allow-Origin", "*")
+					    .header("Access-Control-Allow-Methods", "POST, GET, PUT, UPDATE, OPTIONS")
+					    .header("Access-Control-Allow-Headers", "Content-Type, Accept, X-Requested-With")
+						.entity((Log)Globales.variablesGlobales.get("log")).build();
 				
 			}
 			
 		} else {
 			
-			return Response.status(Response.Status.UNAUTHORIZED).entity((Log)Globales.variablesGlobales.get("log")).build();
+			return Response.status(Response.Status.UNAUTHORIZED)
+					.header("Access-Control-Allow-Origin", "*")
+				    .header("Access-Control-Allow-Methods", "POST, GET, PUT, UPDATE, OPTIONS")
+				    .header("Access-Control-Allow-Headers", "Content-Type, Accept, X-Requested-With")
+					.entity((Log)Globales.variablesGlobales.get("log")).build();
 			
 		}
 	}
