@@ -60,6 +60,5 @@ public class Usuario extends Persona{
 	public void setFeModiUsua(Date feModiUsua) {
 		this.feModiUsua = feModiUsua;
 	}
-	   
 
 }

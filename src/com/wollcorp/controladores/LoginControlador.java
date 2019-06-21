@@ -4,19 +4,26 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.wollcorp.beans.Login;
+import com.wollcorp.beans.Perfil;
+import com.wollcorp.beans.SubMenu;
 import com.wollcorp.beans.Usuario;
 import com.wollcorp.dao.LoginDaoImpl;
+import com.wollcorp.dao.PerfilDaoImpl;
 import com.wollcorp.dao.UsuarioDaoImpl;
 import com.wollcorp.globales.Globales;
 import com.wollcorp.globales.Log;
 
 public class LoginControlador {
 	
+	
+	
 	public LoginControlador() {
 		
 		Globales.variablesGlobales.put("log", new Log());
 		
 	}
+	
+	
 	
 	public boolean validarLogin(Login login) {
 		
@@ -30,7 +37,7 @@ public class LoginControlador {
 			((Log)Globales.variablesGlobales.get("log")).setMensaje("LOGIN VALIDO - USUARIO: " + login.getUsuario());
 			((Log)Globales.variablesGlobales.get("log")).registraInfo();
 			
-			//Registra el conector en las variables Globales del Sistema
+			//REGISTRA EL CONECTOR EN LAS VARIABLES GLOBALES DEL SISTEMA
 			Globales.variablesGlobales.put("conector", loginDao.getConector());
 			
 			return true;
@@ -42,11 +49,14 @@ public class LoginControlador {
 		}
 	}
 	
+	
+	
+	
 	public boolean obtenerUsuario(Login login) {
 		
 		List<Usuario> usuarios = new ArrayList<Usuario>();
 		
-		//Devuelve datos del usuario
+		//DEVUELVE DATOS DEL USUARIO
 		UsuarioDaoImpl usuarioDao = new UsuarioDaoImpl();
 		
 		((Log)Globales.variablesGlobales.get("log")).setMensaje("CONSULTANDO DATOS DEL USUARIO: " + login.getUsuario());
@@ -86,11 +96,61 @@ public class LoginControlador {
 			return false;
 			
 		} else {
+			
 			//ERROR DE BASE DE DATOS, EL ERROR LO JALARA DEL DAO
 			return false;
 			
 		}
 		
+	}
+	
+	
+	
+	
+	
+	public List<Perfil> obtenerPerfilesXUsuario(Usuario usuario) {
+		
+		List<Perfil> perfiles = null;
+		
+		PerfilDaoImpl perfilDao = new PerfilDaoImpl();
+		
+		((Log)Globales.variablesGlobales.get("log")).setMensaje("CONSULTANDO PERFILES DEL USUARIO: " + usuario.getCoUsua());
+		((Log)Globales.variablesGlobales.get("log")).registraInfo();
+		
+		perfiles = perfilDao.obtenerPerfilesXUsuario(usuario.getCoUsua());
+		
+		if(perfiles.size() == 0) {
+			
+			//NO ES UN ERROR, FALTA ASIGNARLE PERMISOS AL USUARIO.
+			((Log)Globales.variablesGlobales.get("log")).setMensaje("EL USUARIO NO TIENE NINGUN PERFIL ASIGNADO: " + usuario.getNoUsua());
+			((Log)Globales.variablesGlobales.get("log")).registraInfo();
+			
+			perfiles = null;
+			
+		} else {
+			
+			((Log)Globales.variablesGlobales.get("log")).setMensaje("PERFILES DEL USUARIO ENCONTRADOS: " + usuario.getNoUsua());
+			((Log)Globales.variablesGlobales.get("log")).registraInfo();
+			
+		}
+		
+		Globales.variablesGlobales.put("perfiles", perfiles);
+		
+		return perfiles;
+		
+	}
+	
+	
+	
+	
+	
+	public List<SubMenu> obtenerSubMenuXUsuario(){
+		
+		List<SubMenu> subMenues = new ArrayList<SubMenu>();
+		
+		//subMenuDao = 
+		
+		return null;
 	}
 	
 }
