@@ -28,16 +28,16 @@ public class LoginService {
 		
 		List<Object> responseList = new ArrayList<Object>();
 		
-		if(loginControlador.isConnected(login)) {
+		if(loginControlador.estaConectado(login)) {
 			
-			//BUSCA SI EXISTE EL USUARIO EN LA BD, SOLO DEBE EXISTIR 1 USUARIO
-			if(loginControlador.getUserConnected(login)) {//ENCUENTRA 1 USUARIO
+			//OBTIENE LOS USUARIOS REGISTRADOS EN LA BD - SOLO DEBE EXISTIR 1
+			if(loginControlador.obtenerUsuarioConectado(login) != null) {//ENCUENTRA 1 USUARIO
 				
 				//AGREGA EL USUARIO ENCONTRADO A LA LISTA DE RESPUESTA
-				responseList.add((Usuario)Globales.variablesGlobales.get("usuario"));
+				responseList.add((Usuario)Globales.variablesGlobales.get("usuarioConectado"));
 				
 				//BUSCA LOS PERFILES ASIGNADOS AL USUARIO ENCONTRADO Y LOS AGREGA A LA LISTA DE RESPUESTA
-				responseList.add(loginControlador.getProfilesByUser(((Usuario)Globales.variablesGlobales.get("usuario"))));
+				responseList.add(loginControlador.obtenerPerfilesXUsuario((Usuario)Globales.variablesGlobales.get("usuarioConectado")));
 				
 				//BUSCA LOS MENU ASIGNADOS POR PERFIL PARA EL USUARIO Y LOS AGREGA A LA LISTA DE RESPUESTA.
 				
@@ -49,10 +49,6 @@ public class LoginService {
 					    //.header("Access-Control-Allow-Headers", "Content-Type, Accept, X-Requested-With")
 						.entity((Usuario)Globales.variablesGlobales.get("usuario")).build();
 				
-				
-				
-				
-
 				
 			} else {
 				

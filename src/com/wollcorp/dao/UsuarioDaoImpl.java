@@ -3,7 +3,6 @@ package com.wollcorp.dao;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.List;
 
 import com.wollcorp.conectores.SQLDatabaseConnection;
@@ -13,14 +12,14 @@ import com.wollcorp.beans.Usuario;
 
 public class UsuarioDaoImpl implements IUsuarioDao {
 	
-	public UsuarioDaoImpl() {
-		
+	@Override
+	public List<Usuario> listarUsuarios(){
+		return null;
 	}
 	
 	@Override
-	public List<Usuario> obtenerUsuarios(String noUsua) {
+	public Usuario obtenerUsuario(String noUsua) {
 		
-		List<Usuario> usuarios = new ArrayList<Usuario>();
 		Usuario usuario = null;
 		
 		SQLDatabaseConnection conector = (SQLDatabaseConnection) Globales.variablesGlobales.get("conector");
@@ -61,8 +60,6 @@ public class UsuarioDaoImpl implements IUsuarioDao {
 				usuario.setFeCreaPers(new java.util.Date(rs.getTimestamp("FE_CREA_PERS").getTime()));
 				usuario.setFeModiPers(new java.util.Date(rs.getTimestamp("FE_MODI_PERS").getTime()));
 				
-				usuarios.add(usuario);
-				
 			}
 			
 		} catch (SQLException e) {
@@ -78,7 +75,7 @@ public class UsuarioDaoImpl implements IUsuarioDao {
 		
 		conector = null;
 		
-		return usuarios;
+		return usuario;
 		
 	}
 	

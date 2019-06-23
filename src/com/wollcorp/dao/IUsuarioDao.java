@@ -6,7 +6,9 @@ import com.wollcorp.beans.Usuario;
 
 public interface IUsuarioDao {
 	
-	public List<Usuario> obtenerUsuarios(String noUsua);
+	public List<Usuario> listarUsuarios();
+	
+	public Usuario obtenerUsuario(String noUsua);
 	
 	public void registrarUsuario(String codigo, String idUsuario, String nombre);
 	
