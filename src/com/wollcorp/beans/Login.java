@@ -2,23 +2,28 @@ package com.wollcorp.beans;
 
 public class Login {
 	
-	private String usuario;
-	private String password;
+	private String noUsua;
+	private String pasUsua;
 	
 	public Login() {
 		
 	}
+
+	public String getNoUsua() {
+		return noUsua;
+	}
+
+	public void setNoUsua(String noUsua) {
+		this.noUsua = noUsua;
+	}
+
+	public String getPasUsua() {
+		return pasUsua;
+	}
+
+	public void setPasUsua(String pasUsua) {
+		this.pasUsua = pasUsua;
+	}
 	
-	public String getUsuario() {
-		return usuario;
-	}
-	public void setUsuario(String usuario) {
-		this.usuario = usuario;
-	}
-	public String getPassword() {
-		return password;
-	}
-	public void setPassword(String password) {
-		this.password = password;
-	}
+
 }

@@ -8,15 +8,15 @@ public class LoginDaoImpl implements ILoginDao {
 	private SQLDatabaseConnection conector = null;
 
 	@Override
-	public boolean login(Login login) {
+	public boolean isConnected(Login login) {
 		
-		conector = new SQLDatabaseConnection(login.getUsuario(), login.getPassword());
+		conector = new SQLDatabaseConnection(login.getNoUsua(), login.getPasUsua());
 		
-		if(conector.getConnection() == null) { //No se pudo conectar - Existe un Error
+		if(conector.getConnection() == null) { //NO SE PUDO CONECTAR - EXISTE UN ERROR
 			
 			return false;
 			
-		} else { //Conectado: Login Existe en BD
+		} else { //CONECTADO - LOGIN EXISTE EN LA BD
 			
 			return true;
 			

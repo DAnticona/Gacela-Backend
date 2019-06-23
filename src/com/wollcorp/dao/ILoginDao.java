@@ -4,6 +4,6 @@ import com.wollcorp.beans.Login;
 
 public interface ILoginDao {
 	
-	public boolean login(Login login);
+	public boolean isConnected(Login login);
 
 }
