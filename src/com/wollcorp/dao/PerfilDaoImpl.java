@@ -3,7 +3,6 @@ package com.wollcorp.dao;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.List;
 
 import com.wollcorp.beans.Perfil;
@@ -21,14 +20,35 @@ public class PerfilDaoImpl implements IPerfilDao {
 	}
 	
 	@Override
-	public List<Perfil> obtenerPerfilesXUsuario(String coUsua) {
+	public Perfil obtenerPerfil(String coPerf) {
+		return null;
+	}
+
+	@Override
+	public void registrarPerfil(Perfil perfil) {
 		
-		List<Perfil> perfiles = new ArrayList<Perfil>();
-		Perfil perfil;
+		
+	}
+
+	@Override
+	public void modificarPerfil(Perfil perfil) {
+		
+		
+	}
+
+	@Override
+	public void eliminarPerfil(String coPerf) {
+		// TODO Auto-generated method stub
+		
+	}
+	
+	public Perfil obtenerPerfilXUsuario(String coUsua) {
+		
+		Perfil perfil = null;
 		
 		SQLDatabaseConnection conector = (SQLDatabaseConnection) Globales.variablesGlobales.get("conector");
 		
-		String sql = "EXEC SP_OBTIENE_PERFILES_X_USUARIO ?";
+		String sql = "EXEC SP_OBTIENE_PERFIL_X_USUARIO ?";
 		
 		try {
 			
@@ -51,8 +71,6 @@ public class PerfilDaoImpl implements IPerfilDao {
 				perfil.setFeCreaPerf(new java.util.Date(rs.getTimestamp("FE_CREA_PERF").getTime()));
 				perfil.setFeModiPerf(new java.util.Date(rs.getTimestamp("FE_MODI_PERF").getTime()));
 				
-				perfiles.add(perfil);
-				
 			}
 			
 		} catch (SQLException e) {
@@ -68,25 +86,7 @@ public class PerfilDaoImpl implements IPerfilDao {
 		
 		conector = null;
 		
-		return perfiles;
-	}
-
-	@Override
-	public void registrarPerfil(Perfil perfil) {
-		
-		
-	}
-
-	@Override
-	public void modificarPerfil(Perfil perfil) {
-		
-		
-	}
-
-	@Override
-	public void eliminarPerfil(String coPerf) {
-		// TODO Auto-generated method stub
-		
+		return perfil;
 	}
 
 }

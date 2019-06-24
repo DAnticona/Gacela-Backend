@@ -9,6 +9,7 @@ import com.wollcorp.beans.SubMenu;
 import com.wollcorp.beans.Usuario;
 import com.wollcorp.dao.LoginDaoImpl;
 import com.wollcorp.dao.PerfilDaoImpl;
+import com.wollcorp.dao.SubMenuDaoImpl;
 import com.wollcorp.dao.UsuarioDaoImpl;
 import com.wollcorp.globales.Globales;
 import com.wollcorp.globales.Log;
@@ -61,6 +62,7 @@ public class LoginControlador {
 		((Log)Globales.variablesGlobales.get("log")).registraInfo();
 		
 		Usuario usuario = usuarioDao.obtenerUsuario(login.getNoUsua());
+		List<SubMenu> subMenus = new ArrayList<SubMenu>();
 		
 		if(usuario != null) {
 			
@@ -69,7 +71,27 @@ public class LoginControlador {
 			
 			Globales.variablesGlobales.put("usuarioConectado", usuario);
 			
-			return usuario;
+			if(usuario.getPerfil() != null) {
+				
+				((Log)Globales.variablesGlobales.get("log")).setMensaje("PERFIL DEL USUARIO: " + login.getNoUsua());
+				((Log)Globales.variablesGlobales.get("log")).registraInfo();
+				
+				((Log)Globales.variablesGlobales.get("log")).setMensaje("CONSULTANDO MENUS DEL USUARIO: " + usuario.getNoUsua());
+				((Log)Globales.variablesGlobales.get("log")).registraInfo();
+				
+				subMenus = obtenerMenusXPerfil(usuario.getPerfil());
+				
+				usuario.setSubMenus(subMenus);
+				
+				
+			} else {
+				
+				((Log)Globales.variablesGlobales.get("log")).setMensaje("EL USUARIO " + login.getNoUsua() + " NO TIENE PERFIL ASIGNADO");
+				((Log)Globales.variablesGlobales.get("log")).registraInfo();
+				
+			}
+			
+
 			
 		} else {
 			
@@ -80,9 +102,11 @@ public class LoginControlador {
 			((Log)Globales.variablesGlobales.get("log")).setNombreClase(this.getClass().getName());
 			((Log)Globales.variablesGlobales.get("log")).registraError();
 			
-			return null;
+			usuario = null;
 			
 		}
+		
+		return usuario;
 		
 	}
 	
@@ -90,49 +114,29 @@ public class LoginControlador {
 	
 	
 	
-	public List<Perfil> obtenerPerfilesXUsuario(Usuario usuario) {
+	public List<SubMenu> obtenerMenusXPerfil(Perfil perfil){
 		
-		List<Perfil> perfiles = null;
+		List<SubMenu> subMenus = new ArrayList<SubMenu>();
 		
-		PerfilDaoImpl perfilDao = new PerfilDaoImpl();
+		SubMenuDaoImpl subMenuDao = new SubMenuDaoImpl();
 		
-		((Log)Globales.variablesGlobales.get("log")).setMensaje("CONSULTANDO PERFILES DEL USUARIO: " + usuario.getCoUsua());
-		((Log)Globales.variablesGlobales.get("log")).registraInfo();
+		subMenus = subMenuDao.obtenerSubMenusXPerfil(perfil.getCoPerf());
 		
-		perfiles = perfilDao.obtenerPerfilesXUsuario(usuario.getCoUsua());
-		
-		if(perfiles.size() == 0) {
+		if(subMenus.size() > 0) { //ENCONTRO CIERTOS MENUS ASOCIADOS AL PERFIL > 0
 			
-			//NO ES UN ERROR, FALTA ASIGNARLE PERMISOS AL USUARIO.
-			((Log)Globales.variablesGlobales.get("log")).setMensaje("EL USUARIO NO TIENE NINGUN PERFIL ASIGNADO: " + usuario.getNoUsua());
+			((Log)Globales.variablesGlobales.get("log")).setMensaje("MENUS ENCONTRADOS ASOCIADOS AL PERFIL DEL USUARIO: " + perfil.getNoPerf());
 			((Log)Globales.variablesGlobales.get("log")).registraInfo();
 			
-			perfiles = null;
+		} else { //NO ENCONTRO NINGUN MENU NI SUBMENU ASOCIADO AL PERFIL DEL USUARIO
 			
-		} else {
-			
-			((Log)Globales.variablesGlobales.get("log")).setMensaje("PERFILES DEL USUARIO ENCONTRADOS: " + usuario.getNoUsua());
+			((Log)Globales.variablesGlobales.get("log")).setMensaje("NO SE ENCONTRARON MENUS ASOCIADOS AL PERFIL DEL USUARIO: " + perfil.getNoPerf());
 			((Log)Globales.variablesGlobales.get("log")).registraInfo();
+			
+			subMenus = null;
 			
 		}
 		
-		Globales.variablesGlobales.put("perfiles", perfiles);
-		
-		return perfiles;
-		
-	}
-	
-	
-	
-	
-	
-	public List<SubMenu> obtenerMenusXUsuario(){
-		
-		List<SubMenu> subMenues = new ArrayList<SubMenu>();
-		
-		//subMenuDao = 
-		
-		return null;
+		return subMenus;
 	}	
 	
 }

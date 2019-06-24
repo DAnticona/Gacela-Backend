@@ -8,6 +8,7 @@ import java.util.List;
 import com.wollcorp.conectores.SQLDatabaseConnection;
 import com.wollcorp.globales.Globales;
 import com.wollcorp.globales.Log;
+import com.wollcorp.beans.Perfil;
 import com.wollcorp.beans.Usuario;
 
 public class UsuarioDaoImpl implements IUsuarioDao {
@@ -59,6 +60,15 @@ public class UsuarioDaoImpl implements IUsuarioDao {
 				usuario.setUsModiPers(rs.getString("US_MODI_PERS"));
 				usuario.setFeCreaPers(new java.util.Date(rs.getTimestamp("FE_CREA_PERS").getTime()));
 				usuario.setFeModiPers(new java.util.Date(rs.getTimestamp("FE_MODI_PERS").getTime()));
+				
+				usuario.setPerfil(new Perfil());
+				
+				usuario.getPerfil().setCoPerf(rs.getString("CO_PERF"));
+				usuario.getPerfil().setNoPerf(rs.getString("NO_PERF"));
+				usuario.getPerfil().setUsCreaPerf(rs.getString("US_CREA_PERF"));
+				usuario.getPerfil().setUsModiPerf(rs.getString("US_MODI_PERF"));
+				usuario.getPerfil().setFeCreaPerf(new java.util.Date(rs.getTimestamp("FE_CREA_PERF").getTime()));
+				usuario.getPerfil().setFeModiPerf(new java.util.Date(rs.getTimestamp("FE_MODI_PERF").getTime()));
 				
 			}
 			

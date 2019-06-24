@@ -1,6 +1,7 @@
 package com.wollcorp.beans;
 
 import java.util.Date;
+import java.util.List;
 
 public class Usuario extends Persona{
 	
@@ -11,6 +12,8 @@ public class Usuario extends Persona{
 	private String usModiUsua;
 	private Date feCreaUsua;
 	private Date feModiUsua;
+	private Perfil perfil;
+	private List<SubMenu> subMenus;
 
 	public Usuario() {
 		
@@ -59,6 +62,21 @@ public class Usuario extends Persona{
 	}
 	public void setFeModiUsua(Date feModiUsua) {
 		this.feModiUsua = feModiUsua;
+	}
+	public Perfil getPerfil() {
+		return perfil;
+	}
+
+	public void setPerfil(Perfil perfil) {
+		this.perfil = perfil;
+	}
+
+	public List<SubMenu> getSubMenus() {
+		return subMenus;
+	}
+
+	public void setSubMenus(List<SubMenu> subMenus) {
+		this.subMenus = subMenus;
 	}
 
 }

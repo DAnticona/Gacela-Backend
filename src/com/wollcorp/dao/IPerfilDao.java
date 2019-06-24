@@ -8,7 +8,7 @@ public interface IPerfilDao {
 		   
 	public List<Perfil> obtenerPerfiles(String coPerf);
 	
-	public List<Perfil> obtenerPerfilesXUsuario(String coUsua);
+	public Perfil obtenerPerfil(String coPerf);
 		   
 	public void registrarPerfil(Perfil perfil);
 		   

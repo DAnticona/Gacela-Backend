@@ -6,8 +6,8 @@ public class SubMenu extends Menu {
 	
 	private String coSubMenu;
 	private String noSubMenu;
-	private String alSubMenu;
-	private String ruta;
+	private String aliasSubMenu;
+	private String rutaSubMenu;
 	private String usCreaSubMenu;
 	private String usModiSubMenu;
 	private Date feCreaSubMenu;
@@ -27,22 +27,6 @@ public class SubMenu extends Menu {
 	
 	public void setNoSubMenu(String noSubMenu) {
 		this.noSubMenu = noSubMenu;
-	}
-	
-	public String getAlSubMenu() {
-		return alSubMenu;
-	}
-	
-	public void setAlSubMenu(String alSubMenu) {
-		this.alSubMenu = alSubMenu;
-	}
-	
-	public String getRuta() {
-		return ruta;
-	}
-	
-	public void setRuta(String ruta) {
-		this.ruta = ruta;
 	}
 	
 	public String getUsCreaSubMenu() {
@@ -75,6 +59,22 @@ public class SubMenu extends Menu {
 	
 	public void setFeModiSubMenu(Date feModiSubMenu) {
 		this.feModiSubMenu = feModiSubMenu;
+	}
+
+	public String getAliasSubMenu() {
+		return aliasSubMenu;
+	}
+
+	public void setAliasSubMenu(String aliasSubMenu) {
+		this.aliasSubMenu = aliasSubMenu;
+	}
+
+	public String getRutaSubMenu() {
+		return rutaSubMenu;
+	}
+
+	public void setRutaSubMenu(String rutaSubMenu) {
+		this.rutaSubMenu = rutaSubMenu;
 	}
 	
 }
