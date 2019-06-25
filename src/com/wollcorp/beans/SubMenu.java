@@ -1,6 +1,6 @@
 package com.wollcorp.beans;
 
-import java.util.Date;
+import java.time.LocalDateTime;
 
 public class SubMenu extends Menu {
 	
@@ -10,8 +10,8 @@ public class SubMenu extends Menu {
 	private String rutaSubMenu;
 	private String usCreaSubMenu;
 	private String usModiSubMenu;
-	private Date feCreaSubMenu;
-	private Date feModiSubMenu;
+	private LocalDateTime feCreaSubMenu;
+	private LocalDateTime feModiSubMenu;
 	   
 	public String getCoSubMenu() {
 		return coSubMenu;
@@ -45,19 +45,19 @@ public class SubMenu extends Menu {
 		this.usModiSubMenu = usModiSubMenu;
 	}
 	
-	public Date getFeCreaSubMenu() {
+	public LocalDateTime getFeCreaSubMenu() {
 		return feCreaSubMenu;
 	}
 	
-	public void setFeCreaSubMenu(Date feCreaSubMenu) {
+	public void setFeCreaSubMenu(LocalDateTime feCreaSubMenu) {
 		this.feCreaSubMenu = feCreaSubMenu;
 	}
 	
-	public Date getFeModiSubMenu() {
+	public LocalDateTime getFeModiSubMenu() {
 		return feModiSubMenu;
 	}
 	
-	public void setFeModiSubMenu(Date feModiSubMenu) {
+	public void setFeModiSubMenu(LocalDateTime feModiSubMenu) {
 		this.feModiSubMenu = feModiSubMenu;
 	}
 

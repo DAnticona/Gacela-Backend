@@ -1,5 +1,6 @@
 package com.wollcorp.controladores;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -8,7 +9,6 @@ import com.wollcorp.beans.Perfil;
 import com.wollcorp.beans.SubMenu;
 import com.wollcorp.beans.Usuario;
 import com.wollcorp.dao.LoginDaoImpl;
-import com.wollcorp.dao.PerfilDaoImpl;
 import com.wollcorp.dao.SubMenuDaoImpl;
 import com.wollcorp.dao.UsuarioDaoImpl;
 import com.wollcorp.globales.Globales;
@@ -68,6 +68,13 @@ public class LoginControlador {
 			
 			((Log)Globales.variablesGlobales.get("log")).setMensaje("USUARIO ENCONTRADO EN BASE DE DATOS: " + login.getNoUsua());
 			((Log)Globales.variablesGlobales.get("log")).registraInfo();
+			
+			usuario.setFeUltSes(LocalDateTime.now());
+			
+			((Log)Globales.variablesGlobales.get("log")).setMensaje("ACTUALIZANDO FECHA DE ULTIMA SESION DEL USUARIO: " + login.getNoUsua());
+			((Log)Globales.variablesGlobales.get("log")).registraInfo();
+			
+			usuarioDao.actualizarUsuario(usuario);
 			
 			Globales.variablesGlobales.put("usuarioConectado", usuario);
 			

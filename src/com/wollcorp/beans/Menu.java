@@ -1,6 +1,6 @@
 package com.wollcorp.beans;
 
-import java.util.Date;
+import java.time.LocalDateTime;
 
 public class Menu {
 
@@ -10,8 +10,8 @@ public class Menu {
 	private String rutaMenu;
 	private String usCreaMenu;
 	private String usModiMenu;
-	private Date feCreaMenu;
-	private Date feModiMenu;
+	private LocalDateTime feCreaMenu;
+	private LocalDateTime feModiMenu;
 	
 	public String getCoMenu() {
 		return coMenu;
@@ -49,16 +49,16 @@ public class Menu {
 	public void setUsModiMenu(String usModiMenu) {
 		this.usModiMenu = usModiMenu;
 	}
-	public Date getFeCreaMenu() {
+	public LocalDateTime getFeCreaMenu() {
 		return feCreaMenu;
 	}
-	public void setFeCreaMenu(Date feCreaMenu) {
+	public void setFeCreaMenu(LocalDateTime feCreaMenu) {
 		this.feCreaMenu = feCreaMenu;
 	}
-	public Date getFeModiMenu() {
+	public LocalDateTime getFeModiMenu() {
 		return feModiMenu;
 	}
-	public void setFeModiMenu(Date feModiMenu) {
+	public void setFeModiMenu(LocalDateTime feModiMenu) {
 		this.feModiMenu = feModiMenu;
 	}
 	

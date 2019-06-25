@@ -1,8 +1,5 @@
 package com.wollcorp.restServices;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import javax.ws.rs.Consumes;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
@@ -11,8 +8,7 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
 import com.wollcorp.beans.Login;
-import com.wollcorp.beans.Perfil;
-import com.wollcorp.beans.SubMenu;
+
 import com.wollcorp.beans.Usuario;
 import com.wollcorp.controladores.LoginControlador;
 import com.wollcorp.globales.Globales;
@@ -28,10 +24,7 @@ public class LoginService {
 	@POST
 	public Response servicioLogin(Login login) {
 		
-		List<Object> responseList = new ArrayList<Object>();
 		Usuario usuarioConectado = null;
-		Perfil perfilUsuario = null;
-		List<SubMenu> subMenus = new ArrayList<SubMenu>();
 		
 		if(loginControlador.estaConectado(login)) {
 			

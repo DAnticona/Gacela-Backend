@@ -1,6 +1,6 @@
 package com.wollcorp.beans;
 
-import java.util.Date;
+import java.time.LocalDateTime;
 
 public class Perfil {
 	
@@ -8,8 +8,8 @@ public class Perfil {
 	private String noPerf;
 	private String usCreaPerf;
 	private String usModiPerf;
-	private Date feCreaPerf;
-	private Date feModiPerf;
+	private LocalDateTime feCreaPerf;
+	private LocalDateTime feModiPerf;
 	
 	public String getCoPerf() {
 		return coPerf;
@@ -35,16 +35,16 @@ public class Perfil {
 	public void setUsModiPerf(String usModiPerf) {
 		this.usModiPerf = usModiPerf;
 	}
-	public Date getFeCreaPerf() {
+	public LocalDateTime getFeCreaPerf() {
 		return feCreaPerf;
 	}
-	public void setFeCreaPerf(Date feCreaPerf) {
+	public void setFeCreaPerf(LocalDateTime feCreaPerf) {
 		this.feCreaPerf = feCreaPerf;
 	}
-	public Date getFeModiPerf() {
+	public LocalDateTime getFeModiPerf() {
 		return feModiPerf;
 	}
-	public void setFeModiPerf(Date feModiPerf) {
+	public void setFeModiPerf(LocalDateTime feModiPerf) {
 		this.feModiPerf = feModiPerf;
 	}
 }

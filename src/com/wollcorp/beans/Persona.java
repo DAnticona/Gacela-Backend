@@ -1,14 +1,14 @@
 package com.wollcorp.beans;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+
 /***********************************************************************
  * Module:  Persona.java
  * Author:  danticona
  * Purpose: Defines the Class Pers
  ***********************************************************************/
 
-import java.util.Date;
-
-/** @pdOid 2c1766b2-a58c-481f-8bd1-5d4a838e754a */
 public class Persona {
 
    private String coPers;
@@ -17,11 +17,11 @@ public class Persona {
    private String apPate;
    private String apMate;
    private String sexo;
-   private Date feNaci;
+   private LocalDate feNaci;
    private String usCreaPers;
    private String usModiPers;
-   private Date feCreaPers;
-   private Date feModiPers;
+   private LocalDateTime feCreaPers;
+   private LocalDateTime feModiPers;
    
 	public String getCoPers() {
 		return coPers;
@@ -83,12 +83,12 @@ public class Persona {
 	}
 	
 	
-	public Date getFeNaci() {
+	public LocalDate getFeNaci() {
 		return feNaci;
 	}
 	
 	
-	public void setFeNaci(Date feNaci) {
+	public void setFeNaci(LocalDate feNaci) {
 		this.feNaci = feNaci;
 	}
 	
@@ -113,22 +113,22 @@ public class Persona {
 	}
 	
 	
-	public Date getFeCreaPers() {
+	public LocalDateTime getFeCreaPers() {
 		return feCreaPers;
 	}
 	
 	
-	public void setFeCreaPers(Date feCreaPers) {
+	public void setFeCreaPers(LocalDateTime feCreaPers) {
 		this.feCreaPers = feCreaPers;
 	}
 	
 	
-	public Date getFeModiPers() {
+	public LocalDateTime getFeModiPers() {
 		return feModiPers;
 	}
 	
 	
-	public void setFeModiPers(Date feModiPers) {
+	public void setFeModiPers(LocalDateTime feModiPers) {
 		this.feModiPers = feModiPers;
 	}
 

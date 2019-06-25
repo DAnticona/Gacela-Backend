@@ -1,17 +1,17 @@
 package com.wollcorp.beans;
 
-import java.util.Date;
+import java.time.LocalDateTime;
 import java.util.List;
 
 public class Usuario extends Persona{
 	
 	private String coUsua;
 	private String noUsua;
-	private Date feUltSes;
+	private LocalDateTime feUltSes;
 	private String usCreaUsua;
 	private String usModiUsua;
-	private Date feCreaUsua;
-	private Date feModiUsua;
+	private LocalDateTime feCreaUsua;
+	private LocalDateTime feModiUsua;
 	private Perfil perfil;
 	private List<SubMenu> subMenus;
 
@@ -33,10 +33,10 @@ public class Usuario extends Persona{
 	public void setNoUsua(String noUsua) {
 		this.noUsua = noUsua;
 	}
-	public Date getFeUltSes() {
+	public LocalDateTime getFeUltSes() {
 		return feUltSes;
 	}
-	public void setFeUltSes(Date feUltSes) {
+	public void setFeUltSes(LocalDateTime feUltSes) {
 		this.feUltSes = feUltSes;
 	}
 	public String getUsCreaUsua() {
@@ -51,18 +51,19 @@ public class Usuario extends Persona{
 	public void setUsModiUsua(String usModiUsua) {
 		this.usModiUsua = usModiUsua;
 	}
-	public Date getFeCreaUsua() {
+	public LocalDateTime getFeCreaUsua() {
 		return feCreaUsua;
 	}
-	public void setFeCreaUsua(Date feCreaUsua) {
+	public void setFeCreaUsua(LocalDateTime feCreaUsua) {
 		this.feCreaUsua = feCreaUsua;
 	}
-	public Date getFeModiUsua() {
+	public LocalDateTime getFeModiUsua() {
 		return feModiUsua;
 	}
-	public void setFeModiUsua(Date feModiUsua) {
+	public void setFeModiUsua(LocalDateTime feModiUsua) {
 		this.feModiUsua = feModiUsua;
 	}
+	
 	public Perfil getPerfil() {
 		return perfil;
 	}

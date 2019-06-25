@@ -68,8 +68,8 @@ public class PerfilDaoImpl implements IPerfilDao {
 				perfil.setNoPerf(rs.getString("NO_PERF"));
 				perfil.setUsCreaPerf(rs.getString("US_CREA_PERF"));
 				perfil.setUsModiPerf(rs.getString("US_MODI_PERF"));
-				perfil.setFeCreaPerf(new java.util.Date(rs.getTimestamp("FE_CREA_PERF").getTime()));
-				perfil.setFeModiPerf(new java.util.Date(rs.getTimestamp("FE_MODI_PERF").getTime()));
+				perfil.setFeCreaPerf(rs.getTimestamp("FE_CREA_PERF").toLocalDateTime());
+				perfil.setFeModiPerf(rs.getTimestamp("FE_MODI_PERF").toLocalDateTime());
 				
 			}
 			
@@ -79,6 +79,15 @@ public class PerfilDaoImpl implements IPerfilDao {
 			((Log)Globales.variablesGlobales.get("log")).setException(e.toString());
 			((Log)Globales.variablesGlobales.get("log")).setCodigo(e.getErrorCode());
 			((Log)Globales.variablesGlobales.get("log")).setEstado(e.getSQLState());
+			((Log)Globales.variablesGlobales.get("log")).setNombreClase(this.getClass().getName());
+			((Log)Globales.variablesGlobales.get("log")).registraError();
+			
+		}catch (NullPointerException e1) {
+			
+			((Log)Globales.variablesGlobales.get("log")).setMensaje (e1.getMessage());
+			((Log)Globales.variablesGlobales.get("log")).setException(e1.toString());
+			((Log)Globales.variablesGlobales.get("log")).setCodigo(-1);
+			((Log)Globales.variablesGlobales.get("log")).setEstado(null);
 			((Log)Globales.variablesGlobales.get("log")).setNombreClase(this.getClass().getName());
 			((Log)Globales.variablesGlobales.get("log")).registraError();
 			

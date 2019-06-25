@@ -49,8 +49,8 @@ public class SubMenuDaoImpl implements ISubMenuDao {
 				subMenu.setRutaMenu(rs.getString("RUTA_MENU"));
 				subMenu.setUsCreaMenu(rs.getString("US_CREA_MENU"));
 				subMenu.setUsModiMenu(rs.getString("US_MODI_MENU"));
-				subMenu.setFeCreaMenu(rs.getDate("FE_CREA_MENU"));
-				subMenu.setFeModiMenu(rs.getDate("FE_MODI_MENU"));
+				subMenu.setFeCreaMenu(rs.getTimestamp("FE_CREA_MENU").toLocalDateTime());
+				subMenu.setFeModiMenu(rs.getTimestamp("FE_MODI_MENU").toLocalDateTime());
 				
 				subMenu.setCoSubMenu(rs.getString("CO_SUB_MENU"));
 				subMenu.setNoSubMenu(rs.getString("NO_SUB_MENU"));
@@ -58,8 +58,8 @@ public class SubMenuDaoImpl implements ISubMenuDao {
 				subMenu.setRutaSubMenu(rs.getString("RUTA_SUB_MENU"));
 				subMenu.setUsCreaSubMenu(rs.getString("US_CREA_SUB_MENU"));
 				subMenu.setUsModiSubMenu(rs.getString("US_MODI_SUB_MENU"));
-				subMenu.setFeCreaSubMenu(rs.getDate("FE_CREA_SUB_MENU"));
-				subMenu.setFeModiSubMenu(rs.getDate("FE_MODI_SUB_MENU"));
+				subMenu.setFeCreaSubMenu(rs.getTimestamp("FE_CREA_SUB_MENU").toLocalDateTime());
+				subMenu.setFeModiSubMenu(rs.getTimestamp("FE_MODI_SUB_MENU").toLocalDateTime());
 				
 				subMenus.add(subMenu);
 				
@@ -71,6 +71,15 @@ public class SubMenuDaoImpl implements ISubMenuDao {
 			((Log)Globales.variablesGlobales.get("log")).setException(e.toString());
 			((Log)Globales.variablesGlobales.get("log")).setCodigo(e.getErrorCode());
 			((Log)Globales.variablesGlobales.get("log")).setEstado(e.getSQLState());
+			((Log)Globales.variablesGlobales.get("log")).setNombreClase(this.getClass().getName());
+			((Log)Globales.variablesGlobales.get("log")).registraError();
+			
+		}catch (NullPointerException e1) {
+			
+			((Log)Globales.variablesGlobales.get("log")).setMensaje (e1.getMessage());
+			((Log)Globales.variablesGlobales.get("log")).setException(e1.toString());
+			((Log)Globales.variablesGlobales.get("log")).setCodigo(-1);
+			((Log)Globales.variablesGlobales.get("log")).setEstado(null);
 			((Log)Globales.variablesGlobales.get("log")).setNombreClase(this.getClass().getName());
 			((Log)Globales.variablesGlobales.get("log")).registraError();
 			

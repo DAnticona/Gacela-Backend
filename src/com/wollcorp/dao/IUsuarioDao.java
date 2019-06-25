@@ -12,7 +12,7 @@ public interface IUsuarioDao {
 	
 	public void registrarUsuario(String codigo, String idUsuario, String nombre);
 	
-	public void actualizarUsuario(Usuario usuario, String nombre);
+	public void actualizarUsuario(Usuario usuario);
 	
 	public void eliminarUsuario(Usuario usuario);
 
