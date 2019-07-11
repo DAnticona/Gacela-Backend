@@ -5,11 +5,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.wollcorp.beans.Login;
+import com.wollcorp.beans.Menu;
 import com.wollcorp.beans.Perfil;
-import com.wollcorp.beans.SubMenu;
 import com.wollcorp.beans.Usuario;
 import com.wollcorp.dao.LoginDaoImpl;
-import com.wollcorp.dao.SubMenuDaoImpl;
+import com.wollcorp.dao.MenuDaoImpl;
 import com.wollcorp.dao.UsuarioDaoImpl;
 import com.wollcorp.globales.Globales;
 import com.wollcorp.globales.Log;
@@ -62,7 +62,7 @@ public class LoginControlador {
 		((Log)Globales.variablesGlobales.get("log")).registraInfo();
 		
 		Usuario usuario = usuarioDao.obtenerUsuario(login.getNoUsua());
-		List<SubMenu> subMenus = new ArrayList<SubMenu>();
+		List<Menu> menus = new ArrayList<Menu>();
 		
 		if(usuario != null) {
 			
@@ -86,9 +86,9 @@ public class LoginControlador {
 				((Log)Globales.variablesGlobales.get("log")).setMensaje("CONSULTANDO MENUS DEL USUARIO: " + usuario.getNoUsua());
 				((Log)Globales.variablesGlobales.get("log")).registraInfo();
 				
-				subMenus = obtenerMenusXPerfil(usuario.getPerfil());
+				menus = obtenerMenusXPerfil(usuario.getPerfil());
 				
-				usuario.setSubMenus(subMenus);
+				usuario.setMenus(menus);
 				
 				
 			} else {
@@ -121,15 +121,15 @@ public class LoginControlador {
 	
 	
 	
-	public List<SubMenu> obtenerMenusXPerfil(Perfil perfil){
+	public List<Menu> obtenerMenusXPerfil(Perfil perfil){
 		
-		List<SubMenu> subMenus = new ArrayList<SubMenu>();
+		List<Menu> menus = new ArrayList<Menu>();
 		
-		SubMenuDaoImpl subMenuDao = new SubMenuDaoImpl();
+		MenuDaoImpl menuDao = new MenuDaoImpl();
 		
-		subMenus = subMenuDao.obtenerSubMenusXPerfil(perfil.getCoPerf());
+		menus = menuDao.obtenerMenusXPerfil(perfil.getCoPerf());
 		
-		if(subMenus.size() > 0) { //ENCONTRO CIERTOS MENUS ASOCIADOS AL PERFIL > 0
+		if(menus.size() > 0) { //ENCONTRO CIERTOS MENUS ASOCIADOS AL PERFIL > 0
 			
 			((Log)Globales.variablesGlobales.get("log")).setMensaje("MENUS ENCONTRADOS ASOCIADOS AL PERFIL DEL USUARIO: " + perfil.getNoPerf());
 			((Log)Globales.variablesGlobales.get("log")).registraInfo();
@@ -139,11 +139,11 @@ public class LoginControlador {
 			((Log)Globales.variablesGlobales.get("log")).setMensaje("NO SE ENCONTRARON MENUS ASOCIADOS AL PERFIL DEL USUARIO: " + perfil.getNoPerf());
 			((Log)Globales.variablesGlobales.get("log")).registraInfo();
 			
-			subMenus = null;
+			menus = null;
 			
 		}
 		
-		return subMenus;
+		return menus;
 	}	
 	
 }

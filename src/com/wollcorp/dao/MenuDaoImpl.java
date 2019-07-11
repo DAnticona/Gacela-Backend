@@ -6,28 +6,29 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.wollcorp.beans.Menu;
 import com.wollcorp.beans.SubMenu;
 import com.wollcorp.conectores.SQLDatabaseConnection;
 import com.wollcorp.globales.Globales;
 import com.wollcorp.globales.Log;
 
-public class SubMenuDaoImpl implements ISubMenuDao {
+public class MenuDaoImpl implements IMenuDao {
 
 	@Override
-	public List<SubMenu> listarSubMenus(String coSubMenu) {
+	public List<Menu> listarMenus(String coMenu) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public List<SubMenu> obtenerSubMenusXPerfil(String coPerf) {
+	public List<Menu> obtenerMenusXPerfil(String coPerf) {
 		
-		List<SubMenu> subMenus = new ArrayList<SubMenu>();
-		SubMenu subMenu = null;
+		List<Menu> menus = new ArrayList<Menu>();
+		Menu menu = null;
 		
 		SQLDatabaseConnection conector = (SQLDatabaseConnection) Globales.variablesGlobales.get("conector");
 		
-		String sql = "SP_OBTIENE_SUBMENU_X_PERFIL ?";
+		String sql = "SP_OBTIENE_MENU_X_PERFIL ?";
 			
 		try {
 			
@@ -41,27 +42,19 @@ public class SubMenuDaoImpl implements ISubMenuDao {
 			
 			while(rs.next()) {
 				
-				subMenu = new SubMenu();
+				menu = new SubMenu();
 				
-				subMenu.setCoMenu(rs.getString("CO_MENU"));
-				subMenu.setNoMenu(rs.getString("NO_MENU"));
-				subMenu.setAliasMenu(rs.getString("ALIAS_MENU"));
-				subMenu.setRutaMenu(rs.getString("RUTA_MENU"));
-				subMenu.setUsCreaMenu(rs.getString("US_CREA_MENU"));
-				subMenu.setUsModiMenu(rs.getString("US_MODI_MENU"));
-				subMenu.setFeCreaMenu(rs.getTimestamp("FE_CREA_MENU").toLocalDateTime());
-				subMenu.setFeModiMenu(rs.getTimestamp("FE_MODI_MENU").toLocalDateTime());
+				menu.setCoMenu(rs.getString("CO_MENU"));
+				menu.setNoMenu(rs.getString("NO_MENU"));
+				menu.setLvMenu(rs.getInt("LV_MENU"));
+				menu.setAlMenu(rs.getString("AL_MENU"));
+				menu.setNoComp(rs.getString("NO_COMP"));
+				menu.setUsCreaMenu(rs.getString("US_CREA_MENU"));
+				menu.setUsModiMenu(rs.getString("US_MODI_MENU"));
+				menu.setFeCreaMenu(rs.getTimestamp("FE_CREA_MENU").toLocalDateTime());
+				menu.setFeModiMenu(rs.getTimestamp("FE_MODI_MENU").toLocalDateTime());
 				
-				subMenu.setCoSubMenu(rs.getString("CO_SUB_MENU"));
-				subMenu.setNoSubMenu(rs.getString("NO_SUB_MENU"));
-				subMenu.setAliasSubMenu(rs.getString("AL_SUB_MENU"));
-				subMenu.setRutaSubMenu(rs.getString("RUTA_SUB_MENU"));
-				subMenu.setUsCreaSubMenu(rs.getString("US_CREA_SUB_MENU"));
-				subMenu.setUsModiSubMenu(rs.getString("US_MODI_SUB_MENU"));
-				subMenu.setFeCreaSubMenu(rs.getTimestamp("FE_CREA_SUB_MENU").toLocalDateTime());
-				subMenu.setFeModiSubMenu(rs.getTimestamp("FE_MODI_SUB_MENU").toLocalDateTime());
-				
-				subMenus.add(subMenu);
+				menus.add(menu);
 				
 			}
 			
@@ -87,24 +80,24 @@ public class SubMenuDaoImpl implements ISubMenuDao {
 		
 		conector = null;
 		
-		return subMenus;
+		return menus;
 		
 	}
 	
 	@Override
-	public void registrarSubMenu(SubMenu subMenu) {
+	public void registrarMenu(Menu Menu) {
 		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
-	public void modificarSubMenu(SubMenu subMenu) {
+	public void modificarMenu(Menu Menu) {
 		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
-	public void eliminarSubMenu(int coSubMenu) {
+	public void eliminarMenu(int coMenu) {
 		// TODO Auto-generated method stub
 		
 	}

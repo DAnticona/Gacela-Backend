@@ -6,8 +6,9 @@ public class Menu {
 
 	private String coMenu;
 	private String noMenu;
-	private String aliasMenu;
-	private String rutaMenu;
+	private int lvMenu;
+	private String alMenu;
+	private String noComp;
 	private String usCreaMenu;
 	private String usModiMenu;
 	private LocalDateTime feCreaMenu;
@@ -25,17 +26,23 @@ public class Menu {
 	public void setNoMenu(String noMenu) {
 		this.noMenu = noMenu;
 	}
-	public String getAliasMenu() {
-		return aliasMenu;
+	public int getLvMenu() {
+		return lvMenu;
 	}
-	public void setAliasMenu(String aliasMenu) {
-		this.aliasMenu = aliasMenu;
+	public void setLvMenu(int lvMenu) {
+		this.lvMenu = lvMenu;
 	}
-	public String getRutaMenu() {
-		return rutaMenu;
+	public String getAlMenu() {
+		return alMenu;
 	}
-	public void setRutaMenu(String rutaMenu) {
-		this.rutaMenu = rutaMenu;
+	public void setAlMenu(String alMenu) {
+		this.alMenu = alMenu;
+	}
+	public String getNoComp() {
+		return noComp;
+	}
+	public void setNoComp(String noComp) {
+		this.noComp = noComp;
 	}
 	public String getUsCreaMenu() {
 		return usCreaMenu;
@@ -61,5 +68,7 @@ public class Menu {
 	public void setFeModiMenu(LocalDateTime feModiMenu) {
 		this.feModiMenu = feModiMenu;
 	}
+
+	
 	
 }

@@ -13,7 +13,7 @@ public class Usuario extends Persona{
 	private LocalDateTime feCreaUsua;
 	private LocalDateTime feModiUsua;
 	private Perfil perfil;
-	private List<SubMenu> subMenus;
+	private List<Menu> menus;
 
 	public Usuario() {
 		
@@ -72,12 +72,12 @@ public class Usuario extends Persona{
 		this.perfil = perfil;
 	}
 
-	public List<SubMenu> getSubMenus() {
-		return subMenus;
+	public List<Menu> getMenus() {
+		return menus;
 	}
 
-	public void setSubMenus(List<SubMenu> subMenus) {
-		this.subMenus = subMenus;
+	public void setMenus(List<Menu> menus) {
+		this.menus = menus;
 	}
 
 }
