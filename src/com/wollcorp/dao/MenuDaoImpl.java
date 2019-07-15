@@ -7,7 +7,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.wollcorp.beans.Menu;
-import com.wollcorp.beans.SubMenu;
 import com.wollcorp.conectores.SQLDatabaseConnection;
 import com.wollcorp.globales.Globales;
 import com.wollcorp.globales.Log;
@@ -42,7 +41,7 @@ public class MenuDaoImpl implements IMenuDao {
 			
 			while(rs.next()) {
 				
-				menu = new SubMenu();
+				menu = new Menu();
 				
 				menu.setCoMenu(rs.getString("CO_MENU"));
 				menu.setNoMenu(rs.getString("NO_MENU"));
