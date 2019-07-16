@@ -52,6 +52,7 @@ public class MenuDaoImpl implements IMenuDao {
 				menu.setUsModiMenu(rs.getString("US_MODI_MENU"));
 				menu.setFeCreaMenu(rs.getTimestamp("FE_CREA_MENU").toLocalDateTime());
 				menu.setFeModiMenu(rs.getTimestamp("FE_MODI_MENU").toLocalDateTime());
+				menu.setCoPadr(rs.getString("CO_PADR"));
 				
 				menus.add(menu);
 				
@@ -66,7 +67,7 @@ public class MenuDaoImpl implements IMenuDao {
 			((Log)Globales.variablesGlobales.get("log")).setNombreClase(this.getClass().getName());
 			((Log)Globales.variablesGlobales.get("log")).registraError();
 			
-		}catch (NullPointerException e1) {
+		} catch (NullPointerException e1) {
 			
 			((Log)Globales.variablesGlobales.get("log")).setMensaje (e1.getMessage());
 			((Log)Globales.variablesGlobales.get("log")).setException(e1.toString());

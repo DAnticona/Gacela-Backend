@@ -13,6 +13,7 @@ public class Menu {
 	private String usModiMenu;
 	private LocalDateTime feCreaMenu;
 	private LocalDateTime feModiMenu;
+	private String coPadr;
 	
 	public String getCoMenu() {
 		return coMenu;
@@ -68,7 +69,11 @@ public class Menu {
 	public void setFeModiMenu(LocalDateTime feModiMenu) {
 		this.feModiMenu = feModiMenu;
 	}
+	public String getCoPadr() {
+		return coPadr;
+	}
+	public void setCoPadr(String coPadr) {
+		this.coPadr = coPadr;
+	}
 
-	
-	
 }
