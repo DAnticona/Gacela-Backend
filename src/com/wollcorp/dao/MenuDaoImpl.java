@@ -47,12 +47,13 @@ public class MenuDaoImpl implements IMenuDao {
 				menu.setNoMenu(rs.getString("NO_MENU"));
 				menu.setLvMenu(rs.getInt("LV_MENU"));
 				menu.setAlMenu(rs.getString("AL_MENU"));
-				menu.setNoComp(rs.getString("NO_COMP"));
+				menu.setRuta(rs.getString("RUTA"));
 				menu.setUsCreaMenu(rs.getString("US_CREA_MENU"));
 				menu.setUsModiMenu(rs.getString("US_MODI_MENU"));
 				menu.setFeCreaMenu(rs.getTimestamp("FE_CREA_MENU").toLocalDateTime());
 				menu.setFeModiMenu(rs.getTimestamp("FE_MODI_MENU").toLocalDateTime());
 				menu.setCoPadr(rs.getString("CO_PADR"));
+				menu.setNrOrde(rs.getInt("NR_ORDE"));
 				
 				menus.add(menu);
 				

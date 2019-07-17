@@ -8,12 +8,13 @@ public class Menu {
 	private String noMenu;
 	private int lvMenu;
 	private String alMenu;
-	private String noComp;
+	private String ruta;
 	private String usCreaMenu;
 	private String usModiMenu;
 	private LocalDateTime feCreaMenu;
 	private LocalDateTime feModiMenu;
 	private String coPadr;
+	private int nrOrde;
 	
 	public String getCoMenu() {
 		return coMenu;
@@ -39,11 +40,11 @@ public class Menu {
 	public void setAlMenu(String alMenu) {
 		this.alMenu = alMenu;
 	}
-	public String getNoComp() {
-		return noComp;
+	public String getRuta() {
+		return ruta;
 	}
-	public void setNoComp(String noComp) {
-		this.noComp = noComp;
+	public void setRuta(String ruta) {
+		this.ruta = ruta;
 	}
 	public String getUsCreaMenu() {
 		return usCreaMenu;
@@ -74,6 +75,12 @@ public class Menu {
 	}
 	public void setCoPadr(String coPadr) {
 		this.coPadr = coPadr;
+	}
+	public int getNrOrde() {
+		return nrOrde;
+	}
+	public void setNrOrde(int nrOrde) {
+		this.nrOrde = nrOrde;
 	}
 
 }
