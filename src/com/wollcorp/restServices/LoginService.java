@@ -52,15 +52,18 @@ public class LoginService {
 				
 			}
 			
-		} else {
-			
-			return Response.status(Response.Status.UNAUTHORIZED)
-					//.header("Access-Control-Allow-Origin", "*")
-				    //.header("Access-Control-Allow-Methods", "POST, GET, PUT, UPDATE, OPTIONS")
-				    //.header("Access-Control-Allow-Headers", "Content-Type, Accept, X-Requested-With")
-					.entity((Log)Globales.variablesGlobales.get("log")).build();
-			
-		}
+		
+		  } else {
+		  
+		  return Response.status(Response.Status.UNAUTHORIZED)
+		  //.header("Access-Control-Allow-Origin", "*")
+		  //.header("Access-Control-Allow-Methods", "POST, GET, PUT, UPDATE, OPTIONS")
+		  //.header("Access-Control-Allow-Headers",
+		  //"Content-Type, Accept, X-Requested-With")
+		  .entity((Log)Globales.variablesGlobales.get("log")).build();
+		  
+		  }
+		 
 	}
 
 }

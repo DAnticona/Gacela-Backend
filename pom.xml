@@ -53,6 +53,13 @@
 	    <artifactId>mssql-jdbc</artifactId>
 	    <version>7.2.2.jre8</version>
 	</dependency>	
+	
+	<!-- PARA EL JWT -->
+	<dependency>
+	    <groupId>com.auth0</groupId>
+	    <artifactId>java-jwt</artifactId>
+	    <version>3.8.1</version>
+	</dependency>
     
 	<!-- https://mvnrepository.com/artifact/com.owlike/genson -->
 <!--  	<dependency>

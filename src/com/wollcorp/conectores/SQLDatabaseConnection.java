@@ -3,30 +3,34 @@ package com.wollcorp.conectores;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import com.wollcorp.globales.Globales;
 import com.wollcorp.globales.Log;
 
 public class SQLDatabaseConnection {
     
-    //Variable de conexion
+    //VARIABLE DE CONEXION
 	private Connection connection;
 
-	//Cadena de Conexion
+	//CADENA DE CONEXION
 	private String connectionUrl;
+	
+	//private final static Logger LOGGER = Logger.getLogger("com.wollcorp.conectores.SQLDatabaseConnection");
         
     public SQLDatabaseConnection(String user, String password) {
     	
-        connectionUrl = "jdbc:sqlserver://delfines\\exactus;database=GACELA";
-    	//connectionUrl = "jdbc:sqlserver://localhost\\EXACTUS:1433;database=GACELA";
+        connectionUrl = "jdbc:sqlserver://gaceladb;database=GACELA";
 
         try {
-        	//Carga clase de Maven
+        	//CARGA CLASE DE MAVEN
         	Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver"); 
         	
-        	//Conecta
+        	//CONECTA
         	connection = DriverManager.getConnection(connectionUrl, user, password);
         	
+        	//LOGGER.log(Level.INFO, "USUARIO:" + user + " - CONECTADO A LA BD");
         	((Log)Globales.variablesGlobales.get("log")).setMensaje("USUARIO:" + user + " - CONECTADO A LA BD");
         	((Log)Globales.variablesGlobales.get("log")).registraInfo();
 		

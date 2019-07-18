@@ -1,5 +1,6 @@
 package com.wollcorp.dao;
 
+import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -46,13 +47,14 @@ public class PerfilDaoImpl implements IPerfilDao {
 		
 		Perfil perfil = null;
 		
-		SQLDatabaseConnection conector = (SQLDatabaseConnection) Globales.variablesGlobales.get("conector");
+		//SQLDatabaseConnection conector = (SQLDatabaseConnection) Globales.variablesGlobales.get("conector");
+		Connection conector = Globales.conectores.get(Globales.tokens.get(0));
 		
 		String sql = "EXEC SP_OBTIENE_PERFIL_X_USUARIO ?";
 		
 		try {
 			
-			PreparedStatement ps = conector.getConnection().prepareStatement(sql);
+			PreparedStatement ps = conector.prepareStatement(sql);
 			ps.setString(1, coUsua);
 			
 			ResultSet rs = ps.executeQuery();

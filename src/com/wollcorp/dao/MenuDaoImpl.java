@@ -1,5 +1,6 @@
 package com.wollcorp.dao;
 
+import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -25,13 +26,14 @@ public class MenuDaoImpl implements IMenuDao {
 		List<Menu> menus = new ArrayList<Menu>();
 		Menu menu = null;
 		
-		SQLDatabaseConnection conector = (SQLDatabaseConnection) Globales.variablesGlobales.get("conector");
+		//SQLDatabaseConnection conector = (SQLDatabaseConnection) Globales.variablesGlobales.get("conector");
+		Connection conector = Globales.conectores.get(Globales.tokens.get(0));
 		
 		String sql = "SP_OBTIENE_MENU_X_PERFIL ?";
 			
 		try {
 			
-			PreparedStatement ps = conector.getConnection().prepareStatement(sql);
+			PreparedStatement ps = conector.prepareStatement(sql);
 			ps.setString(1, coPerf);
 			
 			ResultSet rs = ps.executeQuery();
