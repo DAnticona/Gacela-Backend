@@ -7,7 +7,6 @@ import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.exceptions.JWTCreationException;
 import com.auth0.jwt.interfaces.DecodedJWT;
-import com.wollcorp.beans.Login;
 
 public class Token {
 	
@@ -17,10 +16,10 @@ public class Token {
 	private String key;
 	private String token;
 	
-	public void generaToken(Login login) {
+	public void generaToken(String noUsua) {
 		
 		String token = null;
-		uid = login.getNoUsua();
+		uid = noUsua;
 		iat = new Date();
 		exp = null;
 		key = "W0LLC0RP$GAC3L42019$";
@@ -51,6 +50,12 @@ public class Token {
 		} catch (JWTCreationException exception){
 			
 			token = null;
+			((Log)Globales.variablesGlobales.get("log")).setMensaje("ERROR AL GENERAR EL TOKEN PARA EL USUARIO: " + noUsua);
+			((Log)Globales.variablesGlobales.get("log")).setException(null);
+			((Log)Globales.variablesGlobales.get("log")).setCodigo(-1);
+			((Log)Globales.variablesGlobales.get("log")).setEstado(null);
+			((Log)Globales.variablesGlobales.get("log")).setNombreClase(this.getClass().getName());
+			((Log)Globales.variablesGlobales.get("log")).registraError();
 			
 		}
 		

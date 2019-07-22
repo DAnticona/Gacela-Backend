@@ -7,7 +7,6 @@ import java.sql.SQLException;
 import java.util.List;
 
 import com.wollcorp.beans.Perfil;
-import com.wollcorp.conectores.SQLDatabaseConnection;
 import com.wollcorp.globales.Globales;
 import com.wollcorp.globales.Log;
 

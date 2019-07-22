@@ -1,5 +1,10 @@
 package com.wollcorp.beans;
 
+/**
+ * 
+ * @author danticona
+ *
+ */
 public class Login {
 	
 	private String noUsua;
