@@ -1,32 +1,17 @@
 package com.wollcorp.dao;
 
-import com.wollcorp.beans.Login;
+import java.sql.Connection;
+
 import com.wollcorp.conectores.SQLDatabaseConnection;
 
 public class LoginDaoImpl implements ILoginDao {
-	
-	private SQLDatabaseConnection conector = null;
 
 	@Override
-	public boolean isConnected(Login login) {
+	public Connection conectarBD(String noUsua, String paUsua) {
 		
-		conector = new SQLDatabaseConnection(login.getNoUsua(), login.getPasUsua());
+		SQLDatabaseConnection sqlDatabaseConnection = new SQLDatabaseConnection();
 		
-		if(conector.getConnection() == null) { //NO SE PUDO CONECTAR - EXISTE UN ERROR
-			
-			return false;
-			
-		} else { //CONECTADO - LOGIN EXISTE EN LA BD
-			
-			return true;
-			
-		}
-	}
-	
-	public SQLDatabaseConnection getConector() {
-		
-		return conector;
-		
+		return sqlDatabaseConnection.openConnection(noUsua, paUsua);
 	}
 
 }

@@ -8,13 +8,13 @@ public interface IUsuarioDao {
 	
 	public List<Usuario> listarUsuarios();
 	
-	public Usuario obtenerUsuario(String noUsua);
+	public Usuario obtenerUsuario(String noUsua, String token);
 	
-	public void registrarUsuario(String codigo, String idUsuario, String nombre);
+	public void registrarUsuario(Usuario usuario, String token);
 	
-	public void actualizarUsuario(Usuario usuario);
+	public void actualizarUsuario(Usuario usuario, String token);
 	
-	public void eliminarUsuario(Usuario usuario);
+	public void eliminarUsuario(String noUsua, String token);
 
 }
 

@@ -1,16 +1,16 @@
 package com.wollcorp.restServices;
 
 import javax.ws.rs.Consumes;
+import javax.ws.rs.HeaderParam;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
-import com.wollcorp.beans.Login;
 
-import com.wollcorp.beans.Usuario;
 import com.wollcorp.controladores.LoginControlador;
+import com.wollcorp.dto.UsuarioDTO;
 import com.wollcorp.globales.Globales;
 import com.wollcorp.globales.Log;
 
@@ -22,10 +22,31 @@ public class LoginService {
 	LoginControlador loginControlador = new LoginControlador();
 	
 	@POST
-	public Response servicioLogin(Login login) {
+	public Response servicioLogin(@HeaderParam("authorization") String auth) {
 		
-		Usuario usuarioConectado = null;
+		UsuarioDTO usuarioDTO = null;
 		
+		usuarioDTO = loginControlador.validarLogin(auth);
+		
+		if(usuarioDTO != null) {
+			
+			return Response.status(Response.Status.OK)
+					.header("Token", loginControlador.getToken())
+					.entity(usuarioDTO).build();
+			
+		} else {
+			
+			return Response.status(Response.Status.UNAUTHORIZED)
+					// .header("Access-Control-Allow-Origin", "*")
+					// .header("Access-Control-Allow-Methods", "POST, GET, PUT, UPDATE, OPTIONS")
+					// .header("Access-Control-Allow-Headers",
+					// "Content-Type, Accept, X-Requested-With")
+					.entity((Log) Globales.variablesGlobales.get("log")).build();
+			
+		}
+		
+		
+		/*
 		if(loginControlador.estaConectado(login)) {
 			
 			//OBTIENE EL USUARIO REGISTRADO EN LA BD - SOLO DEBE EXISTIR 1
@@ -62,7 +83,8 @@ public class LoginService {
 		  //"Content-Type, Accept, X-Requested-With")
 		  .entity((Log)Globales.variablesGlobales.get("log")).build();
 		  
-		  }
+		 }
+		*/
 		 
 	}
 

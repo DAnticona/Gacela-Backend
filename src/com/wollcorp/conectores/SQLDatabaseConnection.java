@@ -8,16 +8,16 @@ import com.wollcorp.globales.Globales;
 import com.wollcorp.globales.Log;
 
 public class SQLDatabaseConnection {
-    
-    //VARIABLE DE CONEXION
-	private Connection connection;
 
 	//CADENA DE CONEXION
 	private String connectionUrl;
 	
 	//private final static Logger LOGGER = Logger.getLogger("com.wollcorp.conectores.SQLDatabaseConnection");
         
-    public SQLDatabaseConnection(String user, String password) {
+    public Connection openConnection(String user, String password) {
+    	
+        //VARIABLE DE CONEXION
+    	Connection connection = null;
     	
         connectionUrl = "jdbc:sqlserver://gaceladb;database=GACELA";
 
@@ -51,14 +51,16 @@ public class SQLDatabaseConnection {
         	((Log)Globales.variablesGlobales.get("log")).registraError();
         	
 		}
+        
+        return connection;
     }
     
     
-    public void closeConnection() {
+    public void closeConnection(Connection connection) {
     	
     	try {
     		
-    		getConnection().close();
+    		connection.close();
     		
         	((Log)Globales.variablesGlobales.get("log")).setMensaje("CONEXIÓN CERRADA");
         	((Log)Globales.variablesGlobales.get("log")).registraInfo();
@@ -75,12 +77,5 @@ public class SQLDatabaseConnection {
     		
     	}
     }
-    
-    
-	public Connection getConnection() {
-		
-		return connection;
-		
-	}
 
 }

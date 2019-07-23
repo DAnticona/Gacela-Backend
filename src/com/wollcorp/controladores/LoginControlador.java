@@ -5,189 +5,182 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.wollcorp.beans.Login;
 import com.wollcorp.beans.Menu;
-import com.wollcorp.beans.Perfil;
 import com.wollcorp.beans.Usuario;
+import com.wollcorp.conectores.Authorization;
 import com.wollcorp.dao.LoginDaoImpl;
 import com.wollcorp.dao.MenuDaoImpl;
 import com.wollcorp.dao.UsuarioDaoImpl;
+import com.wollcorp.dto.UsuarioDTO;
 import com.wollcorp.globales.Globales;
 import com.wollcorp.globales.Inicio;
 import com.wollcorp.globales.Log;
-import com.wollcorp.globales.Token;
 
 /**
- * 
+ * Esta clase es el controlador del servicio Login (LoginService.java)
  * @author danticona
- *
+ * @version 1
  */
 public class LoginControlador {
 	
-	private String coUsua;
-	private String pasUsua;
+	private String noUsua;
+	private String paUsua;
 	private Usuario usuario;
-	private Token token;
+	private String token;
 	private Connection conector;
-		
+	private List<Menu> menus = new ArrayList<Menu>();
+	
+	/**
+	 * Constructor para la clase LoginControlador
+	 */
 	public LoginControlador() {
 		
 		iniciaComponentes();
 		
 	}
 	
+	
+	
+	
+	
+	/**
+	 * Procedimiento iniciaComponentes, se ejecuta cuando se instancia la clase desde el constructor, instancia Inicio (para los parámetros iniciales) y token
+	 */
+	
 	private void iniciaComponentes() {
 		
 		new Inicio();
 		
-		token = new Token();
-		
 	}
 	
 	
+	
+	
 	/**
-	 * 
+	 * Procedimiento para validar el login enviado al servicio LoginService, es el punto inicial de toda la validación
 	 * @param login
-	 * @return true = conectado a la BD, False = No conectado a la BD
 	 */
-	public boolean estaConectado(Login login) {
+	public UsuarioDTO validarLogin(String authorization) {
 		
-		LoginDaoImpl loginDao = new LoginDaoImpl();
+		UsuarioDTO usuarioDTO = null;
 		
-		((Log)Globales.variablesGlobales.get("log")).setMensaje("INTENTO DE LOGIN - USUARIO: " + login.getNoUsua());
-		((Log)Globales.variablesGlobales.get("log")).registraInfo();
-
-		if (loginDao.isConnected(login)) {
-
-			((Log) Globales.variablesGlobales.get("log")).setMensaje("LOGIN VALIDO - USUARIO: " + login.getNoUsua());
-			((Log) Globales.variablesGlobales.get("log")).registraInfo();
-
-			Globales.conectores.put(token.getToken(), loginDao.getConector().getConnection());
-
-			return true;
-
-		} else {
-
-			return false;
-
-		}
-			
-	}
-	
-	
-	
-	
-	/**
-	 * 
-	 * @param coUsua
-	 * @return El token generado con el código de usuario
-	 */
-	public String getToken(String coUsua) {
+		this.noUsua = Authorization.decodeLogin(authorization)[0];
+		this.paUsua = Authorization.decodeLogin(authorization)[1];
 		
-		token.generaToken(coUsua);
-		
-		return token.getToken();
-		
-	}
-	
-	
-	
-	
-	
-	
-	
-	public Usuario obtenerUsuarioConectado(Login login) {
-		
-		//DEVUELVE DATOS DEL USUARIO
-		UsuarioDaoImpl usuarioDao = new UsuarioDaoImpl();
-		
-		((Log)Globales.variablesGlobales.get("log")).setMensaje("CONSULTANDO DATOS DEL USUARIO: " + login.getNoUsua());
+		((Log)Globales.variablesGlobales.get("log")).setMensaje("VALIDANDO NUEVO LOGIN " + noUsua + "...");
 		((Log)Globales.variablesGlobales.get("log")).registraInfo();
 		
-		Usuario usuario = usuarioDao.obtenerUsuario(login.getNoUsua());
-		List<Menu> menus = new ArrayList<Menu>();
+		this.conector = conectarBD(noUsua, paUsua);
+		this.token = generarToken(noUsua);
 		
-		if(usuario != null) {
+		if(conector != null && token != null) {
 			
-			((Log)Globales.variablesGlobales.get("log")).setMensaje("USUARIO ENCONTRADO EN BASE DE DATOS: " + login.getNoUsua());
-			((Log)Globales.variablesGlobales.get("log")).registraInfo();
-			
-			usuario.setFeUltSes(LocalDateTime.now());
-
-			((Log) Globales.variablesGlobales.get("log"))
-					.setMensaje("ACTUALIZANDO FECHA DE ULTIMA SESION DEL USUARIO: " + login.getNoUsua());
+			((Log) Globales.variablesGlobales.get("log")).setMensaje("CONECTADO A LA BD - USUARIO: " + noUsua);
 			((Log) Globales.variablesGlobales.get("log")).registraInfo();
 
-			usuarioDao.actualizarUsuario(usuario);
+			Globales.tokens.add(token);
+			Globales.conectores.put(token, conector);
 
-			Globales.variablesGlobales.put("usuarioConectado", usuario);
+			((Log) Globales.variablesGlobales.get("log")).setMensaje("CONSULTANDO USUARIO EN BD " + noUsua + "...");
+			((Log) Globales.variablesGlobales.get("log")).registraInfo();
 
-			if (usuario.getPerfil() != null) {
+			this.usuario = obtenerUsuario(noUsua, token);
 
-				((Log) Globales.variablesGlobales.get("log")).setMensaje("PERFIL DEL USUARIO: " + login.getNoUsua());
+			if (usuario != null) {
+
+				((Log) Globales.variablesGlobales.get("log")).setMensaje("DATOS DE USUARIO ENCONTRADOS: " + noUsua);
+				((Log) Globales.variablesGlobales.get("log")).registraInfo();
+				
+				Globales.usuarios.put(token, usuario);
+
+				
+				((Log) Globales.variablesGlobales.get("log")).setMensaje("ACTUALIZANDO FECHA DE ULTIMA SESION DEL USUARIO : " + noUsua);
 				((Log) Globales.variablesGlobales.get("log")).registraInfo();
 
-				((Log) Globales.variablesGlobales.get("log"))
-						.setMensaje("CONSULTANDO MENUS DEL USUARIO: " + usuario.getNoUsua());
+				usuario.setFeUltSes(LocalDateTime.now());
+
+				
+				((Log) Globales.variablesGlobales.get("log")).setMensaje("OBTENIENDO MENUS DEL PERFIL : " + noUsua);
 				((Log) Globales.variablesGlobales.get("log")).registraInfo();
 
-				menus = obtenerMenusXPerfil(usuario.getPerfil());
+				this.menus = obtenerListaMenu(usuario.getPerfil().getCoPerf(), token);
 
-				usuario.setMenus(menus);
-
-			} else {
-
-				((Log) Globales.variablesGlobales.get("log"))
-						.setMensaje("EL USUARIO " + login.getNoUsua() + " NO TIENE PERFIL ASIGNADO");
+				((Log) Globales.variablesGlobales.get("log")).setMensaje("PREPARANDO DATOS DE ENVIO : " + noUsua);
 				((Log) Globales.variablesGlobales.get("log")).registraInfo();
+
+				usuarioDTO = new UsuarioDTO();
+
+				usuarioDTO.setNombre(usuario.getNoPers() + " " + usuario.getApPate());
+				usuarioDTO.setSexo(usuario.getSexo());
+				usuarioDTO.setUsuario(usuario.getNoUsua());
+				usuarioDTO.setPerfil(usuario.getPerfil().getNoPerf());
+				usuarioDTO.setMenus(menus);
 
 			}
-
-			
-		} else {
-			
-			((Log)Globales.variablesGlobales.get("log")).setMensaje("NINGUN USUARIO ENCONTRADO EN BASE DE DATOS: " + login.getNoUsua());
-			((Log)Globales.variablesGlobales.get("log")).setException(null);
-			((Log)Globales.variablesGlobales.get("log")).setCodigo(-100);
-			((Log)Globales.variablesGlobales.get("log")).setEstado(null);
-			((Log)Globales.variablesGlobales.get("log")).setNombreClase(this.getClass().getName());
-			((Log)Globales.variablesGlobales.get("log")).registraError();
-			
-			usuario = null;
 			
 		}
 		
-		return usuario;
+		return usuarioDTO;
+		
+	}
+	
+	
+	public String getToken() {
+		return this.token;
+	}
+	
+	
+	
+	/**
+	 * Envía la orden para conectarse a la BD, se comunica con el DAO y devuelve el objeto conexión en caso de error, devuelve null
+	 * @param coUsua
+	 * @param paUsua
+	 * @return objeto conexión, null si no se pudo conectar
+	 */
+	private Connection conectarBD(String usuario, String password) {
+		
+		return (new LoginDaoImpl()).conectarBD(usuario, password);
+			
+	}
+	
+	
+	
+	
+	/**
+	 * Envía la orden para generar el token para el usuario.
+	 * @param coUsua
+	 * @return El token generado con el código de usuario, null si no pudo generar el token
+	 */
+	private String generarToken(String usuario) {
+		
+		return (new Authorization()).generarToken(usuario);
 		
 	}
 	
 	
 	
 	
+	/**
+	 * Envía la orden para obtener el usuario, se conecta con el DAO
+	 * @param noUsua
+	 * @return objeto usuario, null si no pudo traer el usuario
+	 */
+	private Usuario obtenerUsuario(String usuario, String token) {
+		
+		return (new UsuarioDaoImpl()).obtenerUsuario(usuario, token);
+		
+	}
 	
-	public List<Menu> obtenerMenusXPerfil(Perfil perfil){
+	
+	/**
+	 * Envía la orden para listar los menus por perfil del usuario, se comunica con el DAO
+	 * @param perfil
+	 * @return lista de Menus
+	 */
+	private List<Menu> obtenerListaMenu(String perfil, String token){
 		
-		List<Menu> menus = new ArrayList<Menu>();
+		return (new MenuDaoImpl()).obtenerMenusXPerfil(perfil);
 		
-		MenuDaoImpl menuDao = new MenuDaoImpl();
-		
-		menus = menuDao.obtenerMenusXPerfil(perfil.getCoPerf());
-		
-		if(menus.size() > 0) { //ENCONTRO CIERTOS MENUS ASOCIADOS AL PERFIL > 0
-			
-			((Log)Globales.variablesGlobales.get("log")).setMensaje("MENUS ENCONTRADOS ASOCIADOS AL PERFIL DEL USUARIO: " + perfil.getNoPerf());
-			((Log)Globales.variablesGlobales.get("log")).registraInfo();
-			
-		} else { //NO ENCONTRO NINGUN MENU NI SUBMENU ASOCIADO AL PERFIL DEL USUARIO
-			
-			((Log)Globales.variablesGlobales.get("log")).setMensaje("NO SE ENCONTRARON MENUS ASOCIADOS AL PERFIL DEL USUARIO: " + perfil.getNoPerf());
-			((Log)Globales.variablesGlobales.get("log")).registraInfo();
-			
-			menus = null;
-			
-		}
-		
-		return menus;
 	}
 	
 }

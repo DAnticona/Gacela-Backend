@@ -1,9 +1,9 @@
 package com.wollcorp.dao;
 
-import com.wollcorp.beans.Login;
+import java.sql.Connection;
 
 public interface ILoginDao {
 	
-	public boolean isConnected(Login login);
+	public Connection conectarBD(String coUsua, String paUsua);
 
 }

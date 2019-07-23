@@ -20,12 +20,12 @@ public class UsuarioDaoImpl implements IUsuarioDao {
 	}
 	
 	@Override
-	public Usuario obtenerUsuario(String noUsua) {
+	public Usuario obtenerUsuario(String noUsua, String token) {
 		
 		Usuario usuario = null;
 		
 		//SQLDatabaseConnection conector = (SQLDatabaseConnection) Globales.variablesGlobales.get("conector");
-		Connection conector = Globales.conectores.get(Globales.tokens.get(0));
+		Connection conector = Globales.conectores.get(token);
 		
 		String sql = "EXEC SP_OBTIENE_USUARIO ?";
 			
@@ -102,14 +102,14 @@ public class UsuarioDaoImpl implements IUsuarioDao {
 	
 	
 	@Override
-	public void registrarUsuario(String codigo, String idUsuario, String nombre) {
+	public void registrarUsuario(Usuario usuario, String token) {
 		
 
 		
 	}
 
 	@Override
-	public void actualizarUsuario(Usuario usuario) {
+	public void actualizarUsuario(Usuario usuario, String token) {
 		
 		//SQLDatabaseConnection conector = (SQLDatabaseConnection) Globales.variablesGlobales.get("conector");
 		Connection conector = Globales.conectores.get(Globales.tokens.get(0));
@@ -150,7 +150,7 @@ public class UsuarioDaoImpl implements IUsuarioDao {
 	}
 
 	@Override
-	public void eliminarUsuario(Usuario usuario) {
+	public void eliminarUsuario(String noUsua, String token) {
 		
 		/*
 		usuarios.remove(usuario.getCodigo());

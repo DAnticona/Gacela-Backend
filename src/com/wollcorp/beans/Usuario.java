@@ -1,7 +1,6 @@
 package com.wollcorp.beans;
 
 import java.time.LocalDateTime;
-import java.util.List;
 
 public class Usuario extends Persona{
 	
@@ -13,7 +12,6 @@ public class Usuario extends Persona{
 	private LocalDateTime feCreaUsua;
 	private LocalDateTime feModiUsua;
 	private Perfil perfil;
-	private List<Menu> menus;
 
 	public Usuario() {
 		
@@ -70,14 +68,6 @@ public class Usuario extends Persona{
 
 	public void setPerfil(Perfil perfil) {
 		this.perfil = perfil;
-	}
-
-	public List<Menu> getMenus() {
-		return menus;
-	}
-
-	public void setMenus(List<Menu> menus) {
-		this.menus = menus;
 	}
 
 }
