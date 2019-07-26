@@ -8,25 +8,25 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.wollcorp.beans.Menu;
-import com.wollcorp.globales.Globales;
+import com.wollcorp.conectores.Conector;
 import com.wollcorp.globales.Log;
 
 public class MenuDaoImpl implements IMenuDao {
 
 	@Override
-	public List<Menu> listarMenus(String coMenu) {
+	public List<Menu> listarMenus(String coMenu, String token) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public List<Menu> obtenerMenusXPerfil(String coPerf) {
+	public List<Menu> obtenerMenusXPerfil(String coPerf, String token) {
 		
 		List<Menu> menus = new ArrayList<Menu>();
 		Menu menu = null;
 		
 		//SQLDatabaseConnection conector = (SQLDatabaseConnection) Globales.variablesGlobales.get("conector");
-		Connection conector = Globales.conectores.get(Globales.tokens.get(0));
+		Connection conector = Conector.conectores.get(token);
 		
 		String sql = "SP_OBTIENE_MENU_X_PERFIL ?";
 			
@@ -37,8 +37,8 @@ public class MenuDaoImpl implements IMenuDao {
 			
 			ResultSet rs = ps.executeQuery();
 			
-			((Log)Globales.variablesGlobales.get("log")).setMensaje("CONSULTA EXITOSA");
-			((Log)Globales.variablesGlobales.get("log")).registraInfo();
+			Log.mensaje = "CONSULTA EXITOSA";
+			Log.registraInfo();
 			
 			while(rs.next()) {
 				
@@ -62,21 +62,21 @@ public class MenuDaoImpl implements IMenuDao {
 			
 		} catch (SQLException e) {
 			
-			((Log)Globales.variablesGlobales.get("log")).setMensaje (e.getMessage());
-			((Log)Globales.variablesGlobales.get("log")).setException(e.toString());
-			((Log)Globales.variablesGlobales.get("log")).setCodigo(e.getErrorCode());
-			((Log)Globales.variablesGlobales.get("log")).setEstado(e.getSQLState());
-			((Log)Globales.variablesGlobales.get("log")).setNombreClase(this.getClass().getName());
-			((Log)Globales.variablesGlobales.get("log")).registraError();
+			Log.mensaje = e.getMessage();
+			Log.exception = e.toString();
+			Log.codigo = e.getErrorCode();
+			Log.estado = e.getSQLState();
+			Log.nombreClase = this.getClass().getName();
+			Log.registraError();
 			
 		} catch (NullPointerException e1) {
 			
-			((Log)Globales.variablesGlobales.get("log")).setMensaje (e1.getMessage());
-			((Log)Globales.variablesGlobales.get("log")).setException(e1.toString());
-			((Log)Globales.variablesGlobales.get("log")).setCodigo(-1);
-			((Log)Globales.variablesGlobales.get("log")).setEstado(null);
-			((Log)Globales.variablesGlobales.get("log")).setNombreClase(this.getClass().getName());
-			((Log)Globales.variablesGlobales.get("log")).registraError();
+			Log.mensaje = e1.getMessage();
+			Log.exception = e1.toString();
+			Log.codigo = 0;
+			Log.estado = null;
+			Log.nombreClase = this.getClass().getName();
+			Log.registraError();
 			
 		}
 		
@@ -87,19 +87,19 @@ public class MenuDaoImpl implements IMenuDao {
 	}
 	
 	@Override
-	public void registrarMenu(Menu Menu) {
+	public void registrarMenu(Menu Menu, String token) {
 		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
-	public void modificarMenu(Menu Menu) {
+	public void modificarMenu(Menu Menu, String token) {
 		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
-	public void eliminarMenu(int coMenu) {
+	public void eliminarMenu(int coMenu, String token) {
 		// TODO Auto-generated method stub
 		
 	}

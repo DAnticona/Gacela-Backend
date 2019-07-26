@@ -8,7 +8,6 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
 import com.wollcorp.controladores.LogoutControlador;
-import com.wollcorp.globales.Globales;
 import com.wollcorp.globales.Log;
 
 @Path("/logout")
@@ -23,11 +22,11 @@ public class LogoutService {
 				
 		if(logoutControlador.estaDesconectado(coUsua)) {
 			
-			return Response.status(Response.Status.OK).entity((Log)Globales.variablesGlobales.get("log")).build();
+			return Response.status(Response.Status.OK).entity(Log.mensaje).build();
 		
 		} else {
 			
-			return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity((Log)Globales.variablesGlobales.get("log")).build();
+			return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(Log.mensaje).build();
 		
 		}
 		

@@ -11,9 +11,13 @@ import javax.ws.rs.core.Response;
 
 import com.wollcorp.controladores.LoginControlador;
 import com.wollcorp.dto.UsuarioDTO;
-import com.wollcorp.globales.Globales;
 import com.wollcorp.globales.Log;
 
+/**
+ * Clase destinada al Login del sistema
+ * @author danticona
+ * @version 1.0
+ */
 @Path("/login")
 @Consumes(MediaType.APPLICATION_JSON)
 @Produces(MediaType.APPLICATION_JSON)
@@ -34,57 +38,17 @@ public class LoginService {
 					.header("Token", loginControlador.getToken())
 					.entity(usuarioDTO).build();
 			
-		} else {
+		} else if(Log.codigo == 18456 && Log.estado == "S0001"){
 			
 			return Response.status(Response.Status.UNAUTHORIZED)
-					// .header("Access-Control-Allow-Origin", "*")
-					// .header("Access-Control-Allow-Methods", "POST, GET, PUT, UPDATE, OPTIONS")
-					// .header("Access-Control-Allow-Headers",
-					// "Content-Type, Accept, X-Requested-With")
-					.entity((Log) Globales.variablesGlobales.get("log")).build();
+					.entity(Log.mensaje).build();
+			
+		} else {
+			
+			return Response.status(Response.Status.INTERNAL_SERVER_ERROR)
+					.entity(Log.mensaje).build();
 			
 		}
-		
-		
-		/*
-		if(loginControlador.estaConectado(login)) {
-			
-			//OBTIENE EL USUARIO REGISTRADO EN LA BD - SOLO DEBE EXISTIR 1
-			usuarioConectado = loginControlador.obtenerUsuarioConectado(login);
-			
-			if(usuarioConectado != null) {//ENCUENTRA 1 USUARIO
-				
-				//ENVIA LA RESPUESTA
-				return Response.status(Response.Status.OK)
-						//.header("Access-Control-Allow-Origin", "*")
-					    //.header("Access-Control-Allow-Methods", "POST, GET, PUT, UPDATE, OPTIONS")
-					    //.header("Access-Control-Allow-Headers", "Content-Type, Accept, X-Requested-With")
-						//.entity((Perfil)Globales.variablesGlobales.get("perfil")).build();
-						.entity(usuarioConectado).build();
-				
-				
-			} else {
-				
-				return Response.status(Response.Status.BAD_REQUEST)
-						//.header("Access-Control-Allow-Origin", "*")
-					    //.header("Access-Control-Allow-Methods", "POST, GET, PUT, UPDATE, OPTIONS")
-					    //.header("Access-Control-Allow-Headers", "Content-Type, Accept, X-Requested-With")
-						.entity((Log)Globales.variablesGlobales.get("log")).build();
-				
-			}
-			
-		
-		  } else {
-		  
-		  return Response.status(Response.Status.UNAUTHORIZED)
-		  //.header("Access-Control-Allow-Origin", "*")
-		  //.header("Access-Control-Allow-Methods", "POST, GET, PUT, UPDATE, OPTIONS")
-		  //.header("Access-Control-Allow-Headers",
-		  //"Content-Type, Accept, X-Requested-With")
-		  .entity((Log)Globales.variablesGlobales.get("log")).build();
-		  
-		 }
-		*/
 		 
 	}
 

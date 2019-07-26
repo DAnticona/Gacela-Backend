@@ -7,19 +7,19 @@ import java.util.List;
 
 import com.wollcorp.beans.Menu;
 import com.wollcorp.beans.Usuario;
-import com.wollcorp.conectores.Authorization;
+import com.wollcorp.conectores.Conector;
 import com.wollcorp.dao.LoginDaoImpl;
 import com.wollcorp.dao.MenuDaoImpl;
 import com.wollcorp.dao.UsuarioDaoImpl;
 import com.wollcorp.dto.UsuarioDTO;
-import com.wollcorp.globales.Globales;
-import com.wollcorp.globales.Inicio;
 import com.wollcorp.globales.Log;
+import com.wollcorp.globales.Login;
+import com.wollcorp.globales.Token;
 
 /**
  * Esta clase es el controlador del servicio Login (LoginService.java)
  * @author danticona
- * @version 1
+ * @version 1.0
  */
 public class LoginControlador {
 	
@@ -35,22 +35,6 @@ public class LoginControlador {
 	 */
 	public LoginControlador() {
 		
-		iniciaComponentes();
-		
-	}
-	
-	
-	
-	
-	
-	/**
-	 * Procedimiento iniciaComponentes, se ejecuta cuando se instancia la clase desde el constructor, instancia Inicio (para los parámetros iniciales) y token
-	 */
-	
-	private void iniciaComponentes() {
-		
-		new Inicio();
-		
 	}
 	
 	
@@ -64,49 +48,49 @@ public class LoginControlador {
 		
 		UsuarioDTO usuarioDTO = null;
 		
-		this.noUsua = Authorization.decodeLogin(authorization)[0];
-		this.paUsua = Authorization.decodeLogin(authorization)[1];
+		this.noUsua = Login.decode(authorization)[0];
+		this.paUsua = Login.decode(authorization)[1];
 		
-		((Log)Globales.variablesGlobales.get("log")).setMensaje("VALIDANDO NUEVO LOGIN " + noUsua + "...");
-		((Log)Globales.variablesGlobales.get("log")).registraInfo();
+		Log.mensaje = "VALIDANDO NUEVO LOGIN " + noUsua + "...";
+		Log.registraInfo();
 		
 		this.conector = conectarBD(noUsua, paUsua);
 		this.token = generarToken(noUsua);
 		
 		if(conector != null && token != null) {
 			
-			((Log) Globales.variablesGlobales.get("log")).setMensaje("CONECTADO A LA BD - USUARIO: " + noUsua);
-			((Log) Globales.variablesGlobales.get("log")).registraInfo();
+			Log.mensaje = "CONECTADO A LA BD - USUARIO: " + noUsua;
+			Log.registraInfo();
 
-			Globales.tokens.add(token);
-			Globales.conectores.put(token, conector);
+			Token.tokens.add(token);
+			Conector.conectores.put(token, conector);
 
-			((Log) Globales.variablesGlobales.get("log")).setMensaje("CONSULTANDO USUARIO EN BD " + noUsua + "...");
-			((Log) Globales.variablesGlobales.get("log")).registraInfo();
+			Log.mensaje = "CONSULTANDO USUARIO EN BD " + noUsua + "...";
+			Log.registraInfo();
 
 			this.usuario = obtenerUsuario(noUsua, token);
 
 			if (usuario != null) {
 
-				((Log) Globales.variablesGlobales.get("log")).setMensaje("DATOS DE USUARIO ENCONTRADOS: " + noUsua);
-				((Log) Globales.variablesGlobales.get("log")).registraInfo();
+				Log.mensaje = "DATOS DE USUARIO ENCONTRADOS: " + noUsua;
+				Log.registraInfo();
 				
-				Globales.usuarios.put(token, usuario);
+				//Globales.usuarios.put(token, usuario);
 
 				
-				((Log) Globales.variablesGlobales.get("log")).setMensaje("ACTUALIZANDO FECHA DE ULTIMA SESION DEL USUARIO : " + noUsua);
-				((Log) Globales.variablesGlobales.get("log")).registraInfo();
+				Log.mensaje = "ACTUALIZANDO FECHA DE ULTIMA SESION DEL USUARIO : " + noUsua;
+				Log.registraInfo();
 
 				usuario.setFeUltSes(LocalDateTime.now());
 
 				
-				((Log) Globales.variablesGlobales.get("log")).setMensaje("OBTENIENDO MENUS DEL PERFIL : " + noUsua);
-				((Log) Globales.variablesGlobales.get("log")).registraInfo();
+				Log.mensaje = "OBTENIENDO MENUS DEL PERFIL : " + noUsua;
+				Log.registraInfo();
 
 				this.menus = obtenerListaMenu(usuario.getPerfil().getCoPerf(), token);
 
-				((Log) Globales.variablesGlobales.get("log")).setMensaje("PREPARANDO DATOS DE ENVIO : " + noUsua);
-				((Log) Globales.variablesGlobales.get("log")).registraInfo();
+				Log.mensaje = "PREPARANDO DATOS DE ENVIO : " + noUsua;
+				Log.registraInfo();
 
 				usuarioDTO = new UsuarioDTO();
 
@@ -153,7 +137,7 @@ public class LoginControlador {
 	 */
 	private String generarToken(String usuario) {
 		
-		return (new Authorization()).generarToken(usuario);
+		return (new Token()).generarToken(usuario);
 		
 	}
 	
@@ -179,7 +163,7 @@ public class LoginControlador {
 	 */
 	private List<Menu> obtenerListaMenu(String perfil, String token){
 		
-		return (new MenuDaoImpl()).obtenerMenusXPerfil(perfil);
+		return (new MenuDaoImpl()).obtenerMenusXPerfil(perfil, token);
 		
 	}
 	

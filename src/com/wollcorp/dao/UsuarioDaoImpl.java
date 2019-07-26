@@ -7,10 +7,10 @@ import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.util.List;
 
-import com.wollcorp.globales.Globales;
 import com.wollcorp.globales.Log;
 import com.wollcorp.beans.Perfil;
 import com.wollcorp.beans.Usuario;
+import com.wollcorp.conectores.Conector;
 
 public class UsuarioDaoImpl implements IUsuarioDao {
 	
@@ -25,7 +25,7 @@ public class UsuarioDaoImpl implements IUsuarioDao {
 		Usuario usuario = null;
 		
 		//SQLDatabaseConnection conector = (SQLDatabaseConnection) Globales.variablesGlobales.get("conector");
-		Connection conector = Globales.conectores.get(token);
+		Connection conector = Conector.conectores.get(token);
 		
 		String sql = "EXEC SP_OBTIENE_USUARIO ?";
 			
@@ -36,8 +36,8 @@ public class UsuarioDaoImpl implements IUsuarioDao {
 			
 			ResultSet rs = ps.executeQuery();
 			
-			((Log)Globales.variablesGlobales.get("log")).setMensaje("CONSULTA EXITOSA");
-			((Log)Globales.variablesGlobales.get("log")).registraInfo();
+			Log.mensaje = "CONSULTA EXITOSA";
+			Log.registraInfo();
 			
 			while(rs.next()) {
 				
@@ -76,21 +76,21 @@ public class UsuarioDaoImpl implements IUsuarioDao {
 			
 		} catch (SQLException e) {
 			
-			((Log)Globales.variablesGlobales.get("log")).setMensaje (e.getMessage());
-			((Log)Globales.variablesGlobales.get("log")).setException(e.toString());
-			((Log)Globales.variablesGlobales.get("log")).setCodigo(e.getErrorCode());
-			((Log)Globales.variablesGlobales.get("log")).setEstado(e.getSQLState());
-			((Log)Globales.variablesGlobales.get("log")).setNombreClase(this.getClass().getName());
-			((Log)Globales.variablesGlobales.get("log")).registraError();
+			Log.mensaje = e.getMessage();
+			Log.exception = e.toString();
+			Log.codigo = e.getErrorCode();
+			Log.estado = e.getSQLState();
+			Log.nombreClase = this.getClass().getName();
+			Log.registraError();
 			
 		} catch (NullPointerException e1) {
 			
-			((Log)Globales.variablesGlobales.get("log")).setMensaje (e1.getMessage());
-			((Log)Globales.variablesGlobales.get("log")).setException(e1.toString());
-			((Log)Globales.variablesGlobales.get("log")).setCodigo(-1);
-			((Log)Globales.variablesGlobales.get("log")).setEstado(null);
-			((Log)Globales.variablesGlobales.get("log")).setNombreClase(this.getClass().getName());
-			((Log)Globales.variablesGlobales.get("log")).registraError();
+			Log.mensaje = e1.getMessage();
+			Log.exception = e1.toString();
+			Log.codigo = 0;
+			Log.estado = null;
+			Log.nombreClase = this.getClass().getName();
+			Log.registraError();
 			
 		}
 		
@@ -107,12 +107,15 @@ public class UsuarioDaoImpl implements IUsuarioDao {
 
 		
 	}
+	
+	
+	
+	
 
 	@Override
 	public void actualizarUsuario(Usuario usuario, String token) {
 		
-		//SQLDatabaseConnection conector = (SQLDatabaseConnection) Globales.variablesGlobales.get("conector");
-		Connection conector = Globales.conectores.get(Globales.tokens.get(0));
+		Connection conector = Conector.conectores.get(token);
 		
 		String sql = "EXEC SP_ACTUALIZA_USUARIO ?, ?";
 		
@@ -124,26 +127,26 @@ public class UsuarioDaoImpl implements IUsuarioDao {
 			
 			int rowsAffected = ps.executeUpdate();
 			
-			((Log)Globales.variablesGlobales.get("log")).setMensaje(rowsAffected + " REGISTRO(S) ACTUALIZADOS(S)");
-			((Log)Globales.variablesGlobales.get("log")).registraInfo();
+			Log.mensaje = rowsAffected + " REGISTRO(S) ACTUALIZADOS(S)";
+			Log.registraInfo();
 			
 		} catch(SQLException e) {
 			
-			((Log)Globales.variablesGlobales.get("log")).setMensaje (e.getMessage());
-			((Log)Globales.variablesGlobales.get("log")).setException(e.toString());
-			((Log)Globales.variablesGlobales.get("log")).setCodigo(e.getErrorCode());
-			((Log)Globales.variablesGlobales.get("log")).setEstado(e.getSQLState());
-			((Log)Globales.variablesGlobales.get("log")).setNombreClase(this.getClass().getName());
-			((Log)Globales.variablesGlobales.get("log")).registraError();
+			Log.mensaje = e.getMessage();
+			Log.exception = e.toString();
+			Log.codigo = e.getErrorCode();
+			Log.estado = e.getSQLState();
+			Log.nombreClase = this.getClass().getName();
+			Log.registraError();
 			
 		} catch (ClassCastException e1) {
 			
-			((Log)Globales.variablesGlobales.get("log")).setMensaje (e1.getMessage());
-			((Log)Globales.variablesGlobales.get("log")).setException(e1.toString());
-			((Log)Globales.variablesGlobales.get("log")).setCodigo(-1);
-			((Log)Globales.variablesGlobales.get("log")).setEstado(null);
-			((Log)Globales.variablesGlobales.get("log")).setNombreClase(this.getClass().getName());
-			((Log)Globales.variablesGlobales.get("log")).registraError();
+			Log.mensaje = e1.getMessage();
+			Log.exception = e1.toString();
+			Log.codigo = 0;
+			Log.estado = null;
+			Log.nombreClase = this.getClass().getName();
+			Log.registraError();
 			
 		}
 		
