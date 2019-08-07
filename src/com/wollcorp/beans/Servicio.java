@@ -1,6 +1,7 @@
 package com.wollcorp.beans;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 public class Servicio {
 	
@@ -11,6 +12,7 @@ public class Servicio {
 	private LocalDateTime feCreaServ;
 	private String usModiServ;
 	private LocalDateTime feModiServ;
+	private List<Puerto> puertos;
 	
 	public String getCoServ() {
 		return coServ;
@@ -53,6 +55,12 @@ public class Servicio {
 	}
 	public void setFeModiServ(LocalDateTime feModiServ) {
 		this.feModiServ = feModiServ;
+	}
+	public List<Puerto> getPuertos() {
+		return puertos;
+	}
+	public void setPuertos(List<Puerto> puertos) {
+		this.puertos = puertos;
 	}
 
 }
