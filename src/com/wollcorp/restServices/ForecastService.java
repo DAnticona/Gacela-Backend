@@ -1,14 +1,6 @@
 package com.wollcorp.restServices;
 
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
-
 import javax.ws.rs.Consumes;
-import javax.ws.rs.DefaultValue;
-import javax.ws.rs.FormParam;
 import javax.ws.rs.GET;
 import javax.ws.rs.HeaderParam;
 import javax.ws.rs.POST;
@@ -17,9 +9,12 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
-import com.sun.jersey.core.header.FormDataContentDisposition;
+import com.wollcorp.beans.ForecastCab;
+import com.wollcorp.beans.Respuesta;
+//import com.wollcorp.beans.forecast.Linea;
 import com.wollcorp.controladores.ForecastControlador;
 import com.wollcorp.dto.DataForecastDTO;
+import com.wollcorp.globales.Log;
 
 /**
  * Clase destinada al servicio Forecast
@@ -27,10 +22,10 @@ import com.wollcorp.dto.DataForecastDTO;
  * @version 1.0
  */
 @Path("/forecast")
-@Produces(MediaType.APPLICATION_JSON)
 public class ForecastService {
 	
 	ForecastControlador forecastControlador = new ForecastControlador();
+	String fileName = null;
 		
 	/**
 	 * Procedimiento para el envío de Naves y servicios para el reporte Forecast
@@ -39,7 +34,10 @@ public class ForecastService {
 	 */
 	@GET
 	@Consumes(MediaType.APPLICATION_JSON)
+	@Produces(MediaType.APPLICATION_JSON)
 	public Response getDataForecast(@HeaderParam("token") String token) {
+		
+		// System.out.println("Hola Forecast");
 		
 		DataForecastDTO dataForecastDTO = forecastControlador.getDatosForecast(token);
 		
@@ -58,13 +56,26 @@ public class ForecastService {
 	}
 	
 	@POST
-	@Consumes(MediaType.MULTIPART_FORM_DATA)
-	public Response postFileForecast(@HeaderParam("token") String token,
-			File file) {
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response postFileForecast(@HeaderParam("token") String token, ForecastCab forecastCab) {
 		
-		System.out.println(file.toString());
-
-	    return Response.status(200).entity("Recibido").build();
+		Respuesta res = new Respuesta();
+		
+		fileName = forecastControlador.procesaDataFile(token, forecastCab);
+		
+		if (Log.estado.equals("OK")) {
+			
+			res.setMensaje(fileName);
+			return Response.status(Response.Status.OK).entity(res).build();
+			
+		} else {
+			
+			res.setEstado(Log.estado);
+			res.setMensaje(Log.mensaje);
+			
+			return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(res).build();
+		}
 		
 	}
 	

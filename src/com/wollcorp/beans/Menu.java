@@ -1,6 +1,7 @@
 package com.wollcorp.beans;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 public class Menu {
 
@@ -15,6 +16,7 @@ public class Menu {
 	private LocalDateTime feModiMenu;
 	private String coPadr;
 	private int nrOrde;
+	private List<SubMenu> subMenus;
 	
 	public String getCoMenu() {
 		return coMenu;
@@ -81,6 +83,12 @@ public class Menu {
 	}
 	public void setNrOrde(int nrOrde) {
 		this.nrOrde = nrOrde;
+	}
+	public List<SubMenu> getSubMenus() {
+		return subMenus;
+	}
+	public void setSubMenus(List<SubMenu> subMenus) {
+		this.subMenus = subMenus;
 	}
 
 }

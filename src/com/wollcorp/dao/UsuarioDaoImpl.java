@@ -23,7 +23,6 @@ public class UsuarioDaoImpl implements IUsuarioDao {
 	public Usuario obtenerUsuario(String noUsua, String token) {
 		
 		Usuario usuario = null;
-		
 		//SQLDatabaseConnection conector = (SQLDatabaseConnection) Globales.variablesGlobales.get("conector");
 		Connection conector = Conector.conectores.get(token);
 		
@@ -40,7 +39,6 @@ public class UsuarioDaoImpl implements IUsuarioDao {
 			Log.registraInfo();
 			
 			while(rs.next()) {
-				
 				usuario = new Usuario();
 				
 				usuario.setCoUsua(rs.getString("CO_USUA"));
@@ -95,7 +93,6 @@ public class UsuarioDaoImpl implements IUsuarioDao {
 		}
 		
 		conector = null;
-		
 		return usuario;
 		
 	}

@@ -6,11 +6,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.wollcorp.beans.Menu;
+import com.wollcorp.beans.SubMenu;
 import com.wollcorp.beans.Usuario;
 import com.wollcorp.conectores.Conector;
 import com.wollcorp.dao.LoginDaoImpl;
 import com.wollcorp.dao.MenuDaoImpl;
 import com.wollcorp.dao.UsuarioDaoImpl;
+import com.wollcorp.dto.MenuDTO;
+import com.wollcorp.dto.SubMenuDTO;
 import com.wollcorp.dto.UsuarioDTO;
 import com.wollcorp.globales.Log;
 import com.wollcorp.globales.Login;
@@ -25,10 +28,9 @@ public class LoginControlador {
 	
 	private String noUsua;
 	private String paUsua;
-	private Usuario usuario;
 	private String token;
 	private Connection conector;
-	private List<Menu> menus = new ArrayList<Menu>();
+	
 	
 	/**
 	 * Constructor para la clase LoginControlador
@@ -46,7 +48,12 @@ public class LoginControlador {
 	 */
 	public UsuarioDTO validarLogin(String authorization) {
 		
+		Usuario usuario;
+		List<Menu> menus = new ArrayList<Menu>();
+		
 		UsuarioDTO usuarioDTO = null;
+		List<MenuDTO> menusDTO = new ArrayList<MenuDTO>();
+		List<SubMenuDTO> subMenusDTO = new ArrayList<SubMenuDTO>();
 		
 		this.noUsua = Login.decode(authorization)[0];
 		this.paUsua = Login.decode(authorization)[1];
@@ -58,9 +65,6 @@ public class LoginControlador {
 		this.token = generarToken(noUsua);
 		
 		if(conector != null && token != null) {
-			
-			Log.mensaje = "CONECTADO A LA BD - USUARIO: " + noUsua;
-			Log.registraInfo();
 
 			Token.tokens.add(token);
 			Conector.conectores.put(token, conector);
@@ -68,14 +72,9 @@ public class LoginControlador {
 			Log.mensaje = "CONSULTANDO USUARIO EN BD " + noUsua + "...";
 			Log.registraInfo();
 
-			this.usuario = obtenerUsuario(noUsua, token);
+			usuario = obtenerUsuario(noUsua, token);
 
 			if (usuario != null) {
-
-				Log.mensaje = "DATOS DE USUARIO ENCONTRADOS: " + noUsua;
-				Log.registraInfo();
-				
-				//Globales.usuarios.put(token, usuario);
 
 				
 				Log.mensaje = "ACTUALIZANDO FECHA DE ULTIMA SESION DEL USUARIO : " + noUsua;
@@ -87,10 +86,15 @@ public class LoginControlador {
 				Log.mensaje = "OBTENIENDO MENUS DEL PERFIL : " + noUsua;
 				Log.registraInfo();
 
-				this.menus = obtenerListaMenu(usuario.getPerfil().getCoPerf(), token);
-
-				Log.mensaje = "PREPARANDO DATOS DE ENVIO : " + noUsua;
-				Log.registraInfo();
+				menus = obtenerListaMenu(usuario.getPerfil().getCoPerf(), token);
+				
+				for(int i = 0; i < menus.size(); i++) {
+					
+					List<SubMenu> sm = obtenerSubMenusXPerfil(menus.get(i).getCoMenu(), usuario.getPerfil().getCoPerf(), token);
+					
+					menus.get(i).setSubMenus(sm);
+					
+				}
 
 				usuarioDTO = new UsuarioDTO();
 
@@ -98,7 +102,40 @@ public class LoginControlador {
 				usuarioDTO.setSexo(usuario.getSexo());
 				usuarioDTO.setUsuario(usuario.getNoUsua());
 				usuarioDTO.setPerfil(usuario.getPerfil().getNoPerf());
-				usuarioDTO.setMenus(menus);
+				
+				
+				for(Menu m : menus) {
+					
+					MenuDTO menuDTO = new MenuDTO();
+					
+					subMenusDTO = new ArrayList<SubMenuDTO>();
+					
+					menuDTO.setIdMenu(m.getCoMenu());
+					menuDTO.setNombre(m.getNoMenu());
+					menuDTO.setAlias(m.getAlMenu());
+					menuDTO.setRuta(m.getRuta());
+					
+					for (SubMenu sm: m.getSubMenus()) {
+						
+						SubMenuDTO subMenuDTO = new SubMenuDTO();
+						
+						subMenuDTO.setIdSubMenu(sm.getCoMenu());
+						subMenuDTO.setNombre(sm.getNoMenu());
+						subMenuDTO.setAlias(sm.getAlMenu());
+						subMenuDTO.setRuta(sm.getRuta());
+						subMenuDTO.setIdMenuPadre(m.getCoMenu());
+						
+						subMenusDTO.add(subMenuDTO);
+						
+					}
+					
+					menuDTO.setSubMenus(subMenusDTO);					
+					
+					menusDTO.add(menuDTO);
+					
+				}
+				
+				usuarioDTO.setMenus(menusDTO);
 
 			}
 			
@@ -164,6 +201,12 @@ public class LoginControlador {
 	private List<Menu> obtenerListaMenu(String perfil, String token){
 		
 		return (new MenuDaoImpl()).obtenerMenusXPerfil(perfil, token);
+		
+	}
+	
+	private List<SubMenu> obtenerSubMenusXPerfil(String coMenu, String coPerf, String token) {
+		
+		return (new MenuDaoImpl()).obtenerSubMenusXPerfil(coMenu, coPerf, token);
 		
 	}
 	

@@ -12,7 +12,7 @@ import com.wollcorp.beans.Servicio;
 import com.wollcorp.conectores.Conector;
 import com.wollcorp.globales.Log;
 
-public class ServicioDaoImpl implements ITemplateDao{
+public class ServicioDaoImpl implements IServicioDao{
 
 	@Override
 	public List<Servicio> listar(String token) {
@@ -73,24 +73,25 @@ public class ServicioDaoImpl implements ITemplateDao{
 	}
 
 	@Override
-	public void registrar(Object objeto, String token) {
+	public void registrar(Servicio servicio, String token) {
 		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
-	public void modificar(Object objeto, String token) {
+	public void modificar(Servicio servicio, String token) {
 		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
-	public void eliminar(Object codigo, String token) {
+	public void eliminar(Servicio servicio, String token) {
 		// TODO Auto-generated method stub
 		
 	}
 	
 	public List<Puerto> obtienePuertosXServicio(String coServ, String token) {
+		
 		List<Puerto> puertos = new ArrayList<Puerto>();
 		Puerto puerto = null;
 

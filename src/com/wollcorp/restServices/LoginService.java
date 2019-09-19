@@ -30,25 +30,37 @@ public class LoginService {
 		
 		UsuarioDTO usuarioDTO = null;
 		
-		usuarioDTO = loginControlador.validarLogin(auth);
-		
-		if(usuarioDTO != null) {
+		if (auth != null) {
 			
-			return Response.status(Response.Status.OK)
-					.header("Token", loginControlador.getToken())
-					.entity(usuarioDTO).build();
+			usuarioDTO = loginControlador.validarLogin(auth);
 			
-		} else if(Log.codigo == 18456 && Log.estado == "S0001"){
-			
-			return Response.status(Response.Status.UNAUTHORIZED)
-					.entity(Log.mensaje).build();
-			
-		} else {
-			
-			return Response.status(Response.Status.INTERNAL_SERVER_ERROR)
-					.entity(Log.mensaje).build();
+			if(usuarioDTO != null) {
+				
+				return Response.status(Response.Status.OK)
+						.header("Access-Control-Allow-Origin", "*")
+						.header("Token", loginControlador.getToken())
+						.entity(usuarioDTO).build();
+				
+			} else if(Log.codigo == 18456 && Log.estado == "S0001"){
+				
+				return Response.status(Response.Status.UNAUTHORIZED)
+						.header("Access-Control-Allow-Origin", "*")
+						.entity(Log.mensaje).build();
+				
+			} else {
+				
+				return Response.status(Response.Status.INTERNAL_SERVER_ERROR)
+						.header("Access-Control-Allow-Origin", "*")
+						.entity(Log.mensaje).build();
+				
+			}
 			
 		}
+		
+		return Response.status(Response.Status.BAD_REQUEST)
+				.header("Access-Control-Allow-Origin", "*")
+				.entity("No se encontraron las credenciales").build();
+		
 		 
 	}
 

@@ -2,15 +2,13 @@ package com.wollcorp.dto;
 
 import java.util.List;
 
-import com.wollcorp.beans.Menu;
-
 public class UsuarioDTO {
 	
 	private String nombre;
 	private String sexo;
 	private String usuario;
 	private String perfil;
-	private List<Menu> menus;
+	private List<MenuDTO> menus;
 	
 	public String getNombre() {
 		return nombre;
@@ -36,10 +34,10 @@ public class UsuarioDTO {
 	public void setPerfil(String perfil) {
 		this.perfil = perfil;
 	}
-	public List<Menu> getMenus() {
+	public List<MenuDTO> getMenus() {
 		return menus;
 	}
-	public void setMenus(List<Menu> menus) {
+	public void setMenus(List<MenuDTO> menus) {
 		this.menus = menus;
 	}
 	

@@ -12,7 +12,7 @@ import com.wollcorp.beans.Servicio;
 import com.wollcorp.conectores.Conector;
 import com.wollcorp.globales.Log;
 
-public class NaveDaoImpl implements ITemplateDao {
+public class NaveDaoImpl implements INaveDao {
 
 	@Override
 	public List<Nave> listar(String token) {
@@ -84,19 +84,19 @@ public class NaveDaoImpl implements ITemplateDao {
 	}
 
 	@Override
-	public void registrar(Object objeto, String token) {
+	public void registrar(Nave nave, String token) {
 		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
-	public void modificar(Object objeto, String token) {
+	public void modificar(Nave nave, String token) {
 		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
-	public void eliminar(Object codigo, String token) {
+	public void eliminar(Nave nave, String token) {
 		// TODO Auto-generated method stub
 		
 	}
