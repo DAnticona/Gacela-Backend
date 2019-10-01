@@ -10,10 +10,10 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
 import com.wollcorp.beans.ForecastCab;
-import com.wollcorp.beans.Respuesta;
 //import com.wollcorp.beans.forecast.Linea;
 import com.wollcorp.controladores.ForecastControlador;
 import com.wollcorp.dto.DataForecastDTO;
+import com.wollcorp.dto.RespuestaDTO;
 import com.wollcorp.globales.Log;
 
 /**
@@ -60,7 +60,7 @@ public class ForecastService {
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response postFileForecast(@HeaderParam("token") String token, ForecastCab forecastCab) {
 		
-		Respuesta res = new Respuesta();
+		RespuestaDTO res = new RespuestaDTO();
 		
 		fileName = forecastControlador.procesaDataFile(token, forecastCab);
 		

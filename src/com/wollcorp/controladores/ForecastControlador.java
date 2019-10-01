@@ -12,6 +12,7 @@ import com.wollcorp.beans.forecast.Resultado;
 import com.wollcorp.beans.forecast.UbicLinPod;
 import com.wollcorp.beans.forecast.UbicTipTamEst;
 import com.wollcorp.controladores.conventersExcel.ForecastExcel;
+import com.wollcorp.controladores.forecast.ForecastPWS2PartnerControlador;
 import com.wollcorp.controladores.forecast.ForecastWSA1PartnerControlador;
 import com.wollcorp.controladores.forecast.ForecastWSA2PartnerControlador;
 import com.wollcorp.controladores.forecast.ForecastWSA3PartnerControlador;
@@ -156,7 +157,11 @@ public class ForecastControlador {
 				case "000006":
 					
 					fileName = (new ForecastWSA4PartnerControlador()).generaForecastWSA4Partner(coFcst, forecastCab.getNoNave(), token);
-					break;					
+					break;
+					
+				case "000007":
+					fileName = (new ForecastPWS2PartnerControlador()).generaForecastPWS2Partner(coFcst, forecastCab.getNoNave(), token);
+					break;
 					
 				default:
 					resultado = generaResumenForecast(coFcst, token);
@@ -259,15 +264,21 @@ public class ForecastControlador {
 					}
 
 				}
-				
-				System.out.println(fileName);
 
 			}
 
 		}
+		
+		borraForecast(coFcst, token);
 
 		return fileName;
 
+	}
+	
+	private void borraForecast(String coFcst, String token) {
+		
+		(new ForecastDaoImpl()).eliminar(coFcst, token);
+		
 	}
 
 	private List<Nave> obtieneNaves(String token) {
@@ -317,5 +328,6 @@ public class ForecastControlador {
 		return (new UbicTipTamEstDao()).listar(coServ, token);
 
 	}
+	
 
 }

@@ -1,11 +1,13 @@
 package com.wollcorp.beans;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 public class Perfil {
 	
 	private String coPerf;
 	private String noPerf;
+	private List<Menu> menus;
 	private String usCreaPerf;
 	private String usModiPerf;
 	private LocalDateTime feCreaPerf;
@@ -46,5 +48,11 @@ public class Perfil {
 	}
 	public void setFeModiPerf(LocalDateTime feModiPerf) {
 		this.feModiPerf = feModiPerf;
+	}
+	public List<Menu> getMenus() {
+		return menus;
+	}
+	public void setMenus(List<Menu> menus) {
+		this.menus = menus;
 	}
 }

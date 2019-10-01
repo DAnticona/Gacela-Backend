@@ -1,6 +1,6 @@
 package com.wollcorp.controladores;
 
-import com.wollcorp.dao.LoginDaoImpl;
+import com.wollcorp.dao.ConexionDaoImpl;
 import com.wollcorp.globales.Log;
 import com.wollcorp.globales.Token;
 
@@ -24,7 +24,7 @@ public class LogoutControlador {
 	
 	private boolean desconectarBD(String noUsua, String token) {
 		
-		return (new LoginDaoImpl()).desconectarBD(noUsua, token);
+		return (new ConexionDaoImpl()).desconectarBD(noUsua, token);
 			
 	}
 	

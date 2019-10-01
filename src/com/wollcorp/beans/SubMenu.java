@@ -15,6 +15,7 @@ public class SubMenu {
 	private LocalDateTime feModiMenu;
 	private String coPadr;
 	private int nrOrde;
+	private String icono;
 	
 	public String getCoMenu() {
 		return coMenu;
@@ -82,5 +83,10 @@ public class SubMenu {
 	public void setNrOrde(int nrOrde) {
 		this.nrOrde = nrOrde;
 	}
-
+	public String getIcono() {
+		return icono;
+	}
+	public void setIcono(String icono) {
+		this.icono = icono;
+	}
 }

@@ -1,23 +1,28 @@
 package com.wollcorp.controladores;
 
-import java.sql.Connection;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.wollcorp.beans.Conexion;
 import com.wollcorp.beans.Menu;
+import com.wollcorp.beans.Perfil;
 import com.wollcorp.beans.SubMenu;
 import com.wollcorp.beans.Usuario;
 import com.wollcorp.conectores.Conector;
-import com.wollcorp.dao.LoginDaoImpl;
+import com.wollcorp.dao.ConexionDaoImpl;
 import com.wollcorp.dao.MenuDaoImpl;
 import com.wollcorp.dao.UsuarioDaoImpl;
-import com.wollcorp.dto.MenuDTO;
-import com.wollcorp.dto.SubMenuDTO;
-import com.wollcorp.dto.UsuarioDTO;
+import com.wollcorp.dto.loginDTO.ConexionDTO;
+import com.wollcorp.dto.loginDTO.MenuDTO;
+import com.wollcorp.dto.loginDTO.PerfilDTO;
+import com.wollcorp.dto.loginDTO.SubMenuDTO;
+import com.wollcorp.dto.loginDTO.UsuarioDTO;
 import com.wollcorp.globales.Log;
 import com.wollcorp.globales.Login;
 import com.wollcorp.globales.Token;
+import com.wollcorp.restServices.responses.ErrorRes;
+import com.wollcorp.restServices.responses.LoginRes;
 
 /**
  * Esta clase es el controlador del servicio Login (LoginService.java)
@@ -29,7 +34,8 @@ public class LoginControlador {
 	private String noUsua;
 	private String paUsua;
 	private String token;
-	private Connection conector;
+	private Conexion conexion;
+	// private Connection conector;
 	
 	
 	/**
@@ -46,14 +52,18 @@ public class LoginControlador {
 	 * Procedimiento para validar el login enviado al servicio LoginService, es el punto inicial de toda la validación
 	 * @param login
 	 */
-	public UsuarioDTO validarLogin(String authorization) {
+	public LoginRes validarLogin(String authorization) {
 		
+		// DECLARACION DE LOS BEANS
 		Usuario usuario;
 		List<Menu> menus = new ArrayList<Menu>();
 		
+		// DECLARACION DE LOS DTO
+		LoginRes loginRes = new LoginRes();
 		UsuarioDTO usuarioDTO = null;
-		List<MenuDTO> menusDTO = new ArrayList<MenuDTO>();
-		List<SubMenuDTO> subMenusDTO = new ArrayList<SubMenuDTO>();
+		
+		PerfilDTO perfilDTO = null;
+		ConexionDTO conexionDTO = null;
 		
 		this.noUsua = Login.decode(authorization)[0];
 		this.paUsua = Login.decode(authorization)[1];
@@ -61,14 +71,15 @@ public class LoginControlador {
 		Log.mensaje = "VALIDANDO NUEVO LOGIN " + noUsua + "...";
 		Log.registraInfo();
 		
-		this.conector = conectarBD(noUsua, paUsua);
+		// this.conector = conectarBD(noUsua, paUsua);
+		this.conexion = conectarBD(noUsua, paUsua);
 		this.token = generarToken(noUsua);
 		
-		if(conector != null && token != null) {
+		if(this.conexion != null && this.token != null) {
 
 			Token.tokens.add(token);
-			Conector.conectores.put(token, conector);
-
+			Conector.conectores.put(token, conexion.getConector());
+			
 			Log.mensaje = "CONSULTANDO USUARIO EN BD " + noUsua + "...";
 			Log.registraInfo();
 
@@ -88,79 +99,77 @@ public class LoginControlador {
 
 				menus = obtenerListaMenu(usuario.getPerfil().getCoPerf(), token);
 				
+				// System.out.println("Tamaño Menus: " + menus.size());
+				
 				for(int i = 0; i < menus.size(); i++) {
 					
-					List<SubMenu> sm = obtenerSubMenusXPerfil(menus.get(i).getCoMenu(), usuario.getPerfil().getCoPerf(), token);
+					// System.out.println("Menus: " + menus.get(i).getAlMenu());
+					
+					List<SubMenu> sm = obtenerSubMenusXPerfil(menus.get(i).getCoMenu(),
+																usuario.getPerfil().getCoPerf(),
+																token);
+					
+					// System.out.println("Menus: " + menus.get(i).getAlMenu());
 					
 					menus.get(i).setSubMenus(sm);
 					
 				}
 
-				usuarioDTO = new UsuarioDTO();
+				
+				
+				
+				usuarioDTO = generaUsuarioDTO(usuario);
 
-				usuarioDTO.setNombre(usuario.getNoPers() + " " + usuario.getApPate());
-				usuarioDTO.setSexo(usuario.getSexo());
-				usuarioDTO.setUsuario(usuario.getNoUsua());
-				usuarioDTO.setPerfil(usuario.getPerfil().getNoPerf());
+				perfilDTO = generaPerfilDTO(usuario.getPerfil());
+				
+				List<MenuDTO> menusDTO = generaMenus(menus);
+				
+				perfilDTO.setMenus(menusDTO);
+				usuarioDTO.setPerfil(perfilDTO);
+				
+				conexionDTO = new ConexionDTO();
+				
+				conexionDTO.setServidor(this.conexion.getServidor());
+				conexionDTO.setDataBase(this.conexion.getDataBase());
+				conexionDTO.setToken(this.token);
 				
 				
-				for(Menu m : menus) {
-					
-					MenuDTO menuDTO = new MenuDTO();
-					
-					subMenusDTO = new ArrayList<SubMenuDTO>();
-					
-					menuDTO.setIdMenu(m.getCoMenu());
-					menuDTO.setNombre(m.getNoMenu());
-					menuDTO.setAlias(m.getAlMenu());
-					menuDTO.setRuta(m.getRuta());
-					
-					for (SubMenu sm: m.getSubMenus()) {
-						
-						SubMenuDTO subMenuDTO = new SubMenuDTO();
-						
-						subMenuDTO.setIdSubMenu(sm.getCoMenu());
-						subMenuDTO.setNombre(sm.getNoMenu());
-						subMenuDTO.setAlias(sm.getAlMenu());
-						subMenuDTO.setRuta(sm.getRuta());
-						subMenuDTO.setIdMenuPadre(m.getCoMenu());
-						
-						subMenusDTO.add(subMenuDTO);
-						
-					}
-					
-					menuDTO.setSubMenus(subMenusDTO);					
-					
-					menusDTO.add(menuDTO);
-					
-				}
+				loginRes.setConexion(conexionDTO);
+				loginRes.setConexion(conexionDTO);
+				loginRes.setUsuario(usuarioDTO);
 				
-				usuarioDTO.setMenus(menusDTO);
 
+			} else {
+				
+				loginRes.setError(new ErrorRes());
+				loginRes.getError().setMensaje("Usuario o Contraseña Incorrecta");
+				
 			}
+			
+
+		} else {
+			
+			loginRes.setError(new ErrorRes());
+			loginRes.getError().setMensaje("Usuario o Contraseña Incorrecta");
 			
 		}
 		
-		return usuarioDTO;
+		return loginRes;
 		
-	}
-	
-	
-	public String getToken() {
-		return this.token;
 	}
 	
 	
 	
 	/**
-	 * Envía la orden para conectarse a la BD, se comunica con el DAO y devuelve el objeto conexión en caso de error, devuelve null
+	 * Envía la orden para conectarse a la BD, se comunica con el DAO y devuelve el objeto conexión.
+	 * En caso de error, devuelve null
 	 * @param coUsua
 	 * @param paUsua
 	 * @return objeto conexión, null si no se pudo conectar
 	 */
-	private Connection conectarBD(String usuario, String password) {
+	private Conexion conectarBD(String usuario, String password) {
 		
-		return (new LoginDaoImpl()).conectarBD(usuario, password);
+		return (new ConexionDaoImpl()).conectarBD(usuario, password);
 			
 	}
 	
@@ -207,6 +216,84 @@ public class LoginControlador {
 	private List<SubMenu> obtenerSubMenusXPerfil(String coMenu, String coPerf, String token) {
 		
 		return (new MenuDaoImpl()).obtenerSubMenusXPerfil(coMenu, coPerf, token);
+		
+	}
+	
+	
+	
+	private UsuarioDTO generaUsuarioDTO(Usuario usuario) {
+		
+		UsuarioDTO usuarioDTO = new UsuarioDTO();
+
+		usuarioDTO.setCoPers(usuario.getCoPers());
+		usuarioDTO.setTiDocu(usuario.getTiDocu());
+		usuarioDTO.setNuDocu(usuario.getNuDocu());
+		usuarioDTO.setNoPers(usuario.getNoPers());
+		usuarioDTO.setApPate(usuario.getApPate());
+		usuarioDTO.setApMate(usuario.getApMate());
+		usuarioDTO.setFeNaci(usuario.getFeNaci());
+		usuarioDTO.setSexo(usuario.getSexo());
+		usuarioDTO.setNoUsua(usuario.getNoUsua());
+		
+		
+		return usuarioDTO;
+		
+	}
+	
+	
+	private PerfilDTO generaPerfilDTO(Perfil perfil) {
+		
+		
+		PerfilDTO perfilDTO = new PerfilDTO();
+		
+		perfilDTO.setCoPerf(perfil.getCoPerf());
+		perfilDTO.setNoPerf(perfil.getNoPerf());
+		
+		
+		return perfilDTO;
+		
+	}
+	
+	
+	
+	private List<MenuDTO> generaMenus(List<Menu> menus) {
+		
+		List<MenuDTO> menusDTO = new ArrayList<MenuDTO>();
+		
+		for(Menu m : menus) {
+			
+			MenuDTO menuDTO = new MenuDTO();
+			
+			menuDTO.setCoMenu(m.getCoMenu());
+			menuDTO.setNoMenu(m.getNoMenu());
+			menuDTO.setAlMenu(m.getAlMenu());
+			menuDTO.setRuta(m.getRuta());
+			
+			
+			List<SubMenuDTO> subMenusDTO = new ArrayList<SubMenuDTO>();
+			
+			for (SubMenu sm: m.getSubMenus()) {
+				
+				SubMenuDTO subMenuDTO = new SubMenuDTO();
+				
+				subMenuDTO.setCoSubMenu(sm.getCoMenu());
+				subMenuDTO.setNoSubMenu(sm.getNoMenu());
+				subMenuDTO.setAlSubMenu(sm.getAlMenu());
+				subMenuDTO.setRuta(sm.getRuta());
+				subMenuDTO.setCoMenuPadre(m.getCoMenu());
+				subMenuDTO.setIcono(sm.getIcono());
+				
+				subMenusDTO.add(subMenuDTO);
+				
+			}
+			
+			menuDTO.setSubMenus(subMenusDTO);					
+			
+			menusDTO.add(menuDTO);
+			
+		}
+		
+		return menusDTO;
 		
 	}
 	

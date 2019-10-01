@@ -12,6 +12,7 @@ import java.time.LocalDateTime;
 public class Persona {
 
    private String coPers;
+   private String tiDocu;
    private String nuDocu;
    private String noPers;
    private String apPate;
@@ -22,6 +23,8 @@ public class Persona {
    private String usModiPers;
    private LocalDateTime feCreaPers;
    private LocalDateTime feModiPers;
+   private String email;
+   private String rutaImagen;
    
 	public String getCoPers() {
 		return coPers;
@@ -113,6 +116,16 @@ public class Persona {
 	}
 	
 	
+	public String getTiDocu() {
+		return tiDocu;
+	}
+
+
+	public void setTiDocu(String tiDocu) {
+		this.tiDocu = tiDocu;
+	}
+
+
 	public LocalDateTime getFeCreaPers() {
 		return feCreaPers;
 	}
@@ -130,6 +143,26 @@ public class Persona {
 	
 	public void setFeModiPers(LocalDateTime feModiPers) {
 		this.feModiPers = feModiPers;
+	}
+
+
+	public String getEmail() {
+		return email;
+	}
+
+
+	public void setEmail(String email) {
+		this.email = email;
+	}
+
+
+	public String getRutaImagen() {
+		return rutaImagen;
+	}
+
+
+	public void setRutaImagen(String rutaImagen) {
+		this.rutaImagen = rutaImagen;
 	}
 
 }

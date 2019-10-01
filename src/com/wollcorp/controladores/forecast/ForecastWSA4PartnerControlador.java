@@ -8,16 +8,15 @@ import java.nio.file.FileSystems;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.StandardCopyOption;
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import org.apache.poi.ss.util.CellRangeAddress;
 import org.apache.poi.xssf.usermodel.XSSFCell;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
-import com.wollcorp.beans.forecast.ForecastWSA3PartnerCargo;
 import com.wollcorp.beans.forecast.ForecastWSA4Partner;
 import com.wollcorp.beans.forecast.ForecastWSA4PartnerCargo;
 import com.wollcorp.dao.ForecastDaoImpl;
@@ -68,9 +67,11 @@ public class ForecastWSA4PartnerControlador {
 	private String generaExcelForecastWSA4Partner(List<ForecastWSA4Partner> data, String noNave, String coFcst,
 			List<ForecastWSA4PartnerCargo> cargos) {
 		
-		String fileName = "ForecastWSA4Partner_" + coFcst + ".xlsx";
+		String fileName = "ForecastWSA4Partner_" + Instant.now().toEpochMilli() + ".xlsx";
 		String filePath = "c:\\opt\\assets\\reports\\" + fileName;
 		String templateWSA4Partner = "c:\\opt\\assets\\templates\\forecastWSA4Partner.xlsx";
+		
+		// System.out.println("Codigo Forecast: " + coFcst);
 		
 		List<String> cabeceras = new ArrayList<String>();
 		
@@ -160,7 +161,7 @@ public class ForecastWSA4PartnerControlador {
 						
 						if(celda.trim().equals(dataFull.get(j).getTipo().trim())) {
 							
-							System.out.println("Cantidad: " + dataFull.get(j).getCantidad());
+							// System.out.println("Cantidad: " + dataFull.get(j).getCantidad());
 							
 							cell = sheet1.getRow(r).getCell(c + 3);
 							cell.setCellValue(dataFull.get(j).getCantidad());
@@ -232,7 +233,7 @@ public class ForecastWSA4PartnerControlador {
 				
 				for(int j = 0; j < dataEmpty.size(); j++) {
 					
-					int c = 11;
+					int c = 10;
 					cell = sheet1.getRow(r).getCell(c);
 					String celda = cell.getStringCellValue();
 					
@@ -265,8 +266,8 @@ public class ForecastWSA4PartnerControlador {
 						// 40'hc
 						cell = sheet1.getRow(cabecera).getCell(c + 3);
 						celda = cell.getStringCellValue();
-						// System.out.println(celda);
-						// System.out.println(dataFull.get(j).getTipo());
+						System.out.println(celda);
+						System.out.println(dataFull.get(j).getTipo());
 						
 						if(celda.trim().equals(dataEmpty.get(j).getTipo().trim())) {
 							
@@ -336,13 +337,20 @@ public class ForecastWSA4PartnerControlador {
 			
 			if(dg.isEmpty()) {
 				
+				// cell = sheet1.createRow(r).createCell(1);
+				
 				cell = sheet1.getRow(r).getCell(1);
 				cell.setCellValue("-");
 				
 			} else {
 				
+				// System.out.println(dg.size());
+				
 				for (int i = 0; i < dg.size(); i++) {
+					
+					// System.out.println(dg.get(i).getDescripcion());
 
+					// cell = sheet1.createRow(r).createCell(1);
 					cell = sheet1.getRow(r).getCell(1);
 					cell.setCellValue(dg.get(i).getDescripcion());
 					

@@ -8,10 +8,9 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
-
 import com.wollcorp.controladores.LoginControlador;
-import com.wollcorp.dto.UsuarioDTO;
-import com.wollcorp.globales.Log;
+import com.wollcorp.restServices.responses.ErrorRes;
+import com.wollcorp.restServices.responses.LoginRes;
 
 /**
  * Clase destinada al Login del sistema
@@ -28,38 +27,43 @@ public class LoginService {
 	@POST
 	public Response servicioLogin(@HeaderParam("authorization") String auth) {
 		
-		UsuarioDTO usuarioDTO = null;
+		LoginRes datosLogin = null;
 		
 		if (auth != null) {
 			
-			usuarioDTO = loginControlador.validarLogin(auth);
+			datosLogin = loginControlador.validarLogin(auth);
 			
-			if(usuarioDTO != null) {
+			if(datosLogin.getConexion() != null) {
 				
 				return Response.status(Response.Status.OK)
-						.header("Access-Control-Allow-Origin", "*")
-						.header("Token", loginControlador.getToken())
-						.entity(usuarioDTO).build();
+						.entity(datosLogin).build();
 				
-			} else if(Log.codigo == 18456 && Log.estado == "S0001"){
+			} else if(datosLogin.getError() != null) {
 				
 				return Response.status(Response.Status.UNAUTHORIZED)
-						.header("Access-Control-Allow-Origin", "*")
-						.entity(Log.mensaje).build();
+						.entity(datosLogin).build();
 				
 			} else {
 				
+				datosLogin = new LoginRes();
+				datosLogin.setError(new ErrorRes());
+				datosLogin.getError().setMensaje("Error interno");
+				
 				return Response.status(Response.Status.INTERNAL_SERVER_ERROR)
 						.header("Access-Control-Allow-Origin", "*")
-						.entity(Log.mensaje).build();
+						.entity(datosLogin).build();
 				
 			}
 			
 		}
 		
+		datosLogin = new LoginRes();
+		datosLogin.setError(new ErrorRes());
+		datosLogin.getError().setMensaje("Datos incorrectos");
+		
 		return Response.status(Response.Status.BAD_REQUEST)
 				.header("Access-Control-Allow-Origin", "*")
-				.entity("No se encontraron las credenciales").build();
+				.entity(datosLogin).build();
 		
 		 
 	}

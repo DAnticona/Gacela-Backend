@@ -8,6 +8,7 @@ import java.nio.file.FileSystems;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.StandardCopyOption;
+import java.time.Instant;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -39,7 +40,7 @@ public class ForecastExcel {
 			ForecastCab forecastCab, String coFcst, List<Consolidado> consolidado) {
 
 		// String template = "c:\\opt\\assets\\templates\\forecastWSA1.xlsx";
-		String fileName = "ForecastWSA1_" + coFcst + ".xlsx";
+		String fileName = "ForecastWSA1_" + Instant.now().toEpochMilli() + ".xlsx";
 		String filePath = ForecastExcel.filePath + fileName;
 
 		String titulo1 = "BOOKING FOR " + forecastCab.getNoServ();

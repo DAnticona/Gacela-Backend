@@ -52,6 +52,7 @@ public class Conector {
 			// LOGGER.log(Level.INFO, "USUARIO:" + user + " - CONECTADO A LA BD");
 			Log.mensaje = "USUARIO:" + user + " - CONECTADO A LA BD";
 			Log.registraInfo();
+			
 
 		} catch (SQLException e) {
 
@@ -61,6 +62,8 @@ public class Conector {
 			Log.estado = e.getSQLState();
 			Log.nombreClase = this.getClass().getName();
 			Log.registraError();
+			
+			connection = null;
 
 		} catch (ClassNotFoundException e) {
 
@@ -70,10 +73,14 @@ public class Conector {
 			Log.estado = null;
 			Log.nombreClase = this.getClass().getName();
 			Log.registraError();
+			
+			connection = null;
 
 		}
-
+		
 		return connection;
+
+		
 	}
 
 	public boolean closeConnection(Connection connection) {
@@ -119,6 +126,14 @@ public class Conector {
 			
 		}
 
+	}
+
+	public String getServer() {
+		return server;
+	}
+
+	public String getDatabase() {
+		return database;
 	}
 
 }

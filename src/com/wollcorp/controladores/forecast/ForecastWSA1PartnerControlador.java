@@ -4,6 +4,8 @@ import java.awt.Color;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.time.Instant;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -64,7 +66,7 @@ public class ForecastWSA1PartnerControlador {
 	private String generaExcelForecastWSA1Partner(List<ForecastWSA1Partner> data, String alNave, String coFcst,
 			List<ForecastWSA1PartnerCargo> cargos) {
 
-		String fileName = "ForecastWSA2Partner_" + coFcst + ".xlsx";
+		String fileName = "ForecastWSA1Partner_" + Instant.now().toEpochMilli() + ".xlsx";
 		String filePath = "c:\\opt\\assets\\reports\\" + fileName;
 
 		String titulo1 = "MV. " + alNave;

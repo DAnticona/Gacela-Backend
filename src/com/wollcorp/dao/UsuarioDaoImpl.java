@@ -12,14 +12,12 @@ import com.wollcorp.beans.Perfil;
 import com.wollcorp.beans.Usuario;
 import com.wollcorp.conectores.Conector;
 
-public class UsuarioDaoImpl implements IUsuarioDao {
+public class UsuarioDaoImpl {
 	
-	@Override
 	public List<Usuario> listarUsuarios(){
 		return null;
 	}
 	
-	@Override
 	public Usuario obtenerUsuario(String noUsua, String token) {
 		
 		Usuario usuario = null;
@@ -50,6 +48,7 @@ public class UsuarioDaoImpl implements IUsuarioDao {
 				usuario.setFeModiUsua(rs.getTimestamp("FE_MODI_USUA").toLocalDateTime());
 				
 				usuario.setCoPers(rs.getString("CO_PERS"));
+				usuario.setTiDocu(rs.getString("CO_TI_DOCU"));
 				usuario.setNuDocu(rs.getString("NU_DOCU"));
 				usuario.setNoPers(rs.getString("NO_PERS"));
 				usuario.setApPate(rs.getString("AP_PATE"));
@@ -60,6 +59,8 @@ public class UsuarioDaoImpl implements IUsuarioDao {
 				usuario.setUsModiPers(rs.getString("US_MODI_PERS"));
 				usuario.setFeCreaPers(rs.getTimestamp("FE_CREA_PERS").toLocalDateTime());
 				usuario.setFeModiPers(rs.getTimestamp("FE_MODI_PERS").toLocalDateTime());
+				usuario.setEmail(rs.getString("EMAIL"));
+				usuario.setRutaImagen(rs.getString("RUTA_IMAGEN"));
 				
 				usuario.setPerfil(new Perfil());
 				
@@ -81,6 +82,8 @@ public class UsuarioDaoImpl implements IUsuarioDao {
 			Log.nombreClase = this.getClass().getName();
 			Log.registraError();
 			
+			usuario = null;
+			
 		} catch (NullPointerException e1) {
 			
 			Log.mensaje = e1.getMessage();
@@ -90,6 +93,8 @@ public class UsuarioDaoImpl implements IUsuarioDao {
 			Log.nombreClase = this.getClass().getName();
 			Log.registraError();
 			
+			usuario = null;
+			
 		}
 		
 		conector = null;
@@ -98,7 +103,6 @@ public class UsuarioDaoImpl implements IUsuarioDao {
 	}
 	
 	
-	@Override
 	public void registrarUsuario(Usuario usuario, String token) {
 		
 
@@ -109,7 +113,6 @@ public class UsuarioDaoImpl implements IUsuarioDao {
 	
 	
 
-	@Override
 	public void actualizarUsuario(Usuario usuario, String token) {
 		
 		Connection conector = Conector.conectores.get(token);
@@ -149,7 +152,6 @@ public class UsuarioDaoImpl implements IUsuarioDao {
 		
 	}
 
-	@Override
 	public void eliminarUsuario(String noUsua, String token) {
 		
 		/*

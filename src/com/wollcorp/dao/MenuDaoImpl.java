@@ -35,7 +35,7 @@ public class MenuDaoImpl {
 
 			ResultSet rs = ps.executeQuery();
 
-			Log.mensaje = "CONSULTA EXITOSA";
+			Log.mensaje = "CONSULTA MENUS X PERFIL EXITOSA";
 			Log.registraInfo();
 
 			while (rs.next()) {
@@ -119,6 +119,7 @@ public class MenuDaoImpl {
 				subMenu.setFeModiMenu(rs.getTimestamp("FE_MODI_MENU").toLocalDateTime());
 				subMenu.setCoPadr(rs.getString("CO_PADR"));
 				subMenu.setNrOrde(rs.getInt("NR_ORDE"));
+				subMenu.setIcono(rs.getString("ICONO"));
 
 				subMenus.add(subMenu);
 

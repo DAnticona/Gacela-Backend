@@ -10,6 +10,8 @@ import java.util.List;
 import com.wollcorp.beans.ForecastCab;
 import com.wollcorp.beans.ForecastDet;
 import com.wollcorp.beans.forecast.Consolidado;
+import com.wollcorp.beans.forecast.ForecastPWS2Partner;
+import com.wollcorp.beans.forecast.ForecastPWS2PartnerCargo;
 import com.wollcorp.beans.forecast.ForecastWSA1Partner;
 import com.wollcorp.beans.forecast.ForecastWSA1PartnerCargo;
 import com.wollcorp.beans.forecast.ForecastWSA2Partner;
@@ -109,8 +111,37 @@ public class ForecastDaoImpl {
 
 	}
 
-	public void eliminar(ForecastCab forecast, String token) {
-		// TODO Auto-generated method stub
+	public void eliminar(String coFcst, String token) {
+		
+		Connection conector = Conector.conectores.get(token);
+
+		String sql = "EXEC SP_ELIMINA_FORECAST ?";
+
+		try {
+
+			PreparedStatement ps = conector.prepareStatement(sql);
+
+			ps.setString(1, coFcst);
+
+			int rowsAffected = ps.executeUpdate();
+			
+			Log.mensaje = rowsAffected + " REGISTRO(S) ACTUALIZADOS(S)";
+			Log.registraInfo();
+
+			conector = null;
+
+		} catch (SQLException e) {
+
+			Log.mensaje = e.getMessage();
+			Log.exception = e.toString();
+			Log.codigo = e.getErrorCode();
+			Log.estado = e.getSQLState();
+			Log.nombreClase = this.getClass().getName();
+			Log.registraError();
+
+			conector = null;
+			
+		}
 
 	}
 
@@ -331,6 +362,63 @@ public class ForecastDaoImpl {
 	}
 	
 	
+	
+	
+	public List<ForecastPWS2Partner> obtieneForecastPWS2Partner(String coFcst, String token) {
+
+		Connection conector = Conector.conectores.get(token);
+
+		List<ForecastPWS2Partner> data = new ArrayList<ForecastPWS2Partner>();
+
+		String sql = "EXEC SP_GENERA_FORECAST_PWS2_PARTNER ?";
+
+		try {
+
+			PreparedStatement ps = conector.prepareStatement(sql);
+
+			ps.setString(1, coFcst);
+
+			ResultSet rs = ps.executeQuery();
+
+			while (rs.next()) {
+
+				ForecastPWS2Partner forecast = new ForecastPWS2Partner();
+
+				forecast.setCoFcst(rs.getString("CO_FCST"));
+				forecast.setNro(rs.getInt("NRO"));
+				forecast.setPod(rs.getString("POD"));
+				forecast.setTipo(rs.getString("TIPO"));
+				forecast.setEstado(rs.getString("ESTADO"));
+				forecast.setCantidad(rs.getInt("CANTIDAD"));
+				forecast.setPesoKg(rs.getInt("PESO"));
+
+				data.add(forecast);
+
+			}
+
+			conector = null;
+
+			return data;
+
+		} catch (SQLException e) {
+
+			Log.mensaje = e.getMessage();
+			Log.exception = e.toString();
+			Log.codigo = e.getErrorCode();
+			Log.estado = e.getSQLState();
+			Log.nombreClase = this.getClass().getName();
+			Log.registraError();
+
+			conector = null;
+			return null;
+		}
+
+	}
+	
+	
+	
+	
+	
 	public List<ForecastWSA1PartnerCargo> obtieneForecastWSA1PartnerCargo(String coFcst, String token) {
 		
 		Connection conector = Conector.conectores.get(token);
@@ -526,6 +614,60 @@ public class ForecastDaoImpl {
 		}
 		
 	}
+	
+	
+	
+	
+	public List<ForecastPWS2PartnerCargo> obtieneForecastPWS2PartnerCargo(String coFcst, String token) {
+		
+		Connection conector = Conector.conectores.get(token);
+
+		List<ForecastPWS2PartnerCargo> data = new ArrayList<ForecastPWS2PartnerCargo>();
+
+		String sql = "EXEC SP_GENERA_FORECAST_WSA4_PARTNER_CARGO ?";
+		
+		try {
+
+			PreparedStatement ps = conector.prepareStatement(sql);
+
+			ps.setString(1, coFcst);
+
+			ResultSet rs = ps.executeQuery();
+
+			while (rs.next()) {
+
+				ForecastPWS2PartnerCargo cargo = new ForecastPWS2PartnerCargo();
+
+				cargo.setCoFcst(rs.getString("CO_FCST"));
+				cargo.setTipo(rs.getString("TIPO"));
+				cargo.setDescripcion(rs.getString("DES_CARGO"));
+
+				data.add(cargo);
+
+			}
+
+			conector = null;
+
+			return data;
+
+		} catch (SQLException e) {
+
+			Log.mensaje = e.getMessage();
+			Log.exception = e.toString();
+			Log.codigo = e.getErrorCode();
+			Log.estado = e.getSQLState();
+			Log.nombreClase = this.getClass().getName();
+			Log.registraError();
+
+			conector = null;
+			return null;
+		}
+		
+	}
+
+	
+	
+	
 	
 	
 	public List<Resultado> obtieneForecast(String coFcst, String token) {

@@ -10,33 +10,28 @@ import com.wollcorp.beans.Perfil;
 import com.wollcorp.conectores.Conector;
 import com.wollcorp.globales.Log;
 
-public class PerfilDaoImpl implements IPerfilDao {
+public class PerfilDaoImpl {
 
-	@Override
 	public List<Perfil> obtenerPerfiles(String coPerf) {
 		
 		return null;
 		
 	}
 	
-	@Override
 	public Perfil obtenerPerfil(String coPerf) {
 		return null;
 	}
 
-	@Override
 	public void registrarPerfil(Perfil perfil) {
 		
 		
 	}
 
-	@Override
 	public void modificarPerfil(Perfil perfil) {
 		
 		
 	}
 
-	@Override
 	public void eliminarPerfil(String coPerf) {
 		// TODO Auto-generated method stub
 		
@@ -66,10 +61,10 @@ public class PerfilDaoImpl implements IPerfilDao {
 				
 				perfil.setCoPerf(rs.getString("CO_PERF"));
 				perfil.setNoPerf(rs.getString("NO_PERF"));
-				perfil.setUsCreaPerf(rs.getString("US_CREA_PERF"));
-				perfil.setUsModiPerf(rs.getString("US_MODI_PERF"));
-				perfil.setFeCreaPerf(rs.getTimestamp("FE_CREA_PERF").toLocalDateTime());
-				perfil.setFeModiPerf(rs.getTimestamp("FE_MODI_PERF").toLocalDateTime());
+				perfil.setUsCreaPerf(rs.getString("US_CREA"));
+				perfil.setUsModiPerf(rs.getString("US_MODI"));
+				perfil.setFeCreaPerf(rs.getTimestamp("FE_CREA").toLocalDateTime());
+				perfil.setFeModiPerf(rs.getTimestamp("FE_MODI").toLocalDateTime());
 				
 			}
 			
