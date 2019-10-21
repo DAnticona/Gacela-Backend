@@ -14,7 +14,14 @@ public class ForecastDet {
 	private String imo;
 	private String un;
 	private String temperature;
+	private String commodity;
 	
+	public String getCommodity() {
+		return commodity;
+	}
+	public void setCommodity(String commodity) {
+		this.commodity = commodity;
+	}
 	public String getCoFcst() {
 		return coFcst;
 	}

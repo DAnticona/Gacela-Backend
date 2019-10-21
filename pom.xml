@@ -63,14 +63,7 @@
 			<version>3.8.1</version>
 		</dependency>
 
-		<!-- https://mvnrepository.com/artifact/com.owlike/genson -->
-		<!-- <dependency> <groupId>com.owlike</groupId> <artifactId>genson</artifactId> 
-			<version>1.5</version> </dependency> -->
-
-		<!-- <dependency> <groupId>com.google.code.gson</groupId> <artifactId>gson</artifactId> 
-			<version>2.2.4</version> </dependency> -->
-
-		<!-- https://mvnrepository.com/artifact/org.apache.poi/poi -->
+		<!-- PARA LOS ARCHIVOS EXCEL -->
 		<dependency>
 			<groupId>org.apache.poi</groupId>
 			<artifactId>poi</artifactId>
@@ -80,6 +73,13 @@
 			<groupId>org.apache.poi</groupId>
 			<artifactId>poi-ooxml</artifactId>
 			<version>4.1.0</version>
+		</dependency>
+		
+		<!-- PARA TRANSFORMAR JSON A OBJETOS POR LAS FECHAS -->
+		<dependency>
+		  <groupId>com.fasterxml.jackson.datatype</groupId>
+		  <artifactId>jackson-datatype-jsr310</artifactId>
+		  <version>2.9.6</version>
 		</dependency>
 
 	</dependencies>

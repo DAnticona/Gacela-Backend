@@ -6,8 +6,8 @@ import java.util.List;
 import com.wollcorp.beans.Menu;
 import com.wollcorp.beans.SubMenu;
 import com.wollcorp.dao.MenuDaoImpl;
-import com.wollcorp.dto.loginDTO.MenuDTO;
-import com.wollcorp.dto.loginDTO.SubMenuDTO;
+import com.wollcorp.dto.MenuDTO;
+import com.wollcorp.dto.SubMenuDTO;
 import com.wollcorp.globales.Token;
 import com.wollcorp.restServices.responses.MenuRes;
 

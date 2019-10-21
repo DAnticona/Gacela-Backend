@@ -59,10 +59,9 @@ public class LoginService {
 		
 		datosLogin = new LoginRes();
 		datosLogin.setError(new ErrorRes());
-		datosLogin.getError().setMensaje("Datos incorrectos");
+		datosLogin.getError().setMensaje("No se llegaron a  enviar todos los datos requeridos");
 		
 		return Response.status(Response.Status.BAD_REQUEST)
-				.header("Access-Control-Allow-Origin", "*")
 				.entity(datosLogin).build();
 		
 		 

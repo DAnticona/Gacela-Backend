@@ -2,7 +2,6 @@ package com.wollcorp.dto;
 
 import java.util.List;
 
-import com.wollcorp.dto.loginDTO.UsuarioDTO;
 import com.wollcorp.restServices.responses.ErrorRes;
 
 public class MiPerfilDTO {

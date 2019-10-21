@@ -54,13 +54,14 @@ public class UsuarioDaoImpl {
 				usuario.setApPate(rs.getString("AP_PATE"));
 				usuario.setApMate(rs.getString("AP_MATE"));
 				usuario.setSexo(rs.getString("SEXO"));
-				usuario.setFeNaci(rs.getDate("FE_NACI").toLocalDate());
+				usuario.setFeNaci(rs.getDate("FE_NACI"));
 				usuario.setUsCreaPers(rs.getString("US_CREA_PERS"));
 				usuario.setUsModiPers(rs.getString("US_MODI_PERS"));
 				usuario.setFeCreaPers(rs.getTimestamp("FE_CREA_PERS").toLocalDateTime());
 				usuario.setFeModiPers(rs.getTimestamp("FE_MODI_PERS").toLocalDateTime());
 				usuario.setEmail(rs.getString("EMAIL"));
 				usuario.setRutaImagen(rs.getString("RUTA_IMAGEN"));
+				usuario.setNoImagen(rs.getString("NO_IMAGEN"));
 				
 				usuario.setPerfil(new Perfil());
 				

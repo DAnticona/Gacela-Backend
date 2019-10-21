@@ -22,13 +22,13 @@ public class PerfilService {
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
 	@Path("/usuario")
-	public Response getPerfilxUsuario(@HeaderParam("token") String token, @QueryParam("user") String coUsua) {
+	public Response getPerfilxUsuario(@HeaderParam("token") String token, @QueryParam("user") String noUsua) {
 
 		PerfilRes perfilRes = new PerfilRes();
 
-		if (token != null && coUsua != null) {
+		if (token != null && noUsua != null) {
 
-			perfilRes = perfilControlador.getPerfilxUsuario(token, coUsua);
+			perfilRes = perfilControlador.getPerfilxUsuario(token, noUsua);
 
 			if (perfilRes.getPerfil() != null) {
 

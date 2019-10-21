@@ -10,7 +10,7 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
 import com.wollcorp.controladores.TipoDocumentoControlador;
-import com.wollcorp.controladores.UsuariosControlador;
+import com.wollcorp.controladores.UsuarioControlador;
 import com.wollcorp.restServices.responses.ErrorRes;
 import com.wollcorp.restServices.responses.TipoDocumentoRes;
 import com.wollcorp.restServices.responses.UsuarioRes;

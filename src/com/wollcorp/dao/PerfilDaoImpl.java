@@ -37,7 +37,7 @@ public class PerfilDaoImpl {
 		
 	}
 	
-	public Perfil obtenerPerfilXUsuario(String coUsua, String token) {
+	public Perfil obtenerPerfilXUsuario(String noUsua, String token) {
 		
 		Perfil perfil = null;
 		
@@ -48,7 +48,7 @@ public class PerfilDaoImpl {
 		try {
 			
 			PreparedStatement ps = conector.prepareStatement(sql);
-			ps.setString(1, coUsua);
+			ps.setString(1, noUsua);
 			
 			ResultSet rs = ps.executeQuery();
 			

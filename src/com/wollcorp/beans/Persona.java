@@ -1,7 +1,7 @@
 package com.wollcorp.beans;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.Date;
 
 /***********************************************************************
  * Module:  Persona.java
@@ -18,13 +18,14 @@ public class Persona {
    private String apPate;
    private String apMate;
    private String sexo;
-   private LocalDate feNaci;
+   private Date feNaci;
    private String usCreaPers;
    private String usModiPers;
    private LocalDateTime feCreaPers;
    private LocalDateTime feModiPers;
    private String email;
    private String rutaImagen;
+   private String noImagen;
    
 	public String getCoPers() {
 		return coPers;
@@ -86,12 +87,12 @@ public class Persona {
 	}
 	
 	
-	public LocalDate getFeNaci() {
+	public Date getFeNaci() {
 		return feNaci;
 	}
 	
 	
-	public void setFeNaci(LocalDate feNaci) {
+	public void setFeNaci(Date feNaci) {
 		this.feNaci = feNaci;
 	}
 	
@@ -164,5 +165,17 @@ public class Persona {
 	public void setRutaImagen(String rutaImagen) {
 		this.rutaImagen = rutaImagen;
 	}
+
+
+	public String getNoImagen() {
+		return noImagen;
+	}
+
+
+	public void setNoImagen(String noImagen) {
+		this.noImagen = noImagen;
+	}
+
+
 
 }

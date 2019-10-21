@@ -1,6 +1,10 @@
 package com.wollcorp.dto;
 
 import java.time.LocalDate;
+import java.util.Date;
+
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateDeserializer;
 
 public class PersonaDTO {
 
@@ -11,7 +15,7 @@ public class PersonaDTO {
 	private String apPate;
 	private String apMate;
 	private String sexo;
-	private LocalDate feNaci;
+	private Date feNaci;
 	private String email;
 	private String rutaImagen;
 	
@@ -51,10 +55,10 @@ public class PersonaDTO {
 	public void setSexo(String sexo) {
 		this.sexo = sexo;
 	}
-	public LocalDate getFeNaci() {
+	public Date getFeNaci() {
 		return feNaci;
 	}
-	public void setFeNaci(LocalDate feNaci) {
+	public void setFeNaci(Date feNaci) {
 		this.feNaci = feNaci;
 	}
 	public String getEmail() {

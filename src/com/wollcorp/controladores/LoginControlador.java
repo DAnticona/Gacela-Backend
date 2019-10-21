@@ -13,11 +13,11 @@ import com.wollcorp.conectores.Conector;
 import com.wollcorp.dao.ConexionDaoImpl;
 import com.wollcorp.dao.MenuDaoImpl;
 import com.wollcorp.dao.UsuarioDaoImpl;
-import com.wollcorp.dto.loginDTO.ConexionDTO;
-import com.wollcorp.dto.loginDTO.MenuDTO;
-import com.wollcorp.dto.loginDTO.PerfilDTO;
-import com.wollcorp.dto.loginDTO.SubMenuDTO;
-import com.wollcorp.dto.loginDTO.UsuarioDTO;
+import com.wollcorp.dto.ConexionDTO;
+import com.wollcorp.dto.MenuDTO;
+import com.wollcorp.dto.PerfilDTO;
+import com.wollcorp.dto.SubMenuDTO;
+import com.wollcorp.dto.UsuarioDTO;
 import com.wollcorp.globales.Log;
 import com.wollcorp.globales.Login;
 import com.wollcorp.globales.Token;
@@ -75,84 +75,99 @@ public class LoginControlador {
 		this.conexion = conectarBD(noUsua, paUsua);
 		this.token = generarToken(noUsua);
 		
-		if(this.conexion != null && this.token != null) {
-
-			Token.tokens.add(token);
-			Conector.conectores.put(token, conexion.getConector());
+		if(this.conexion != null) {
 			
-			Log.mensaje = "CONSULTANDO USUARIO EN BD " + noUsua + "...";
-			Log.registraInfo();
-
-			usuario = obtenerUsuario(noUsua, token);
-
-			if (usuario != null) {
+			if(this.token != null) {
+				
+				Token.tokens.add(token);
+				Conector.conectores.put(token, conexion.getConector());
+				
+				/*
+				 * Log.mensaje = "CONSULTANDO USUARIO EN BD " + noUsua + "...";
+				 * Log.registraInfo();
 
 				
-				Log.mensaje = "ACTUALIZANDO FECHA DE ULTIMA SESION DEL USUARIO : " + noUsua;
-				Log.registraInfo();
-
-				usuario.setFeUltSes(LocalDateTime.now());
-
-				
-				Log.mensaje = "OBTENIENDO MENUS DEL PERFIL : " + noUsua;
-				Log.registraInfo();
-
-				menus = obtenerListaMenu(usuario.getPerfil().getCoPerf(), token);
-				
-				// System.out.println("Tamaño Menus: " + menus.size());
-				
-				for(int i = 0; i < menus.size(); i++) {
+				 * usuario = obtenerUsuario(noUsua, token);
+				 * 
+				 * if (usuario != null) {
+				 * 
+				 * 
+				 * Log.mensaje = "ACTUALIZANDO FECHA DE ULTIMA SESION DEL USUARIO : " + noUsua;
+				 * Log.registraInfo();
+				 * 
+				 * usuario.setFeUltSes(LocalDateTime.now());
+				 * 
+				 * 
+				 * Log.mensaje = "OBTENIENDO MENUS DEL PERFIL : " + noUsua; Log.registraInfo();
+				 * 
+				 * menus = obtenerListaMenu(usuario.getPerfil().getCoPerf(), token);
+				 * 
+				 * // System.out.println("Tamaño Menus: " + menus.size());
+				 * 
+				 * for(int i = 0; i < menus.size(); i++) {
+				 * 
+				 * // System.out.println("Menus: " + menus.get(i).getAlMenu());
+				 * 
+				 * List<SubMenu> sm = obtenerSubMenusXPerfil(menus.get(i).getCoMenu(),
+				 * usuario.getPerfil().getCoPerf(), token);
+				 * 
+				 * // System.out.println("Menus: " + menus.get(i).getAlMenu());
+				 * 
+				 * menus.get(i).setSubMenus(sm);
+				 * 
+				 * }
+				 * 
+				 * 
+				 * 
+				 * 
+				 * usuarioDTO = generaUsuarioDTO(usuario);
+				 * 
+				 * perfilDTO = generaPerfilDTO(usuario.getPerfil());
+				 * 
+				 * List<MenuDTO> menusDTO = generaMenus(menus);
+				 * 
+				 * perfilDTO.setMenus(menusDTO); usuarioDTO.setPerfil(perfilDTO);
+				 */
 					
-					// System.out.println("Menus: " + menus.get(i).getAlMenu());
+					conexionDTO = new ConexionDTO();
 					
-					List<SubMenu> sm = obtenerSubMenusXPerfil(menus.get(i).getCoMenu(),
-																usuario.getPerfil().getCoPerf(),
-																token);
+					conexionDTO.setServidor(this.conexion.getServidor());
+					conexionDTO.setDataBase(this.conexion.getDataBase());
+					conexionDTO.setToken(this.token);
+					conexionDTO.setNoUsua(this.noUsua);
 					
-					// System.out.println("Menus: " + menus.get(i).getAlMenu());
 					
-					menus.get(i).setSubMenus(sm);
-					
-				}
-
+					loginRes.setConexion(conexionDTO);
+					loginRes.setConexion(conexionDTO);
+//					loginRes.setUsuario(usuarioDTO);
 				
-				
-				
-				usuarioDTO = generaUsuarioDTO(usuario);
-
-				perfilDTO = generaPerfilDTO(usuario.getPerfil());
-				
-				List<MenuDTO> menusDTO = generaMenus(menus);
-				
-				perfilDTO.setMenus(menusDTO);
-				usuarioDTO.setPerfil(perfilDTO);
-				
-				conexionDTO = new ConexionDTO();
-				
-				conexionDTO.setServidor(this.conexion.getServidor());
-				conexionDTO.setDataBase(this.conexion.getDataBase());
-				conexionDTO.setToken(this.token);
-				
-				
-				loginRes.setConexion(conexionDTO);
-				loginRes.setConexion(conexionDTO);
-				loginRes.setUsuario(usuarioDTO);
-				
-
 			} else {
+				
+				loginRes.setError(new ErrorRes());
+				loginRes.getError().setMensaje("Error al generar el token");
+				
+			}
+
+			
+				
+
+		} else {
 				
 				loginRes.setError(new ErrorRes());
 				loginRes.getError().setMensaje("Usuario o Contraseña Incorrecta");
 				
-			}
-			
-
-		} else {
-			
-			loginRes.setError(new ErrorRes());
-			loginRes.getError().setMensaje("Usuario o Contraseña Incorrecta");
-			
 		}
+		
+		/*
+		} 
+	
+		 * else {
+		 * 
+		 * loginRes.setError(new ErrorRes());
+		 * loginRes.getError().setMensaje("Usuario o Contraseña Incorrecta");
+		 * 
+		 * }
+		 */
 		
 		return loginRes;
 		

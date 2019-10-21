@@ -2,15 +2,16 @@ package com.wollcorp.controladores;
 
 import com.wollcorp.beans.Perfil;
 import com.wollcorp.dao.PerfilDaoImpl;
-import com.wollcorp.dto.loginDTO.PerfilDTO;
+import com.wollcorp.dto.PerfilDTO;
 import com.wollcorp.globales.Token;
+import com.wollcorp.restServices.responses.ErrorRes;
 import com.wollcorp.restServices.responses.PerfilRes;
 
 public class PerfilControlador {
 	
 	
 	
-	public PerfilRes getPerfilxUsuario(String token, String coUsua) {
+	public PerfilRes getPerfilxUsuario(String token, String noUsua) {
 		PerfilRes perfilRes = new PerfilRes();
 		
 		Perfil perfil;
@@ -21,17 +22,23 @@ public class PerfilControlador {
 			
 			perfilDTO = new PerfilDTO();
 			
-			perfil = (new PerfilDaoImpl()).obtenerPerfilXUsuario(coUsua, token);
+			perfil = (new PerfilDaoImpl()).obtenerPerfilXUsuario(noUsua, token);
 			
 			perfilDTO.setCoPerf(perfil.getCoPerf());
 			perfilDTO.setNoPerf(perfil.getNoPerf());
 			
+			perfilRes.setPerfil(perfilDTO);
+			
 		} else {
 			
 			perfilDTO = null;
+			
+			perfilRes.setError(new ErrorRes());
+			perfilRes.getError().setMensaje("Token inválido");
+			
 		}
 		
-		perfilRes.setPerfil(perfilDTO);
+		
 		
 		return perfilRes;
 		
