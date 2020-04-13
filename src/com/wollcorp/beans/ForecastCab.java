@@ -10,6 +10,7 @@ public class ForecastCab {
 	private String coNave;
 	private String noNave;
 	private String alNave;
+	private String fgProp;
 	private List<ForecastDet> detalles;
 	
 	public String getCoForecast() {
@@ -54,9 +55,11 @@ public class ForecastCab {
 	public void setAlNave(String alNave) {
 		this.alNave = alNave;
 	}
+	public String getFgProp() {
+		return fgProp;
+	}
+	public void setFgProp(String fgProp) {
+		this.fgProp = fgProp;
+	}
 	
-
-	
-	
-
 }

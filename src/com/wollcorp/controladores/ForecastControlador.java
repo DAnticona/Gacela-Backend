@@ -1,10 +1,11 @@
 package com.wollcorp.controladores;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
 import com.wollcorp.beans.ForecastCab;
-import com.wollcorp.beans.Nave;
+import com.wollcorp.beans.NaveTemp;
 import com.wollcorp.beans.Puerto;
 import com.wollcorp.beans.Servicio;
 import com.wollcorp.beans.forecast.Consolidado;
@@ -23,7 +24,8 @@ import com.wollcorp.dao.ServicioDaoImpl;
 import com.wollcorp.dao.UbicLinPodDao;
 import com.wollcorp.dao.UbicTipTamEstDao;
 import com.wollcorp.dto.DataForecastDTO;
-import com.wollcorp.dto.NaveDTO;
+import com.wollcorp.dto.ForecastCabDTO;
+import com.wollcorp.dto.NaveDTOTemp;
 import com.wollcorp.dto.PuertoDTO;
 import com.wollcorp.dto.ServicioDTO;
 import com.wollcorp.globales.Log;
@@ -31,14 +33,14 @@ import com.wollcorp.globales.Token;
 
 public class ForecastControlador {
 
-	private List<Nave> naves;
+	private List<NaveTemp> naves;
 	private List<Servicio> servicios;
 	private List<Puerto> puertosXServicio;
 
-	public DataForecastDTO getDatosForecast(String token) {
+	public DataForecastDTO getDatosForecast(String token) throws SQLException {
 
 		DataForecastDTO dataForecastDTO = null;
-		NaveDTO naveDTO = null;
+		NaveDTOTemp naveDTO = null;
 		ServicioDTO servicioDTO = null;
 		PuertoDTO puertoDTO = null;
 
@@ -50,9 +52,9 @@ public class ForecastControlador {
 
 			if (naves != null) {
 
-				for (Nave nave : naves) {
+				for (NaveTemp nave : naves) {
 
-					naveDTO = new NaveDTO();
+					naveDTO = new NaveDTOTemp();
 
 					naveDTO.setCodigo(nave.getCoNave());
 					naveDTO.setLongName(nave.getNoNave());
@@ -89,8 +91,8 @@ public class ForecastControlador {
 
 						}
 
-						servicioDTO.setCodigo(servicio.getCoServ());
-						servicioDTO.setNombre(servicio.getNoServ());
+						servicioDTO.setCoServ(servicio.getCoServ());
+						servicioDTO.setNoServ(servicio.getNoServ());
 
 						dataForecastDTO.getServicios().add(servicioDTO);
 
@@ -110,13 +112,13 @@ public class ForecastControlador {
 
 	}
 
-	public String procesaDataFile(String token, ForecastCab forecastCab) {
+	public String procesaDataFile(String token, ForecastCabDTO forecastCab) {
 
-		String coFcst = null;
+		String coForecast = null;
 		List<Resultado> resultado = null;
 		List<UbicLinPod> rows = null;
 		List<UbicTipTamEst> cols = null;
-		List<Consolidado> consolidado = null; 
+		List<Consolidado> consolidado = null;
 
 		String fileName = null;
 
@@ -131,44 +133,27 @@ public class ForecastControlador {
 			Log.mensaje = "REGISTRANDO FORECAST EN BD";
 			Log.registraInfo();
 
-			coFcst = registrarForecast(forecastCab, token);
+			coForecast = registrarForecast(forecastCab, token);
+			
+			// System.out.println(coForecast);
 
-			if (coFcst != null) {
+			if (coForecast != null) {
 
 				Log.mensaje = "GENERANDO RESUMEN DEL FORECAST";
 				Log.registraInfo();
 				
-				switch (forecastCab.getCoServ()) {
+				ForecastCab fc = (new ForecastDaoImpl()).getForecastCab(coForecast, token);
 				
-				case "000002":
-					fileName = (new ForecastWSA1PartnerControlador()).generaForecastWSA1Partner(coFcst, forecastCab.getAlNave(), token);
-					break;
+				// System.out.println(fc.getAlNave());
+				// System.out.println(fc.getNoNave());
 				
-				case "000004":
+				if(fc.getFgProp().equals("S")) { // SI ES FORECAST LOCAL
 					
-					fileName = (new ForecastWSA2PartnerControlador()).generaForecastWSA2Partner(coFcst, forecastCab.getAlNave(), token);
-					break;
+					// System.out.println("antes resultado");
 					
-				case "000005":
+					resultado = (new ForecastDaoImpl()).generaForecastLocal(coForecast, token);
 					
-					fileName = (new ForecastWSA3PartnerControlador()).generaForecastWSA3Partner(coFcst, forecastCab.getAlNave(), token);
-					break;
-					
-				case "000006":
-					
-					fileName = (new ForecastWSA4PartnerControlador()).generaForecastWSA4Partner(coFcst, forecastCab.getNoNave(), token);
-					break;
-					
-				case "000007":
-					fileName = (new ForecastPWS2PartnerControlador()).generaForecastPWS2Partner(coFcst, forecastCab.getNoNave(), token);
-					break;
-					
-				default:
-					resultado = generaResumenForecast(coFcst, token);
-					break;
-				}
-
-				if (resultado != null) {
+					// System.out.println("resultado: " + resultado);
 					
 					ForecastExcel fcstExcel = new ForecastExcel();
 
@@ -186,7 +171,7 @@ public class ForecastControlador {
 							Log.mensaje = "GENERANDO CONSOLIDADO DEL FORECAST";
 							Log.registraInfo();
 
-							consolidado = generaConsolidadoForecast(coFcst, token);
+							consolidado = generaConsolidadoForecast(coForecast, token);
 
 							if (consolidado.isEmpty()) {
 
@@ -195,25 +180,9 @@ public class ForecastControlador {
 
 							}
 
-							fileName = fcstExcel.generaExcelForecastWSA1(resultado, rows, cols, forecastCab, coFcst, consolidado);
+							fileName = fcstExcel.generaExcelForecastWSA1(resultado, rows, cols, fc, coForecast, consolidado);
 
 						}
-
-					} else if (forecastCab.getCoServ().equals("000002")) { // WSA1 - PARTNER 
-
-						Log.mensaje = "GENERANDO CONSOLIDADO DEL FORECAST PARTNER";
-						Log.registraInfo();
-
-						consolidado = generaConsolidadoForecast(coFcst, token);
-
-						if (consolidado.isEmpty()) {
-
-							Log.mensaje = "NO HAY DATOS DE IMO, UN Y TEMPERATURA";
-							Log.registraInfo();
-
-						}
-
-						fileName = fcstExcel.generaExcelForecastWSA1Partner(resultado, forecastCab, coFcst, consolidado);
 
 					} else if (forecastCab.getCoServ().equals("000003")) { // WSA2 - LOCAL
 						
@@ -229,7 +198,7 @@ public class ForecastControlador {
 							Log.mensaje = "GENERANDO CONSOLIDADO DEL FORECAST";
 							Log.registraInfo();
 
-							consolidado = generaConsolidadoForecast(coFcst, token);
+							consolidado = generaConsolidadoForecast(coForecast, token);
 
 							if (consolidado.isEmpty()) {
 
@@ -241,35 +210,175 @@ public class ForecastControlador {
 							Log.mensaje = "GENERANDO EXCEL...";
 							Log.registraInfo();
 
-							fileName = fcstExcel.generaExcelForecastWSA2(resultado, rows, cols, forecastCab, coFcst, consolidado);
+							fileName = fcstExcel.generaExcelForecastWSA2(resultado, rows, cols, fc, coForecast, consolidado);
 
 						}
-						
-					} else if (forecastCab.getCoServ().equals("000004")) { // WSA2 - LOCAL
-						
-						Log.mensaje = "GENERANDO CONSOLIDADO DEL FORECAST PARTNER";
-						Log.registraInfo();
-
-						consolidado = generaConsolidadoForecast(coFcst, token);
-
-						if (consolidado.isEmpty()) {
-
-							Log.mensaje = "NO HAY DATOS DE IMO, UN Y TEMPERATURA";
-							Log.registraInfo();
-
-						}
-
-						// fileName = fcstExcel.generaExcelForecastWSA2Partner(resultado, forecastCab, coFcst, consolidado);
 						
 					}
-
+					
+				} else { // SI ES FORECAST PARTNER
+					
+					switch (forecastCab.getCoServ()) {
+					
+						case "000001": // WSA1 - PARTNER
+							fileName = (new ForecastWSA1PartnerControlador()).generaForecastWSA1Partner(coForecast, fc.getAlNave(), token);
+							break;
+						
+						case "000003": // WSA2 - PARTNER
+							
+							fileName = (new ForecastWSA2PartnerControlador()).generaForecastWSA2Partner(coForecast, fc.getAlNave(), token);
+							break;
+							
+						case "000005": // WSA3 - PARTNER
+							
+							fileName = (new ForecastWSA3PartnerControlador()).generaForecastWSA3Partner(coForecast, fc.getAlNave(), token);
+							break;
+							
+						case "000006": // WSA4 - PARTNER
+							
+							fileName = (new ForecastWSA4PartnerControlador()).generaForecastWSA4Partner(coForecast, fc.getNoNave(), token);
+							break;
+							
+						case "000007": // PWS2 - PARTNER
+							fileName = (new ForecastPWS2PartnerControlador()).generaForecastPWS2Partner(coForecast, fc.getNoNave(), token);
+							break;
+					}
+					
 				}
+				
+				
+//				switch (forecastCab.getCoServ()) {
+//				
+//					case "000002":
+//						fileName = (new ForecastWSA1PartnerControlador()).generaForecastWSA1Partner(coForecast, fc.getAlNave(), token);
+//						break;
+//					
+//					case "000004":
+//						
+//						fileName = (new ForecastWSA2PartnerControlador()).generaForecastWSA2Partner(coForecast, fc.getAlNave(), token);
+//						break;
+//						
+//					case "000005":
+//						
+//						fileName = (new ForecastWSA3PartnerControlador()).generaForecastWSA3Partner(coForecast, fc.getAlNave(), token);
+//						break;
+//						
+//					case "000006":
+//						
+//						fileName = (new ForecastWSA4PartnerControlador()).generaForecastWSA4Partner(coForecast, fc.getAlNave(), token);
+//						break;
+//						
+//					case "000007":
+//						fileName = (new ForecastPWS2PartnerControlador()).generaForecastPWS2Partner(coForecast, fc.getNoNave(), token);
+//						break;
+//						
+//					//default:
+//						// resultado = (new ForecastDaoImpl()).obtieneForecast(coForecast, token);
+//						// break;
+//				}
+
+//				if (resultado != null) {
+//					
+//					ForecastExcel fcstExcel = new ForecastExcel();
+//
+//					if (forecastCab.getCoServ().equals("000001")) { // WSA1 - LOCAL
+//
+//						Log.mensaje = "OBTENIENDO UBICACIONES DEL REPORTE FORECAST";
+//						Log.registraInfo();
+//
+//						rows = obtieneRowsLinPod(forecastCab.getCoServ(), token);
+//
+//						cols = obtieneColsTipTamEst(forecastCab.getCoServ(), token);
+//
+//						if (!rows.isEmpty() && !cols.isEmpty()) {
+//
+//							Log.mensaje = "GENERANDO CONSOLIDADO DEL FORECAST";
+//							Log.registraInfo();
+//
+//							consolidado = generaConsolidadoForecast(coForecast, token);
+//
+//							if (consolidado.isEmpty()) {
+//
+//								Log.mensaje = "NO HAY DATOS DE IMO, UN Y TEMPERATURA";
+//								Log.registraInfo();
+//
+//							}
+//
+//							fileName = fcstExcel.generaExcelForecastWSA1(resultado, rows, cols, fc, coForecast, consolidado);
+//
+//						}
+//
+//					} else if (forecastCab.getCoServ().equals("000002")) { // WSA1 - PARTNER 
+//
+//						Log.mensaje = "GENERANDO CONSOLIDADO DEL FORECAST PARTNER";
+//						Log.registraInfo();
+//
+//						consolidado = generaConsolidadoForecast(coForecast, token);
+//
+//						if (consolidado.isEmpty()) {
+//
+//							Log.mensaje = "NO HAY DATOS DE IMO, UN Y TEMPERATURA";
+//							Log.registraInfo();
+//
+//						}
+//
+//						fileName = fcstExcel.generaExcelForecastWSA1Partner(resultado, fc, coForecast, consolidado);
+//
+//					} else if (forecastCab.getCoServ().equals("000003")) { // WSA2 - LOCAL
+//						
+//						Log.mensaje = "OBTENIENDO UBICACIONES DEL REPORTE FORECAST";
+//						Log.registraInfo();
+//
+//						rows = obtieneRowsLinPod(forecastCab.getCoServ(), token);
+//
+//						cols = obtieneColsTipTamEst(forecastCab.getCoServ(), token);
+//
+//						if (!rows.isEmpty() && !cols.isEmpty()) {
+//
+//							Log.mensaje = "GENERANDO CONSOLIDADO DEL FORECAST";
+//							Log.registraInfo();
+//
+//							consolidado = generaConsolidadoForecast(coForecast, token);
+//
+//							if (consolidado.isEmpty()) {
+//
+//								Log.mensaje = "NO HAY DATOS DE IMO, UN Y TEMPERATURA";
+//								Log.registraInfo();
+//
+//							}
+//							
+//							Log.mensaje = "GENERANDO EXCEL...";
+//							Log.registraInfo();
+//
+//							fileName = fcstExcel.generaExcelForecastWSA2(resultado, rows, cols, fc, coForecast, consolidado);
+//
+//						}
+//						
+//					} else if (forecastCab.getCoServ().equals("000004")) { // WSA2 - LOCAL
+//						
+//						Log.mensaje = "GENERANDO CONSOLIDADO DEL FORECAST PARTNER";
+//						Log.registraInfo();
+//
+//						consolidado = generaConsolidadoForecast(coForecast, token);
+//
+//						if (consolidado.isEmpty()) {
+//
+//							Log.mensaje = "NO HAY DATOS DE IMO, UN Y TEMPERATURA";
+//							Log.registraInfo();
+//
+//						}
+//
+//						// fileName = fcstExcel.generaExcelForecastWSA2Partner(resultado, fc, coForecast, consolidado);
+//						
+//					}
+//
+//				}
 
 			}
 
 		}
 		
-		borraForecast(coFcst, token);
+		borraForecast(coForecast, token);
 
 		return fileName;
 
@@ -281,9 +390,9 @@ public class ForecastControlador {
 		
 	}
 
-	private List<Nave> obtieneNaves(String token) {
+	private List<NaveTemp> obtieneNaves(String token) throws SQLException {
 
-		return (new NaveDaoImpl()).listar(token);
+		return (new NaveDaoImpl()).listarNavesActivas(token);
 
 	}
 
@@ -299,17 +408,17 @@ public class ForecastControlador {
 
 	}
 
-	private String registrarForecast(ForecastCab forecastCab, String token) {
+	private String registrarForecast(ForecastCabDTO forecastCab, String token) {
 
 		return (new ForecastDaoImpl()).registrar(forecastCab, token);
 
 	}
 
-	private List<Resultado> generaResumenForecast(String coFcst, String token) {
-		
-		return (new ForecastDaoImpl()).obtieneForecast(coFcst, token);
-		
-	}
+//	private List<Resultado> generaResumenForecast(String coFcst, String token) {
+//		
+//		return (new ForecastDaoImpl()).obtieneForecast(coFcst, token);
+//		
+//	}
 
 	private List<Consolidado> generaConsolidadoForecast(String coFcst, String token) {
 

@@ -5,19 +5,19 @@ import java.util.List;
 
 public class DataForecastDTO {
 	
-	private List<NaveDTO> naves;
+	private List<NaveDTOTemp> naves;
 	private List<ServicioDTO> servicios;
 	
 	public DataForecastDTO() {
-		naves = new ArrayList<NaveDTO>();
+		naves = new ArrayList<NaveDTOTemp>();
 		servicios = new ArrayList<ServicioDTO>();
 	}
 	
-	public List<NaveDTO> getNaves() {
+	public List<NaveDTOTemp> getNaves() {
 		return naves;
 	}
 	
-	public void setNaves(List<NaveDTO> naves) {
+	public void setNaves(List<NaveDTOTemp> naves) {
 		this.naves = naves;
 	}
 

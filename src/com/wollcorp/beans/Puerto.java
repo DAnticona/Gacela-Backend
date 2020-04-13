@@ -3,6 +3,7 @@ package com.wollcorp.beans;
 import java.util.List;
 
 public class Puerto {
+	
 	private String coPuer;
 	private String noPuer;
 	private String coSol;

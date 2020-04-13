@@ -39,11 +39,13 @@ public class ForecastExcel {
 	public String generaExcelForecastWSA1(List<Resultado> resultado, List<UbicLinPod> rows, List<UbicTipTamEst> cols,
 			ForecastCab forecastCab, String coFcst, List<Consolidado> consolidado) {
 
+		// System.out.println("generaExcelForecastWSA1");
 		// String template = "c:\\opt\\assets\\templates\\forecastWSA1.xlsx";
 		String fileName = "ForecastWSA1_" + Instant.now().toEpochMilli() + ".xlsx";
 		String filePath = ForecastExcel.filePath + fileName;
 
-		String titulo1 = "BOOKING FOR " + forecastCab.getNoServ();
+		// System.out.println(fileName);
+		String titulo1 = "BOOKING FOR " + forecastCab.getNoServ() + " - Servicio EVL " + forecastCab.getNoServ();
 		String titulo2 = "VESSEL: " + forecastCab.getNoNave();
 
 		try {
@@ -711,11 +713,11 @@ public class ForecastExcel {
 		String fileName = "ForecastWSA2_" + coFcst + ".xlsx";
 		String filePath = ForecastExcel.filePath + fileName;
 
-		String titulo1 = "BOOKING FOR " + forecastCab.getNoServ();
+		String titulo1 = "BOOKING FOR " + forecastCab.getNoServ() + " - Servicio EVL " + forecastCab.getNoServ();
 		String titulo2 = "VESSEL: " + forecastCab.getNoNave();
 
 		try {
-			System.out.println("Antes de Copiar archivos");
+			// System.out.println("Antes de Copiar archivos");
 			Path origenPath = FileSystems.getDefault().getPath(templateWSA2);
 			Path destinoPath = FileSystems.getDefault().getPath(filePath);
 
@@ -1162,7 +1164,7 @@ public class ForecastExcel {
 
 		}
 
-		System.out.println(fileName);
+		// System.out.println(fileName);
 
 		return fileName;
 

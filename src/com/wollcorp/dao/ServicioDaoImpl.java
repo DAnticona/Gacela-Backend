@@ -12,9 +12,8 @@ import com.wollcorp.beans.Servicio;
 import com.wollcorp.conectores.Conector;
 import com.wollcorp.globales.Log;
 
-public class ServicioDaoImpl implements IServicioDao{
+public class ServicioDaoImpl {
 
-	@Override
 	public List<Servicio> listar(String token) {
 
 		List<Servicio> servicios = new ArrayList<Servicio>();
@@ -22,7 +21,7 @@ public class ServicioDaoImpl implements IServicioDao{
 		
 		Connection conector = Conector.conectores.get(token);
 		
-		String sql = "SP_OBTIENE_SERVICIOS_FORECAST";
+		String sql = "SP_OBTIENE_SERVICIOS";
 		
 		try {
 			
@@ -44,6 +43,9 @@ public class ServicioDaoImpl implements IServicioDao{
 				servicio.setUsModiServ(rs.getString("US_MODI"));
 				servicio.setFeCreaServ(rs.getTimestamp("FE_CREA").toLocalDateTime());
 				servicio.setFeModiServ(rs.getTimestamp("FE_MODI").toLocalDateTime());
+				servicio.setFgFarEast(rs.getString("FG_FAR_EAST"));
+				
+				servicio.setPuertos(obtienePuertosXServicio(servicio.getCoServ(), token));
 				
 				servicios.add(servicio);
 				
@@ -72,19 +74,16 @@ public class ServicioDaoImpl implements IServicioDao{
 		return servicios;
 	}
 
-	@Override
 	public void registrar(Servicio servicio, String token) {
 		// TODO Auto-generated method stub
 		
 	}
 
-	@Override
 	public void modificar(Servicio servicio, String token) {
 		// TODO Auto-generated method stub
 		
 	}
 
-	@Override
 	public void eliminar(Servicio servicio, String token) {
 		// TODO Auto-generated method stub
 		

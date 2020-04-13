@@ -13,6 +13,7 @@ public class Servicio {
 	private String usModiServ;
 	private LocalDateTime feModiServ;
 	private List<Puerto> puertos;
+	private String fgFarEast;
 	
 	public String getCoServ() {
 		return coServ;
@@ -61,6 +62,12 @@ public class Servicio {
 	}
 	public void setPuertos(List<Puerto> puertos) {
 		this.puertos = puertos;
+	}
+	public String getFgFarEast() {
+		return fgFarEast;
+	}
+	public void setFgFarEast(String fgFarEast) {
+		this.fgFarEast = fgFarEast;
 	}
 
 }

@@ -8,7 +8,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.wollcorp.beans.ForecastCab;
-import com.wollcorp.beans.ForecastDet;
 import com.wollcorp.beans.forecast.Consolidado;
 import com.wollcorp.beans.forecast.ForecastPWS2Partner;
 import com.wollcorp.beans.forecast.ForecastPWS2PartnerCargo;
@@ -22,6 +21,8 @@ import com.wollcorp.beans.forecast.ForecastWSA4Partner;
 import com.wollcorp.beans.forecast.ForecastWSA4PartnerCargo;
 import com.wollcorp.beans.forecast.Resultado;
 import com.wollcorp.conectores.Conector;
+import com.wollcorp.dto.ForecastCabDTO;
+import com.wollcorp.dto.ForecastDetDTO;
 import com.wollcorp.globales.Log;
 
 public class ForecastDaoImpl {
@@ -31,19 +32,20 @@ public class ForecastDaoImpl {
 		return null;
 	}
 	
-	public String registrar(ForecastCab forecastCab, String token) {
+	public String registrar(ForecastCabDTO forecastCab, String token) {
 
 		Connection conector = Conector.conectores.get(token);
 
 		String coFcst = null;
 
-		String sql1 = "EXEC SP_REGISTRA_CAB_FORECAST ?, ?";
+		String sql1 = "EXEC SP_REGISTRA_CAB_FORECAST ?, ?, ?";
 
 		try {
 
 			PreparedStatement ps1 = conector.prepareStatement(sql1);
 			ps1.setString(1, forecastCab.getCoServ());
 			ps1.setString(2, forecastCab.getCoNave());
+			ps1.setString(3, forecastCab.getFgProp());
 
 			ResultSet rs = ps1.executeQuery();
 
@@ -59,7 +61,7 @@ public class ForecastDaoImpl {
 
 			int rows = 0;
 
-			for (ForecastDet detalle : forecastCab.getDetalles()) {
+			for (ForecastDetDTO detalle : forecastCab.getDetalle()) {
 
 				ps2.setString(1, coFcst);
 				ps2.setString(2, detalle.getLinea());
@@ -670,13 +672,13 @@ public class ForecastDaoImpl {
 	
 	
 	
-	public List<Resultado> obtieneForecast(String coFcst, String token) {
+	public List<Resultado> generaForecastLocal(String coFcst, String token) {
 
 		Connection conector = Conector.conectores.get(token);
 
 		List<Resultado> resultados = new ArrayList<Resultado>();
 
-		String sql = "EXEC SP_GENERA_FORECAST ?";
+		String sql = "EXEC SP_GENERA_FORECAST_LOCAL ?";
 
 		try {
 
@@ -721,6 +723,53 @@ public class ForecastDaoImpl {
 			return null;
 		}
 
+	}
+	
+	public ForecastCab getForecastCab(String coFcst, String token) {
+		
+		Connection conector = Conector.conectores.get(token);
+		
+		ForecastCab forecastCab = new ForecastCab();
+		
+		String sql = "EXEC SP_OBTIENE_CAB_FORECAST ?";
+
+		try {
+
+			PreparedStatement ps = conector.prepareStatement(sql);
+
+			ps.setString(1, coFcst);
+
+			ResultSet rs = ps.executeQuery();
+
+			while (rs.next()) {
+
+				forecastCab.setCoForecast(rs.getString("CO_FCST"));
+				forecastCab.setCoServ(rs.getString("CO_SERV"));
+				forecastCab.setCoNave(rs.getString("CO_NAVE"));
+				forecastCab.setAlNave(rs.getString("AL_NAVE"));
+				forecastCab.setNoNave(rs.getString("NO_NAVE"));
+				forecastCab.setNoServ(rs.getString("NO_SERV"));
+				forecastCab.setFgProp(rs.getString("FG_PROP"));
+
+			}
+
+			conector = null;
+
+			return forecastCab;
+
+		} catch (SQLException e) {
+
+			Log.mensaje = e.getMessage();
+			Log.exception = e.toString();
+			Log.codigo = e.getErrorCode();
+			Log.estado = e.getSQLState();
+			Log.nombreClase = this.getClass().getName();
+			Log.registraError();
+
+			conector = null;
+			return null;
+		}
+		
 	}
 
 	public List<Consolidado> obtieneConsolidadoForecast(String coFcst, String token) {

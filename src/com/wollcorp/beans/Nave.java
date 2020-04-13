@@ -1,17 +1,17 @@
 package com.wollcorp.beans;
 
-import java.time.LocalDateTime;
-
 public class Nave {
-	private String coNave;
+	
+    private String coNave;
 	private String noNave;
 	private String alNave;
+	private String coServ;
+	private String coLine;
 	private String fgActi;
-	private Servicio servicio;
-	private String usCreaNave;
-	private LocalDateTime feCreaNave;
-	private String usModiNave;
-	private LocalDateTime feModiNave;
+	private String usCrea;
+	private String usModi;
+	private long feCrea;
+	private long feModi;
 	
 	public String getCoNave() {
 		return coNave;
@@ -31,41 +31,48 @@ public class Nave {
 	public void setAlNave(String alNave) {
 		this.alNave = alNave;
 	}
+	public String getCoServ() {
+		return coServ;
+	}
+	public void setCoServ(String coServ) {
+		this.coServ = coServ;
+	}
+	public String getCoLine() {
+		return coLine;
+	}
+	public void setCoLine(String coLine) {
+		this.coLine = coLine;
+	}
 	public String getFgActi() {
 		return fgActi;
 	}
 	public void setFgActi(String fgActi) {
 		this.fgActi = fgActi;
 	}
-	public Servicio getServicio() {
-		return servicio;
+	public String getUsCrea() {
+		return usCrea;
 	}
-	public void setServicio(Servicio servicio) {
-		this.servicio = servicio;
+	public void setUsCrea(String usCrea) {
+		this.usCrea = usCrea;
 	}
-	public String getUsCreaNave() {
-		return usCreaNave;
+	public String getUsModi() {
+		return usModi;
 	}
-	public void setUsCreaNave(String usCreaNave) {
-		this.usCreaNave = usCreaNave;
+	public void setUsModi(String usModi) {
+		this.usModi = usModi;
 	}
-	public LocalDateTime getFeCreaNave() {
-		return feCreaNave;
+	public long getFeCrea() {
+		return feCrea;
 	}
-	public void setFeCreaNave(LocalDateTime feCreaNave) {
-		this.feCreaNave = feCreaNave;
+	public void setFeCrea(long feCrea) {
+		this.feCrea = feCrea;
 	}
-	public String getUsModiNave() {
-		return usModiNave;
+	public long getFeModi() {
+		return feModi;
 	}
-	public void setUsModiNave(String usModiNave) {
-		this.usModiNave = usModiNave;
+	public void setFeModi(long feModi) {
+		this.feModi = feModi;
 	}
-	public LocalDateTime getFeModiNave() {
-		return feModiNave;
-	}
-	public void setFeModiNave(LocalDateTime feModiNave) {
-		this.feModiNave = feModiNave;
-	}
-	
+
+
 }

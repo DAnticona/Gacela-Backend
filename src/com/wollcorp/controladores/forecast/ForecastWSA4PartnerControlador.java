@@ -266,8 +266,8 @@ public class ForecastWSA4PartnerControlador {
 						// 40'hc
 						cell = sheet1.getRow(cabecera).getCell(c + 3);
 						celda = cell.getStringCellValue();
-						System.out.println(celda);
-						System.out.println(dataFull.get(j).getTipo());
+						// System.out.println(celda);
+						// System.out.println(dataFull.get(j).getTipo());
 						
 						if(celda.trim().equals(dataEmpty.get(j).getTipo().trim())) {
 							

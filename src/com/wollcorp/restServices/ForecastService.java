@@ -1,5 +1,7 @@
 package com.wollcorp.restServices;
 
+import java.sql.SQLException;
+
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.HeaderParam;
@@ -13,8 +15,11 @@ import com.wollcorp.beans.ForecastCab;
 //import com.wollcorp.beans.forecast.Linea;
 import com.wollcorp.controladores.ForecastControlador;
 import com.wollcorp.dto.DataForecastDTO;
+import com.wollcorp.dto.ForecastCabDTO;
 import com.wollcorp.dto.RespuestaDTO;
 import com.wollcorp.globales.Log;
+import com.wollcorp.restServices.responses.ErrorRes;
+import com.wollcorp.restServices.responses.ForecastRes;
 
 /**
  * Clase destinada al servicio Forecast
@@ -39,42 +44,61 @@ public class ForecastService {
 		
 		// System.out.println("Hola Forecast");
 		
-		DataForecastDTO dataForecastDTO = forecastControlador.getDatosForecast(token);
-		
-		if(dataForecastDTO != null) {
+		try {
 			
-			return Response.status(Response.Status.OK).entity(dataForecastDTO).build();
+			DataForecastDTO dataForecastDTO = forecastControlador.getDatosForecast(token);
 			
-		} else {
+			if(dataForecastDTO != null) {
+				
+				return Response.status(Response.Status.OK).entity(dataForecastDTO).build();
+				
+			} else {
+				
+				return Response.status(Response.Status.BAD_REQUEST).entity("Token no valido").build();
+				
+			}
 			
-			return Response.status(Response.Status.BAD_REQUEST).entity("Token no valido").build();
+		} catch(SQLException e) {
 			
-		}
-		
-		
+			Log.mensaje = e.getMessage();
+			Log.exception = e.toString();
+			Log.codigo = e.getErrorCode();
+			Log.estado = e.getSQLState();
+			Log.nombreClase = this.getClass().getName();
+			Log.registraError();
+
+			return Response.status(Response.Status.INTERNAL_SERVER_ERROR).build();
+			
+		}		
+
 		
 	}
 	
 	@POST
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response postFileForecast(@HeaderParam("token") String token, ForecastCab forecastCab) {
+	public Response postFileForecast(@HeaderParam("token") String token, ForecastCabDTO forecastCab) {
 		
-		RespuestaDTO res = new RespuestaDTO();
+		// RespuestaDTO res = new RespuestaDTO();
+		ForecastRes forecastRes = new ForecastRes();
+		
+		// System.out.println("ForecastCab");
 		
 		fileName = forecastControlador.procesaDataFile(token, forecastCab);
 		
 		if (Log.estado.equals("OK")) {
 			
-			res.setMensaje(fileName);
-			return Response.status(Response.Status.OK).entity(res).build();
+			forecastRes.setFileName(fileName);
+			return Response.status(Response.Status.OK).entity(forecastRes).build();
 			
 		} else {
 			
-			res.setEstado(Log.estado);
-			res.setMensaje(Log.mensaje);
+			forecastRes.setError(new ErrorRes());
 			
-			return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(res).build();
+			forecastRes.getError().setEstado(Log.estado);
+			forecastRes.getError().setMensaje(Log.mensaje);
+			
+			return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(forecastRes).build();
 		}
 		
 	}

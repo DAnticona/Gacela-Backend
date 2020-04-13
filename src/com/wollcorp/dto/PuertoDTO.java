@@ -1,10 +1,15 @@
 package com.wollcorp.dto;
 
+import java.util.List;
+
 public class PuertoDTO {
+	
 	private String coPuer;
 	private String noPuer;
-	private String coIso;
 	private String coSol;
+	private String coIso;
+	private String fgActi;
+	private List<ServicioDTO> servicios;
 	
 	public String getCoPuer() {
 		return coPuer;
@@ -18,16 +23,29 @@ public class PuertoDTO {
 	public void setNoPuer(String noPuer) {
 		this.noPuer = noPuer;
 	}
-	public String getCoIso() {
-		return coIso;
-	}
-	public void setCoIso(String coIso) {
-		this.coIso = coIso;
-	}
 	public String getCoSol() {
 		return coSol;
 	}
 	public void setCoSol(String coSol) {
 		this.coSol = coSol;
 	}
+	public String getCoIso() {
+		return coIso;
+	}
+	public void setCoIso(String coIso) {
+		this.coIso = coIso;
+	}
+	public String getFgActi() {
+		return fgActi;
+	}
+	public void setFgActi(String fgActi) {
+		this.fgActi = fgActi;
+	}
+	public List<ServicioDTO> getServicios() {
+		return servicios;
+	}
+	public void setServicios(List<ServicioDTO> servicios) {
+		this.servicios = servicios;
+	}
+	
 }

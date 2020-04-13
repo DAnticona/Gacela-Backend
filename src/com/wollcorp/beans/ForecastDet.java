@@ -2,7 +2,8 @@ package com.wollcorp.beans;
 
 public class ForecastDet {
 	
-	private String coFcst;
+	private String coForecast;
+	private int item;
 	private String linea; 
 	private String pol;
 	private String pod;
@@ -16,17 +17,17 @@ public class ForecastDet {
 	private String temperature;
 	private String commodity;
 	
-	public String getCommodity() {
-		return commodity;
+	public String getCoForecast() {
+		return coForecast;
 	}
-	public void setCommodity(String commodity) {
-		this.commodity = commodity;
+	public void setCoForecast(String coForecast) {
+		this.coForecast = coForecast;
 	}
-	public String getCoFcst() {
-		return coFcst;
+	public int getItem() {
+		return item;
 	}
-	public void setCoFcst(String coFcst) {
-		this.coFcst = coFcst;
+	public void setItem(int item) {
+		this.item = item;
 	}
 	public String getLinea() {
 		return linea;
@@ -94,5 +95,13 @@ public class ForecastDet {
 	public void setTemperature(String temperature) {
 		this.temperature = temperature;
 	}
-
+	public String getCommodity() {
+		return commodity;
+	}
+	public void setCommodity(String commodity) {
+		this.commodity = commodity;
+	}
+	
+	
+	
 }

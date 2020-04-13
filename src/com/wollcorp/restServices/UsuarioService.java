@@ -100,12 +100,14 @@ public class UsuarioService {
 	@Consumes(MediaType.MULTIPART_FORM_DATA)
 	public Response putImagen(@HeaderParam("token") String token, @QueryParam("user") String noUsua, File file, @Context HttpServletRequest httpServletReq) {
 		
-		System.out.println(httpServletReq.getContextPath());
-		System.out.println(httpServletReq.getScheme());
-		System.out.println(httpServletReq.getServerName());
-		System.out.println(httpServletReq.getServerPort());
-		
-		System.out.println(httpServletReq.getRequestURL());
+		/*
+		 * System.out.println(httpServletReq.getContextPath());
+		 * System.out.println(httpServletReq.getScheme());
+		 * System.out.println(httpServletReq.getServerName());
+		 * System.out.println(httpServletReq.getServerPort());
+		 * 
+		 * System.out.println(httpServletReq.getRequestURL());
+		 */
 
 		UsuarioRes usuarioRes = new UsuarioRes();
 		//

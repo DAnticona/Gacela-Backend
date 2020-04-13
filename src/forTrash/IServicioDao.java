@@ -1,4 +1,4 @@
-package com.wollcorp.dao;
+package forTrash;
 
 import java.util.List;
 

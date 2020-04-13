@@ -7,100 +7,125 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.wollcorp.beans.Linea;
 import com.wollcorp.beans.Nave;
+import com.wollcorp.beans.NaveTemp;
 import com.wollcorp.beans.Servicio;
 import com.wollcorp.conectores.Conector;
+import com.wollcorp.dto.NaveDTO;
 import com.wollcorp.globales.Log;
 
-public class NaveDaoImpl implements INaveDao {
+public class NaveDaoImpl {
 
-	@Override
-	public List<Nave> listar(String token) {
-		
+	public List<NaveTemp> listarNavesActivas(String token) throws SQLException {
+
+		List<NaveTemp> naves = new ArrayList<NaveTemp>();
+		NaveTemp nave = null;
+
+		Connection conector = Conector.conectores.get(token);
+		String sql = "SP_OBTIENE_NAVES_ACTIVAS";
+
+		PreparedStatement ps = conector.prepareStatement(sql);
+
+		ResultSet rs = ps.executeQuery();
+
+		Log.mensaje = "CONSULTA DE NAVES EXITOSA";
+		Log.registraInfo();
+
+		while (rs.next()) {
+
+			nave = new NaveTemp();
+
+			nave.setCoNave(rs.getString("CO_NAVE"));
+			nave.setNoNave(rs.getString("NO_NAVE"));
+			nave.setAlNave(rs.getString("AL_NAVE"));
+			nave.setFgActi(rs.getString("FG_ACTI"));
+			nave.setUsCreaNave(rs.getString("US_CREA"));
+			nave.setUsModiNave(rs.getString("US_MODI"));
+			nave.setFeCreaNave(rs.getTimestamp("FE_CREA").toLocalDateTime());
+			nave.setFeModiNave(rs.getTimestamp("FE_MODI").toLocalDateTime());
+
+			nave.setServicio(new Servicio());
+			nave.getServicio().setCoServ(rs.getString("CO_SERV"));
+
+			nave.setLinea(new Linea());
+			nave.getLinea().setCoLine(rs.getString("CO_LINE"));
+			nave.setFgPropLinea(rs.getString("FG_PROP"));
+
+			naves.add(nave);
+
+		}
+
+		return naves;
+	}
+	
+	
+	public List<Nave> listarNaves(String token) throws SQLException {
+
 		List<Nave> naves = new ArrayList<Nave>();
 		Nave nave = null;
-		
+
 		Connection conector = Conector.conectores.get(token);
-		System.out.println(conector);
 		String sql = "SP_OBTIENE_NAVES";
-		
-		try {
-			
-			PreparedStatement ps = conector.prepareStatement(sql);
-			
-			ResultSet rs = ps.executeQuery();
-			
-			Log.mensaje = "CONSULTA EXITOSA";
-			Log.registraInfo();
-						
-			while(rs.next()) {
-				
-				nave = new Nave();
-				
-				nave.setCoNave(rs.getString("CO_NAVE"));
-				nave.setNoNave(rs.getString("NO_NAVE"));
-				nave.setAlNave(rs.getString("AL_NAVE"));
-				nave.setFgActi(rs.getString("FG_ACTI_NAVE"));
-				nave.setUsCreaNave(rs.getString("US_CREA_NAVE"));
-				nave.setUsModiNave(rs.getString("US_MODI_NAVE"));
-				nave.setFeCreaNave(rs.getTimestamp("FE_CREA_NAVE").toLocalDateTime());
-				nave.setFeModiNave(rs.getTimestamp("FE_MODI_NAVE").toLocalDateTime());
-				
-				nave.setServicio(new Servicio());
-				
-				nave.getServicio().setCoServ(rs.getString("CO_SERV"));
-				nave.getServicio().setNoServ(rs.getString("NO_SERV"));
-				nave.getServicio().setFgActi(rs.getString("FG_ACTI_SERV"));
-				nave.getServicio().setUsCreaServ(rs.getString("US_CREA_SERV"));
-				nave.getServicio().setUsModiServ(rs.getString("US_MODI_SERV"));
-				nave.getServicio().setFeCreaServ(rs.getTimestamp("FE_CREA_SERV").toLocalDateTime());
-				nave.getServicio().setFeModiServ(rs.getTimestamp("FE_MODI_SERV").toLocalDateTime());
-				
-				naves.add(nave);
-				
-			}
-			
-		} catch(SQLException e) {
-			
-			Log.mensaje = e.getMessage();
-			Log.exception = e.toString();
-			Log.codigo = e.getErrorCode();
-			Log.estado = e.getSQLState();
-			Log.nombreClase = this.getClass().getName();
-			Log.registraError();
-			
-		} catch(NullPointerException e1) {
-			
-			Log.mensaje = e1.getMessage();
-			Log.exception = e1.toString();
-			Log.codigo = 0;
-			Log.estado = null;
-			Log.nombreClase = this.getClass().getName();
-			Log.registraError();
-			
+
+		PreparedStatement ps = conector.prepareStatement(sql);
+
+		ResultSet rs = ps.executeQuery();
+
+		while (rs.next()) {
+
+			nave = new Nave();
+
+			nave.setCoNave(rs.getString("CO_NAVE"));
+			nave.setNoNave(rs.getString("NO_NAVE"));
+			nave.setAlNave(rs.getString("AL_NAVE"));
+			nave.setFgActi(rs.getString("FG_ACTI"));
+			nave.setCoServ(rs.getString("CO_SERV"));
+			nave.setCoLine(rs.getString("CO_LINE"));
+			nave.setUsCrea(rs.getString("US_CREA"));
+			nave.setUsModi(rs.getString("US_MODI"));
+			nave.setFeCrea(rs.getTimestamp("FE_CREA").getTime());
+			nave.setFeModi(rs.getTimestamp("FE_MODI").getTime());
+
+			naves.add(nave);
+
 		}
-		
+
 		return naves;
 	}
 
-	@Override
-	public void registrar(Nave nave, String token) {
-		// TODO Auto-generated method stub
+	public String registrar(NaveDTO nave, String token) throws SQLException {
 		
+		String coNave = null;
+
+		Connection conector = Conector.conectores.get(token);
+		String sql = "SP_REGISTRA_NAVE ?, ?, ?, ?, ?, ?";
+
+		PreparedStatement ps = conector.prepareStatement(sql);
+		
+		ps.setString(1, nave.getCoNave());
+		ps.setString(2, nave.getNoNave());
+		ps.setString(3, nave.getAlNave());
+		ps.setString(4, nave.getCoServ());
+		ps.setString(5, nave.getFgActi());
+		ps.setString(6, nave.getCoLine());
+
+		ResultSet rs = ps.executeQuery();
+
+		while (rs.next()) {
+
+			coNave = rs.getString("CO_NAVE");
+
+		}
+
+		return coNave;
+
 	}
 
-	@Override
-	public void modificar(Nave nave, String token) {
-		// TODO Auto-generated method stub
-		
-	}
 
-	@Override
-	public void eliminar(Nave nave, String token) {
+	public void eliminar(NaveTemp nave, String token) {
 		// TODO Auto-generated method stub
-		
-	}
 
-	
+	}
 
 }
