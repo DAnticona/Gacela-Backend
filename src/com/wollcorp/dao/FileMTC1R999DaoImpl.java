@@ -159,6 +159,38 @@ public class FileMTC1R999DaoImpl {
 		return file;
 
 	}
+	
+	
+	public FileCabMTC1R999 getFileCabActivo(String token) throws SQLException {
+
+		Connection conector = Conector.conectores.get(token);
+
+		FileCabMTC1R999 file = null;
+
+		String sql1 = "EXEC SP_OBTIENE_CAB_FILE_MTC1R999_ACTIVO";
+
+		PreparedStatement ps1 = conector.prepareStatement(sql1);
+
+		ResultSet rs = ps1.executeQuery();
+
+		while (rs.next()) {
+
+			file = new FileCabMTC1R999();
+
+			file.setCoFile(rs.getString("CO_FILE"));
+			file.setNoFile(rs.getString("NO_FILE"));
+			file.setFeCargaFile(rs.getDate("FE_CARGA_FILE"));
+			file.setFgActi(rs.getString("FG_ACTI"));
+
+		}
+		
+		file.setDetalle(getFileDet(token, file.getCoFile()));
+
+		conector = null;
+
+		return file;
+
+	}
 
 	public List<FileDetMTC1R999> getFileDet(String token, String coFile) throws SQLException {
 		

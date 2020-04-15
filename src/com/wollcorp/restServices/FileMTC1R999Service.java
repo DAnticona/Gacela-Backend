@@ -187,5 +187,64 @@ public class FileMTC1R999Service {
 		}
 
 	}
+	
+	
+	
+	
+	
+	
+	@GET
+	@Path("/file-activo")
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response getFileActivo(@HeaderParam("token") String token) {
+
+		FileMTC1R999Res fileRes = new FileMTC1R999Res();
+		
+		try {
+			
+			if (token != null) {
+
+				fileRes = fileMTC1R999Controlador.getFileActivo(token);
+
+				if (fileRes.getFileCab() != null) {
+
+					return Response.status(Response.Status.OK).entity(fileRes).build();
+
+				} else {
+
+					fileRes.setError(new ErrorRes());
+					fileRes.getError().setMensaje("Error Interno al obtener las proyecciones");
+
+					return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(fileRes).build();
+
+				}
+
+			} else {
+
+				fileRes.setError(new ErrorRes());
+				fileRes.getError().setMensaje("mal requerimiento ó token inválido al obtener las proyecciones de ventas");
+
+				return Response.status(Response.Status.BAD_REQUEST).entity(fileRes).build();
+
+			}
+			
+		} catch (SQLException e) {
+
+			Log.mensaje = e.getMessage();
+			Log.exception = e.toString();
+			Log.codigo = e.getErrorCode();
+			Log.estado = e.getSQLState();
+			Log.nombreClase = this.getClass().getName();
+			Log.registraError();
+
+			fileRes.setError(new ErrorRes());
+			fileRes.getError().setMensaje(e.toString());
+
+			return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(fileRes).build();
+
+		}
+
+	}
 
 }
