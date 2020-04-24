@@ -7,12 +7,12 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.wollcorp.TEMP.NaveDTO;
 import com.wollcorp.beans.Linea;
 import com.wollcorp.beans.Nave;
 import com.wollcorp.beans.NaveTemp;
 import com.wollcorp.beans.Servicio;
 import com.wollcorp.conectores.Conector;
-import com.wollcorp.dto.NaveDTO;
 import com.wollcorp.globales.Log;
 
 public class NaveDaoImpl {

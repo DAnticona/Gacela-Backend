@@ -6,9 +6,9 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
 
+import com.wollcorp.TEMP.ProyeccionEquipoCabDTO;
+import com.wollcorp.TEMP.ProyeccionEquipoDetDTO;
 import com.wollcorp.conectores.Conector;
-import com.wollcorp.dto.ProyeccionEquipoCabDTO;
-import com.wollcorp.dto.ProyeccionEquipoDetDTO;
 
 public class ProyeccionEquipoDaoImpl {
 	

@@ -7,41 +7,30 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.wollcorp.TEMP.RpoPlanDTO;
 import com.wollcorp.beans.RpoPlan;
 import com.wollcorp.conectores.Conector;
-import com.wollcorp.dto.RpoPlanDTO;
 
 public class RpoPlanDaoImpl {
 	
-	public void registraRpoPlan(List<RpoPlanDTO> planes, String token) throws SQLException {
+	public void registraRpoPlan(RpoPlanDTO rpo, String token) throws SQLException {
 		
-		Connection conector = Conector.conectores.get(token);
+		Connection conector = Conector.conectores.get(token);		
 		
-		String sql1 = "DELETE FROM RPO_PLAN";
+		String sql = "EXEC SP_REGISTRA_RPO_PLAN ?, ?, ?, ?, ?, ?, ?, ?";
 		
-		PreparedStatement ps1 = conector.prepareStatement(sql1);
+		PreparedStatement ps2 = conector.prepareStatement(sql);
 		
-		ps1.executeUpdate();
-		
-		for(RpoPlanDTO rpoPlan : planes) {
-			
-			String sql2 = "EXEC SP_REGISTRA_RPO_PLAN ?, ?, ?, ?, ?, ?, ?, ?, ?";
-			
-			PreparedStatement ps2 = conector.prepareStatement(sql2);
-			
-			ps2.setString(1, rpoPlan.getCoRpo());
-			ps2.setString(2, rpoPlan.getAlNaveRpo());
-			ps2.setString(3, rpoPlan.getViajeRpo());
-			ps2.setInt(4, rpoPlan.getCa2SdRpo());
-			ps2.setInt(5, rpoPlan.getCa4SdRpo());
-			ps2.setInt(6, rpoPlan.getCa4ShRpo());
-			ps2.setInt(7, rpoPlan.getCa4RhRpo());
-			ps2.setDate(8, new java.sql.Date(rpoPlan.getEtaRpo().getTime()));
-			ps2.setString(9, rpoPlan.getFgActiRpo());
-						
-			ps2.executeUpdate();
-			
-		}
+		ps2.setString(1, rpo.getCoRpo());
+		ps2.setString(2, rpo.getAlNaveRpo());
+		ps2.setString(3, rpo.getViajeRpo());
+		ps2.setInt(4, rpo.getCa2SdRpo());
+		ps2.setInt(5, rpo.getCa4SdRpo());
+		ps2.setInt(6, rpo.getCa4ShRpo());
+		ps2.setDate(7, new java.sql.Date(rpo.getEtaRpo().getTime()));
+		ps2.setString(8, rpo.getFgActiRpo());
+					
+		ps2.executeUpdate();
 		
 	}
 	
@@ -71,7 +60,7 @@ public class RpoPlanDaoImpl {
 			rpoPlan.setCa2SdRpo(rs.getInt(4));
 			rpoPlan.setCa4SdRpo(rs.getInt(5));
 			rpoPlan.setCa4ShRpo(rs.getInt(6));
-			rpoPlan.setCa4RhRpo(rs.getInt(7));
+			// rpoPlan.setCa4RhRpo(rs.getInt(7));
 			rpoPlan.setEtaRpo(rs.getDate(8));
 			rpoPlan.setFgActiRpo(rs.getString(9));
 			
@@ -80,6 +69,20 @@ public class RpoPlanDaoImpl {
 		}
 		
 		return rpoPlanes;
+		
+	}
+	
+	public void eliminaRpoPlan(RpoPlanDTO rpo, String token) throws SQLException {
+		
+		Connection conector = Conector.conectores.get(token);		
+		
+		String sql = "EXEC SP_ELIMINA_RPO_PLAN ?";
+		
+		PreparedStatement ps = conector.prepareStatement(sql);
+		
+		ps.setString(1, rpo.getCoRpo());
+					
+		ps.executeUpdate();
 		
 	}
 

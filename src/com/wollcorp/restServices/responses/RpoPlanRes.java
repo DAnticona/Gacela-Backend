@@ -1,6 +1,6 @@
 package com.wollcorp.restServices.responses;
 
-import com.wollcorp.dto.RpoPlanesDTO;
+import com.wollcorp.TEMP.RpoPlanesDTO;
 
 public class RpoPlanRes {
 	

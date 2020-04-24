@@ -5,9 +5,9 @@ package com.wollcorp.controladores;
 
 import java.sql.SQLException;
 
+import com.wollcorp.TEMP.RatioDevolucionDTO;
 import com.wollcorp.beans.RatioDevolucion;
 import com.wollcorp.dao.RatioDevolucionDaoImpl;
-import com.wollcorp.dto.RatioDevolucionDTO;
 import com.wollcorp.globales.Token;
 import com.wollcorp.restServices.responses.ErrorRes;
 import com.wollcorp.restServices.responses.RatioDevolucionRes;
@@ -15,9 +15,10 @@ import com.wollcorp.restServices.responses.RatioDevolucionRes;
 /**
  * Controlador para los ratios de devolución usados en
  * las proyecciones de equipos.
+ * Creado el 21/04/2020
  * @author David Anticona
  * @version 1.0
- *
+ * 
  */
 public class RatioDevolucionControlador {
 	
@@ -66,6 +67,7 @@ public class RatioDevolucionControlador {
 			
 			RatioDevolucionDTO ratioDTO = new RatioDevolucionDTO();
 			
+			ratioDTO.setCoRatio(ratio.getCoRatio());
 			ratioDTO.setRatio2Sd(ratio.getRatio2Sd());
 			ratioDTO.setRatio4Sd(ratio.getRatio4Sd());
 			ratioDTO.setRatio4Sh(ratio.getRatio4Sh());

@@ -2,8 +2,8 @@ package com.wollcorp.restServices.responses;
 
 import java.util.List;
 
-import com.wollcorp.dto.NaveDTO;
-import com.wollcorp.dto.NaveDTOTemp;
+import com.wollcorp.TEMP.NaveDTO;
+import com.wollcorp.TEMP.NaveDTOTemp;
 
 public class NaveRes {
 	

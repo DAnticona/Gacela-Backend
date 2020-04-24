@@ -12,8 +12,8 @@ import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
+import com.wollcorp.TEMP.FileCabMTC1R999DTO;
 import com.wollcorp.controladores.FileMTC1R999Controlador;
-import com.wollcorp.dto.FileCabMTC1R999DTO;
 import com.wollcorp.globales.Log;
 import com.wollcorp.restServices.responses.ErrorRes;
 import com.wollcorp.restServices.responses.FileMTC1R999Res;

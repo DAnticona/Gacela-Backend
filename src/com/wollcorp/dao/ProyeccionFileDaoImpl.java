@@ -5,9 +5,9 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+import com.wollcorp.TEMP.ProyeccionFileCabDTO;
+import com.wollcorp.TEMP.ProyeccionFileDetDTO;
 import com.wollcorp.conectores.Conector;
-import com.wollcorp.dto.ProyeccionFileCabDTO;
-import com.wollcorp.dto.ProyeccionFileDetDTO;
 import com.wollcorp.globales.Log;
 
 public class ProyeccionFileDaoImpl {

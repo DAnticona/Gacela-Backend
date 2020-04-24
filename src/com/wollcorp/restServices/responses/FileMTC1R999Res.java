@@ -2,7 +2,7 @@ package com.wollcorp.restServices.responses;
 
 import java.util.List;
 
-import com.wollcorp.dto.FileCabMTC1R999DTO;
+import com.wollcorp.TEMP.FileCabMTC1R999DTO;
 
 public class FileMTC1R999Res {
 	

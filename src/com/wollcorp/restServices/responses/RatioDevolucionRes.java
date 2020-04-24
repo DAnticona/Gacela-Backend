@@ -3,7 +3,7 @@
  */
 package com.wollcorp.restServices.responses;
 
-import com.wollcorp.dto.RatioDevolucionDTO;
+import com.wollcorp.TEMP.RatioDevolucionDTO;
 
 /**
  * Clase usada para enviar datos de ratio de devolucion

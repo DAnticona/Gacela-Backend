@@ -30,21 +30,16 @@ import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.apache.poi.xssf.usermodel.extensions.XSSFCellBorder.BorderSide;
 
-import com.wollcorp.beans.ProyeccionEquipoDet;
+import com.wollcorp.TEMP.ProyeccionEquipoCabDTO;
+import com.wollcorp.TEMP.ProyeccionEquipoDetDTO;
+import com.wollcorp.TEMP.ProyeccionGeneradaDTO;
+import com.wollcorp.TEMP.ProyeccionVentaCabDTO;
+import com.wollcorp.TEMP.ProyeccionVentaDetDTO;
 import com.wollcorp.beans.ProyeccionGenerada;
 import com.wollcorp.beans.ProyeccionVentaCab;
 import com.wollcorp.beans.ProyeccionVentaDet;
-import com.wollcorp.beans.RatioDevolucionTEMP;
 import com.wollcorp.dao.ProyeccionEquipoDaoImpl;
 import com.wollcorp.dao.ProyeccionVentaDaoImpl;
-import com.wollcorp.dao.RatioDevolucionDaoImpl;
-import com.wollcorp.dto.ProyeccionEquipoCabDTO;
-import com.wollcorp.dto.ProyeccionEquipoDetDTO;
-import com.wollcorp.dto.ProyeccionGeneradaDTO;
-import com.wollcorp.dto.ProyeccionVentaCabDTO;
-import com.wollcorp.dto.ProyeccionVentaDetDTO;
-import com.wollcorp.dto.RatioDevolucionDTOTEMP;
-import com.wollcorp.dto.RpoPlanDTO;
 import com.wollcorp.globales.Token;
 import com.wollcorp.restServices.responses.ErrorRes;
 import com.wollcorp.restServices.responses.ProyeccionRes;
@@ -292,59 +287,59 @@ public class ProyeccionControlador {
 	
 	
 	
-	public ProyeccionRes registraRatioDevolucion(String token, RatioDevolucionDTOTEMP ratio) throws SQLException {
-
-		ProyeccionRes proyeccionRes = new ProyeccionRes();
-
-		if (Token.tokenValido(token)) {
-
-			(new RatioDevolucionDaoImpl()).registraRatioTEMP(ratio, token);
-
-		} else {
-
-			proyeccionRes.setError(new ErrorRes());
-
-			proyeccionRes.getError().setMensaje("TOKEN INVÁLIDO");
-
-		}
-
-		return proyeccionRes;
-
-	}
+//	public ProyeccionRes registraRatioDevolucion(String token, RatioDevolucionDTOTEMP ratio) throws SQLException {
+//
+//		ProyeccionRes proyeccionRes = new ProyeccionRes();
+//
+//		if (Token.tokenValido(token)) {
+//
+//			(new RatioDevolucionDaoImpl()).registraRatioTEMP(ratio, token);
+//
+//		} else {
+//
+//			proyeccionRes.setError(new ErrorRes());
+//
+//			proyeccionRes.getError().setMensaje("TOKEN INVÁLIDO");
+//
+//		}
+//
+//		return proyeccionRes;
+//
+//	}
 	
 	
 	
-	public ProyeccionRes obtieneRatioDevolucion(String token) throws SQLException {
-
-		ProyeccionRes proyeccionRes = new ProyeccionRes();
-
-		if (Token.tokenValido(token)) {
-
-			RatioDevolucionTEMP ratio = (new RatioDevolucionDaoImpl()).obtieneRatioTEMP(token);
-			
-			RatioDevolucionDTOTEMP ratioDTO = new RatioDevolucionDTOTEMP();
-			
-			ratioDTO.setRa2Sd(ratio.getRa2Sd());
-			ratioDTO.setRa4Sd(ratio.getRa4Sd());
-			ratioDTO.setRa4Sh(ratio.getRa4Sh());
-			ratioDTO.setUsCrea(ratio.getUsCrea());
-			ratioDTO.setUsModi(ratio.getUsModi());
-			ratioDTO.setFeCrea(ratio.getFeCrea());
-			ratioDTO.setFeModi(ratio.getFeModi());
-			
-			proyeccionRes.setRatio(ratioDTO);
-
-		} else {
-
-			proyeccionRes.setError(new ErrorRes());
-
-			proyeccionRes.getError().setMensaje("TOKEN INVÁLIDO");
-
-		}
-
-		return proyeccionRes;
-
-	}
+//	public ProyeccionRes obtieneRatioDevolucion(String token) throws SQLException {
+//
+//		ProyeccionRes proyeccionRes = new ProyeccionRes();
+//
+//		if (Token.tokenValido(token)) {
+//
+//			RatioDevolucionTEMP ratio = (new RatioDevolucionDaoImpl()).obtieneRatioTEMP(token);
+//			
+//			RatioDevolucionDTOTEMP ratioDTO = new RatioDevolucionDTOTEMP();
+//			
+//			ratioDTO.setRa2Sd(ratio.getRa2Sd());
+//			ratioDTO.setRa4Sd(ratio.getRa4Sd());
+//			ratioDTO.setRa4Sh(ratio.getRa4Sh());
+//			ratioDTO.setUsCrea(ratio.getUsCrea());
+//			ratioDTO.setUsModi(ratio.getUsModi());
+//			ratioDTO.setFeCrea(ratio.getFeCrea());
+//			ratioDTO.setFeModi(ratio.getFeModi());
+//			
+//			proyeccionRes.setRatio(ratioDTO);
+//
+//		} else {
+//
+//			proyeccionRes.setError(new ErrorRes());
+//
+//			proyeccionRes.getError().setMensaje("TOKEN INVÁLIDO");
+//
+//		}
+//
+//		return proyeccionRes;
+//
+//	}
 	
 	
 	
@@ -352,7 +347,7 @@ public class ProyeccionControlador {
 	
 
 	public String generaExcel(String token, ProyeccionEquipoCabDTO proyeccionEquipo,
-			ProyeccionVentaCabDTO proyeccionVenta) {
+			ProyeccionEquipoCabDTO proyeccionVenta) {
 		
 		List<ProyeccionEquipoDetDTO> rpoPlan = proyeccionEquipo.getDetalles().stream()
 										.filter(x -> x.getFgRpoPlan().equals("S")).collect(Collectors.toList());
@@ -1260,6 +1255,8 @@ public class ProyeccionControlador {
 			if(proyeccionVenta != null) {
 				
 				XSSFSheet sheet2 = wb.getSheetAt(1);
+				List<ProyeccionEquipoDetDTO> detalleVenta = proyeccionVenta.getDetalles().stream()
+						.filter(x -> x.getFgRpoPlan().equals("N")).collect(Collectors.toList());
 
 				// CABECERAS
 
@@ -1309,8 +1306,6 @@ public class ProyeccionControlador {
 				celda.setCellValue("4SH");
 				sheet2.addMergedRegion(new CellRangeAddress(0, 0, 9, 12));
 
-				
-				
 				
 				
 				
@@ -1394,13 +1389,196 @@ public class ProyeccionControlador {
 				
 				
 				
+				// STOCK
+				fila = sheet2.createRow(2);
+
+				for (int i = 0; i < 14; i++) {
+
+					celda = fila.createCell(i);
+
+				}
+
+				celda = fila.getCell(0);
+				estilo = creaEstilosSubTituloLeft(wb);
+				celda.setCellStyle(estilo);
+
+				for (int i = 1; i < 5; i++) {
+
+					celda = fila.getCell(i);
+					estilo = creaEstilosSubTitulo(wb, "2SD");
+					celda.setCellStyle(estilo);
+
+				}
+
+				for (int i = 5; i < 9; i++) {
+
+					celda = fila.getCell(i);
+					estilo = creaEstilosSubTitulo(wb, "4SD");
+					celda.setCellStyle(estilo);
+
+				}
+
+				for (int i = 9; i < 13; i++) {
+
+					celda = fila.getCell(i);
+					estilo = creaEstilosSubTitulo(wb, "4SH");
+					celda.setCellStyle(estilo);
+
+				}
+
+				celda = fila.getCell(13);
+				estilo = creaEstilosSubTitulo(wb, "ETADET");
+				celda.setCellStyle(estilo);
+
+				fila = sheet2.getRow(2);
+
+				celda = fila.getCell(0);
+				celda.setCellValue("STOCK");
+
+				celda = fila.getCell(1);
+				celda.setCellValue(proyeccionVenta.getStock2Sd());
+				sheet2.addMergedRegion(new CellRangeAddress(2, 2, 1, 4));
+
+				celda = fila.getCell(5);
+				celda.setCellValue(proyeccionVenta.getStock4Sd());
+				sheet2.addMergedRegion(new CellRangeAddress(2, 2, 5, 8));
+
+				celda = fila.getCell(9);
+				celda.setCellValue(proyeccionVenta.getStock4Sh());
+				sheet2.addMergedRegion(new CellRangeAddress(2, 2, 9, 12));
+
+				
+				
+				// MK
+				fila = sheet2.createRow(3);
+
+				for (int i = 0; i < 14; i++) {
+
+					celda = fila.createCell(i);
+
+				}
+
+				celda = fila.getCell(0);
+				estilo = creaEstilosSubTituloLeft(wb);
+				celda.setCellStyle(estilo);
+
+				for (int i = 1; i < 5; i++) {
+
+					celda = fila.getCell(i);
+					estilo = creaEstilosSubTitulo(wb, "2SD");
+					celda.setCellStyle(estilo);
+
+				}
+
+				for (int i = 5; i < 9; i++) {
+
+					celda = fila.getCell(i);
+					estilo = creaEstilosSubTitulo(wb, "4SD");
+					celda.setCellStyle(estilo);
+
+				}
+
+				for (int i = 9; i < 13; i++) {
+
+					celda = fila.getCell(i);
+					estilo = creaEstilosSubTitulo(wb, "4SH");
+					celda.setCellStyle(estilo);
+
+				}
+
+				celda = fila.getCell(13);
+				estilo = creaEstilosSubTitulo(wb, "ETADET");
+				celda.setCellStyle(estilo);
+
+				fila = sheet2.getRow(3);
+
+				celda = fila.getCell(0);
+				celda.setCellValue("MK");
+
+				celda = fila.getCell(1);
+				celda.setCellValue(0);
+				sheet2.addMergedRegion(new CellRangeAddress(3, 3, 1, 4));
+
+				celda = fila.getCell(5);
+				celda.setCellValue(0);
+				sheet2.addMergedRegion(new CellRangeAddress(3, 3, 5, 8));
+
+				celda = fila.getCell(9);
+				celda.setCellValue(0);
+				sheet2.addMergedRegion(new CellRangeAddress(3, 3, 9, 12));
+
+				
+				
+				
+				// T/S
+				fila = sheet2.createRow(4);
+
+				for (int i = 0; i < 14; i++) {
+
+					celda = fila.createCell(i);
+
+				}
+
+				celda = fila.getCell(0);
+				estilo = creaEstilosSubTituloLeft(wb);
+				celda.setCellStyle(estilo);
+
+				for (int i = 1; i < 5; i++) {
+
+					celda = fila.getCell(i);
+					estilo = creaEstilosSubTitulo(wb, "2SD");
+					celda.setCellStyle(estilo);
+
+				}
+
+				for (int i = 5; i < 9; i++) {
+
+					celda = fila.getCell(i);
+					estilo = creaEstilosSubTitulo(wb, "4SD");
+					celda.setCellStyle(estilo);
+
+				}
+
+				for (int i = 9; i < 13; i++) {
+
+					celda = fila.getCell(i);
+					estilo = creaEstilosSubTitulo(wb, "4SH");
+					celda.setCellStyle(estilo);
+
+				}
+
+				celda = fila.getCell(13);
+				estilo = creaEstilosSubTitulo(wb, "ETADET");
+				celda.setCellStyle(estilo);
+
+				fila = sheet2.getRow(4);
+
+				celda = fila.getCell(0);
+				celda.setCellValue("T/S");
+
+				celda = fila.getCell(1);
+				celda.setCellValue(0);
+				sheet2.addMergedRegion(new CellRangeAddress(4, 4, 1, 4));
+
+				celda = fila.getCell(5);
+				celda.setCellValue(0);
+				sheet2.addMergedRegion(new CellRangeAddress(4, 4, 5, 8));
+
+				celda = fila.getCell(9);
+				celda.setCellValue(0);
+				sheet2.addMergedRegion(new CellRangeAddress(4, 4, 9, 12));
+				
+				
+				
+				
+				
 				
 				// DETALLE
-				k = 2;
+				k = 5;
 				filaInicioDetalle = k + 1;
 				filaFinDetalle = k;
-				Collections.sort(proyeccionVenta.getDetalles(), (x, y) -> x.getEta().compareTo(y.getEta()));
-				for (int f = 0; f < proyeccionVenta.getDetalles().size(); f++) {
+				Collections.sort(detalleVenta, (x, y) -> x.getEta().compareTo(y.getEta()));
+				for (int f = 0; f < detalleVenta.size(); f++) {
 
 					fila = sheet2.createRow(k);
 
@@ -1413,72 +1591,72 @@ public class ProyeccionControlador {
 					fila = sheet2.getRow(k);
 
 					celda = fila.getCell(0);
-					celda.setCellValue(proyeccionVenta.getDetalles().get(f).getAlNave() + " " + proyeccionVenta.getDetalles().get(f).getViaje());
+					celda.setCellValue(detalleVenta.get(f).getAlNave() + " " + detalleVenta.get(f).getViaje());
 					XSSFCellStyle style = creaEstilosDetalle(wb, "NAVE", "");
 					celda.setCellStyle(style);
 
 					celda = fila.getCell(1);
-					celda.setCellValue(proyeccionVenta.getDetalles().get(f).getCa2SdNoFe());
+					celda.setCellValue(detalleVenta.get(f).getCa2SdNoFe());
 					style = creaEstilosDetalle(wb, "DETALLE", "2SD");
 					celda.setCellStyle(style);
 
 					celda = fila.getCell(2);
-					celda.setCellValue(proyeccionVenta.getDetalles().get(f).getCa2SdNoFePick());
+					celda.setCellValue(detalleVenta.get(f).getCa2SdNoFePick());
 					style = creaEstilosDetalle(wb, "DETALLE", "2SD");
 					celda.setCellStyle(style);
 
 					celda = fila.getCell(3);
-					celda.setCellValue(proyeccionVenta.getDetalles().get(f).getCa2SdFe());
+					celda.setCellValue(detalleVenta.get(f).getCa2SdFe());
 					style = creaEstilosDetalle(wb, "DETALLE", "2SD");
 					celda.setCellStyle(style);
 
 					celda = fila.getCell(4);
-					celda.setCellValue(proyeccionVenta.getDetalles().get(f).getCa2SdFePick());
+					celda.setCellValue(detalleVenta.get(f).getCa2SdFePick());
 					style = creaEstilosDetalle(wb, "DETALLE", "2SD");
 					celda.setCellStyle(style);
 
 					celda = fila.getCell(5);
-					celda.setCellValue(proyeccionVenta.getDetalles().get(f).getCa4SdNoFe());
+					celda.setCellValue(detalleVenta.get(f).getCa4SdNoFe());
 					style = creaEstilosDetalle(wb, "DETALLE", "4SD");
 					celda.setCellStyle(style);
 
 					celda = fila.getCell(6);
-					celda.setCellValue(proyeccionVenta.getDetalles().get(f).getCa4SdNoFePick());
+					celda.setCellValue(detalleVenta.get(f).getCa4SdNoFePick());
 					style = creaEstilosDetalle(wb, "DETALLE", "4SD");
 					celda.setCellStyle(style);
 
 					celda = fila.getCell(7);
-					celda.setCellValue(proyeccionVenta.getDetalles().get(f).getCa4SdFe());
+					celda.setCellValue(detalleVenta.get(f).getCa4SdFe());
 					style = creaEstilosDetalle(wb, "DETALLE", "4SD");
 					celda.setCellStyle(style);
 
 					celda = fila.getCell(8);
-					celda.setCellValue(proyeccionVenta.getDetalles().get(f).getCa4SdFePick());
+					celda.setCellValue(detalleVenta.get(f).getCa4SdFePick());
 					style = creaEstilosDetalle(wb, "DETALLE", "4SD");
 					celda.setCellStyle(style);
 
 					celda = fila.getCell(9);
-					celda.setCellValue(proyeccionVenta.getDetalles().get(f).getCa4ShNoFe());
+					celda.setCellValue(detalleVenta.get(f).getCa4ShNoFe());
 					style = creaEstilosDetalle(wb, "DETALLE", "4SH");
 					celda.setCellStyle(style);
 
 					celda = fila.getCell(10);
-					celda.setCellValue(proyeccionVenta.getDetalles().get(f).getCa4ShNoFePick());
+					celda.setCellValue(detalleVenta.get(f).getCa4ShNoFePick());
 					style = creaEstilosDetalle(wb, "DETALLE", "4SH");
 					celda.setCellStyle(style);
 
 					celda = fila.getCell(11);
-					celda.setCellValue(proyeccionVenta.getDetalles().get(f).getCa4ShFe());
+					celda.setCellValue(detalleVenta.get(f).getCa4ShFe());
 					style = creaEstilosDetalle(wb, "DETALLE", "4SH");
 					celda.setCellStyle(style);
 
 					celda = fila.getCell(12);
-					celda.setCellValue(proyeccionVenta.getDetalles().get(f).getCa4ShFePick());
+					celda.setCellValue(detalleVenta.get(f).getCa4ShFePick());
 					style = creaEstilosDetalle(wb, "DETALLE", "4SH");
 					celda.setCellStyle(style);
 
 					celda = fila.getCell(13);
-					celda.setCellValue(new SimpleDateFormat("dd-MMM").format(proyeccionVenta.getDetalles().get(f).getEta()));
+					celda.setCellValue(new SimpleDateFormat("dd-MMM").format(detalleVenta.get(f).getEta()));
 					style = creaEstilosDetalle(wb, "DETALLE", "ETADET");
 					celda.setCellStyle(style);
 
@@ -1582,6 +1760,7 @@ public class ProyeccionControlador {
 				
 				// TT BOOKING
 				fila = sheet2.createRow(k);
+				filaBook = k + 1;
 
 				for (int i = 0; i < 14; i++) {
 
@@ -1644,6 +1823,7 @@ public class ProyeccionControlador {
 				
 				// TT PICK UP
 				fila = sheet2.createRow(k);
+				filaPick = k + 1;
 
 				for (int i = 0; i < 14; i++) {
 
@@ -1701,6 +1881,260 @@ public class ProyeccionControlador {
 				sheet2.addMergedRegion(new CellRangeAddress(k, k, 9, 12));
 
 				k++;
+				
+				
+				
+				
+				
+				
+				
+				// RATIO DEVOLUCION
+				fila = sheet2.createRow(k);
+				filaRatio = k + 1;
+				
+				formateador = new SimpleDateFormat("MMM-dd");
+				
+				// List<ProyeccionEquipoDetDTO> detalleRpoPlan = proyeccionEquipo.getDetalles().stream().filter(detalle -> detalle.getFgRpoPlan().equals("S")).collect(Collectors.toList());
+				
+				// proyeccionEquipo.getRatioDevolucion().getFechaRatioStr()
+
+				for (int i = 0; i < 14; i++) {
+
+					celda = fila.createCell(i);
+
+				}
+
+				celda = fila.getCell(0);
+				estilo = creaEstilosSubTituloLeft(wb);
+				celda.setCellStyle(estilo);
+
+				for (int i = 1; i < 5; i++) {
+
+					celda = fila.getCell(i);
+					estilo = creaEstilosSubTitulo(wb, "2SD");
+					celda.setCellStyle(estilo);
+
+				}
+
+				for (int i = 5; i < 9; i++) {
+
+					celda = fila.getCell(i);
+					estilo = creaEstilosSubTitulo(wb, "4SD");
+					celda.setCellStyle(estilo);
+
+				}
+
+				for (int i = 9; i < 13; i++) {
+
+					celda = fila.getCell(i);
+					estilo = creaEstilosSubTitulo(wb, "4SH");
+					celda.setCellStyle(estilo);
+
+				}
+
+				celda = fila.getCell(13);
+				estilo = creaEstilosDetalle(wb, "DETALLE", "ETADET");
+				celda.setCellStyle(estilo);
+
+				fila = sheet2.getRow(k);
+
+				celda = fila.getCell(0);
+				celda.setCellValue("Empty return until " + formateador.format(proyeccionVenta.getFeEmptyReturn()) + " (Empty return one week before last vessel ETA");
+
+				celda = fila.getCell(1);
+				celda.setCellFormula("ROUND(" + proyeccionVenta.getRatio2Sd() + "/" + proyeccionVenta.getNroDiasHabiles() + "*N" + (k+1) + ",0)");
+				sheet2.addMergedRegion(new CellRangeAddress(k, k, 1, 4));
+
+				celda = fila.getCell(5);
+				celda.setCellFormula("ROUND(" + proyeccionVenta.getRatio4Sd() + "/" + proyeccionVenta.getNroDiasHabiles() + "*N" + (k+1) + ",0)");
+				sheet2.addMergedRegion(new CellRangeAddress(k, k, 5, 8));
+
+				celda = fila.getCell(9);
+				celda.setCellFormula("ROUND(" + proyeccionVenta.getRatio4Sh()+ "/" + proyeccionVenta.getNroDiasHabiles() + "*N" + (k+1) + ",0)");
+				sheet2.addMergedRegion(new CellRangeAddress(k, k, 9, 12));
+				
+				celda = fila.getCell(13);
+				celda.setCellValue(proyeccionVenta.getNroDiasAlRetorno());
+
+				k++;
+				
+				
+				
+				
+				
+				
+				// RPO PLAN
+				filaRpoPlanIni = k + 1;
+				filaRpoPlanFin = k;
+				Collections.sort(rpoPlan, (x, y) -> x.getEta().compareTo(y.getEta()));
+				for (ProyeccionEquipoDetDTO rp : rpoPlan) {
+
+					fila = sheet2.createRow(k);
+
+					for (int i = 0; i < 14; i++) {
+
+						celda = fila.createCell(i);
+
+					}
+
+					celda = fila.getCell(0);
+					estilo = creaEstilosSubTituloLeft(wb);
+					celda.setCellStyle(estilo);
+
+					for (int i = 1; i < 5; i++) {
+
+						celda = fila.getCell(i);
+						estilo = creaEstilosSubTitulo(wb, "2SD");
+						celda.setCellStyle(estilo);
+
+					}
+
+					for (int i = 5; i < 9; i++) {
+
+						celda = fila.getCell(i);
+						estilo = creaEstilosSubTitulo(wb, "4SD");
+						celda.setCellStyle(estilo);
+
+					}
+
+					for (int i = 9; i < 13; i++) {
+
+						celda = fila.getCell(i);
+						estilo = creaEstilosSubTitulo(wb, "4SH");
+						celda.setCellStyle(estilo);
+
+					}
+
+					celda = fila.getCell(13);
+					estilo = creaEstilosDetalle(wb, "DETALLE", "ETADET");
+					celda.setCellStyle(estilo);
+
+					fila = sheet2.getRow(k);
+
+					celda = fila.getCell(0);
+					celda.setCellValue(rp.getAlNave() + " " + rp.getViaje() + " " + "rpo plan");
+
+					celda = fila.getCell(1);
+					celda.setCellValue(rp.getCaRpo2Sd());
+					sheet2.addMergedRegion(new CellRangeAddress(k, k, 1, 4));
+
+					celda = fila.getCell(5);
+					celda.setCellValue(rp.getCaRpo4Sd());
+					sheet2.addMergedRegion(new CellRangeAddress(k, k, 5, 8));
+
+					celda = fila.getCell(9);
+					celda.setCellValue(rp.getCaRpo4Sh());
+					sheet2.addMergedRegion(new CellRangeAddress(k, k, 9, 12));
+
+					celda = fila.getCell(13);
+					celda.setCellValue(new SimpleDateFormat("dd-MMM").format(rp.getEta()));
+
+					k++;
+					
+					filaRpoPlanFin = k;
+
+				}
+				
+				
+				
+				
+				
+				
+				// AVAILABLE
+				fila = sheet2.createRow(k);
+
+				for (int i = 0; i < 14; i++) {
+
+					celda = fila.createCell(i);
+
+				}
+
+				celda = fila.getCell(0);
+				estilo = creaEstilosSubTituloLeft(wb);
+				celda.setCellStyle(estilo);
+
+				for (int i = 1; i < 5; i++) {
+
+					celda = fila.getCell(i);
+					estilo = creaEstilosSubTitulo(wb, "2SD");
+					celda.setCellStyle(estilo);
+
+				}
+
+				for (int i = 5; i < 9; i++) {
+
+					celda = fila.getCell(i);
+					estilo = creaEstilosSubTitulo(wb, "4SD");
+					celda.setCellStyle(estilo);
+
+				}
+
+				for (int i = 9; i < 13; i++) {
+
+					celda = fila.getCell(i);
+					estilo = creaEstilosSubTitulo(wb, "4SH");
+					celda.setCellStyle(estilo);
+
+				}
+
+				celda = fila.getCell(13);
+				estilo = creaEstilosDetalle(wb, "DETALLE", "ETADET");
+				celda.setCellStyle(estilo);
+
+				fila = sheet2.getRow(k);
+
+				celda = fila.getCell(0);
+				celda.setCellValue("Available");
+
+				
+				
+				formulaAvailable = "B3+B4+B5-B" + filaBook + "+B" + filaPick + "+B" + filaRatio;
+				m = filaRpoPlanIni;
+				
+				for(int i = 0; i < rpoPlan.size(); i++) {
+					
+					formulaAvailable = formulaAvailable + "+B" + m;
+					m++;
+					
+				}
+				
+				celda = fila.getCell(1);
+				celda.setCellFormula(formulaAvailable);
+				sheet2.addMergedRegion(new CellRangeAddress(k, k, 1, 4));
+
+				
+				
+				formulaAvailable = "F3+F4+F5-F" + filaBook + "+F" + filaPick + "+F" + filaRatio;
+				m = filaRpoPlanIni;
+				
+				for(int i = 0; i < rpoPlan.size(); i++) {
+					
+					formulaAvailable = formulaAvailable + "+F" + m;
+					m++;
+					
+				}
+				celda = fila.getCell(5);
+				celda.setCellFormula(formulaAvailable);
+				sheet2.addMergedRegion(new CellRangeAddress(k, k, 5, 8));
+
+				
+				formulaAvailable = "J3+J4+J5-J" + filaBook + "+J" + filaPick  + "+J" + filaRatio;
+				m = filaRpoPlanIni;
+				
+				for(int i = 0; i < rpoPlan.size(); i++) {
+					
+					formulaAvailable = formulaAvailable + "+J" + m;
+					m++;
+					
+				}
+				celda = fila.getCell(9);
+				celda.setCellFormula(formulaAvailable);
+				sheet2.addMergedRegion(new CellRangeAddress(k, k, 9, 12));
+
+				k++;
+				
+				
+				
 				
 				sheet2.getWorkbook().getCreationHelper().createFormulaEvaluator().evaluateAll();
 				

@@ -1,6 +1,6 @@
 package com.wollcorp.restServices.responses;
 
-import com.wollcorp.dto.PerfilDTO;
+import com.wollcorp.TEMP.PerfilDTO;
 
 public class PerfilRes {
 	

@@ -11,12 +11,12 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
+import com.wollcorp.TEMP.DataForecastDTO;
+import com.wollcorp.TEMP.ForecastCabDTO;
+import com.wollcorp.TEMP.RespuestaDTO;
 import com.wollcorp.beans.ForecastCab;
 //import com.wollcorp.beans.forecast.Linea;
 import com.wollcorp.controladores.ForecastControlador;
-import com.wollcorp.dto.DataForecastDTO;
-import com.wollcorp.dto.ForecastCabDTO;
-import com.wollcorp.dto.RespuestaDTO;
 import com.wollcorp.globales.Log;
 import com.wollcorp.restServices.responses.ErrorRes;
 import com.wollcorp.restServices.responses.ForecastRes;

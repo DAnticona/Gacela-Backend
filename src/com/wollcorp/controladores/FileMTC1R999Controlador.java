@@ -4,11 +4,11 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.wollcorp.TEMP.FileCabMTC1R999DTO;
+import com.wollcorp.TEMP.FileDetMTC1R999DTO;
 import com.wollcorp.beans.FileCabMTC1R999;
 import com.wollcorp.beans.FileDetMTC1R999;
 import com.wollcorp.dao.FileMTC1R999DaoImpl;
-import com.wollcorp.dto.FileCabMTC1R999DTO;
-import com.wollcorp.dto.FileDetMTC1R999DTO;
 import com.wollcorp.globales.Token;
 import com.wollcorp.restServices.responses.ErrorRes;
 import com.wollcorp.restServices.responses.FileMTC1R999Res;

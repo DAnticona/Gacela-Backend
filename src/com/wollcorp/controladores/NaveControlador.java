@@ -4,11 +4,11 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.wollcorp.TEMP.NaveDTO;
+import com.wollcorp.TEMP.NaveDTOTemp;
 import com.wollcorp.beans.Nave;
 import com.wollcorp.beans.NaveTemp;
 import com.wollcorp.dao.NaveDaoImpl;
-import com.wollcorp.dto.NaveDTO;
-import com.wollcorp.dto.NaveDTOTemp;
 import com.wollcorp.globales.Token;
 import com.wollcorp.restServices.responses.NaveRes;
 

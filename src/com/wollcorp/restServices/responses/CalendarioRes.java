@@ -2,7 +2,7 @@ package com.wollcorp.restServices.responses;
 
 import java.util.List;
 
-import com.wollcorp.dto.CalendarioDTO;
+import com.wollcorp.TEMP.CalendarioDTO;
 
 public class CalendarioRes {
 	

@@ -2,7 +2,7 @@ package com.wollcorp.restServices.responses;
 
 import java.util.List;
 
-import com.wollcorp.dto.ServicioDTO;
+import com.wollcorp.TEMP.ServicioDTO;
 
 public class ServicioRes {
 	

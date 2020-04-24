@@ -2,7 +2,7 @@ package com.wollcorp.restServices.responses;
 
 import java.util.List;
 
-import com.wollcorp.dto.MenuDTO;
+import com.wollcorp.TEMP.MenuDTO;
 
 public class MenuRes {
 	

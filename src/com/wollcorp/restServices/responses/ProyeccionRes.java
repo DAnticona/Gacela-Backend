@@ -2,10 +2,10 @@ package com.wollcorp.restServices.responses;
 
 import java.util.List;
 
-import com.wollcorp.dto.ProyeccionEquipoCabDTO;
-import com.wollcorp.dto.ProyeccionGeneradaDTO;
-import com.wollcorp.dto.ProyeccionVentaCabDTO;
-import com.wollcorp.dto.RatioDevolucionDTOTEMP;
+import com.wollcorp.TEMP.ProyeccionEquipoCabDTO;
+import com.wollcorp.TEMP.ProyeccionGeneradaDTO;
+import com.wollcorp.TEMP.ProyeccionVentaCabDTO;
+import com.wollcorp.TEMP.RatioDevolucionDTOTEMP;
 
 public class ProyeccionRes {
 	

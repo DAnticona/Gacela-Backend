@@ -7,6 +7,8 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.wollcorp.TEMP.ForecastCabDTO;
+import com.wollcorp.TEMP.ForecastDetDTO;
 import com.wollcorp.beans.ForecastCab;
 import com.wollcorp.beans.forecast.Consolidado;
 import com.wollcorp.beans.forecast.ForecastPWS2Partner;
@@ -21,8 +23,6 @@ import com.wollcorp.beans.forecast.ForecastWSA4Partner;
 import com.wollcorp.beans.forecast.ForecastWSA4PartnerCargo;
 import com.wollcorp.beans.forecast.Resultado;
 import com.wollcorp.conectores.Conector;
-import com.wollcorp.dto.ForecastCabDTO;
-import com.wollcorp.dto.ForecastDetDTO;
 import com.wollcorp.globales.Log;
 
 public class ForecastDaoImpl {

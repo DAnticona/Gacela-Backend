@@ -2,7 +2,7 @@ package com.wollcorp.restServices.responses;
 
 import java.util.List;
 
-import com.wollcorp.dto.ProyeccionFileCabDTO;
+import com.wollcorp.TEMP.ProyeccionFileCabDTO;
 
 public class ProyeccionFileRes {
 	

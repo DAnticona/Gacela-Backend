@@ -7,14 +7,14 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.wollcorp.TEMP.ProyeccionVentaCabDTO;
+import com.wollcorp.TEMP.ProyeccionVentaDetDTO;
 import com.wollcorp.beans.NaveTemp;
 import com.wollcorp.beans.ProyeccionGenerada;
 import com.wollcorp.beans.ProyeccionVentaCab;
 import com.wollcorp.beans.ProyeccionVentaDet;
 import com.wollcorp.beans.Servicio;
 import com.wollcorp.conectores.Conector;
-import com.wollcorp.dto.ProyeccionVentaCabDTO;
-import com.wollcorp.dto.ProyeccionVentaDetDTO;
 import com.wollcorp.globales.Log;
 
 public class ProyeccionVentaDaoImpl {

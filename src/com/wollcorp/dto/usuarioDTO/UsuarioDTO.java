@@ -1,6 +1,6 @@
 package com.wollcorp.dto.usuarioDTO;
 
-import com.wollcorp.dto.PersonaDTO;
+import com.wollcorp.TEMP.PersonaDTO;
 
 public class UsuarioDTO extends PersonaDTO {
 	

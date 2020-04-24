@@ -2,7 +2,7 @@ package com.wollcorp.restServices.responses;
 
 import java.util.List;
 
-import com.wollcorp.dto.LineaDTO;
+import com.wollcorp.TEMP.LineaDTO;
 
 public class LineaRes {
 	

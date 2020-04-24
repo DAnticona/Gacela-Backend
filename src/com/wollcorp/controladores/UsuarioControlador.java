@@ -12,13 +12,13 @@ import java.util.Properties;
 
 import javax.imageio.ImageIO;
 
+import com.wollcorp.TEMP.TipoDocumentoDTO;
 import com.wollcorp.beans.Persona;
 import com.wollcorp.beans.TipoDocumento;
 import com.wollcorp.beans.Usuario;
 import com.wollcorp.dao.PersonaDaoImpl;
 import com.wollcorp.dao.TipoDocumentoDaoImpl;
 import com.wollcorp.dao.UsuarioDaoImpl;
-import com.wollcorp.dto.TipoDocumentoDTO;
 import com.wollcorp.dto.usuarioDTO.UsuarioDTO;
 import com.wollcorp.globales.Log;
 import com.wollcorp.globales.Token;

@@ -1,7 +1,7 @@
 package com.wollcorp.restServices.responses;
 
-import com.wollcorp.dto.ConexionDTO;
-import com.wollcorp.dto.UsuarioDTO;
+import com.wollcorp.TEMP.ConexionDTO;
+import com.wollcorp.TEMP.UsuarioDTO;
 
 public class LoginRes {
 

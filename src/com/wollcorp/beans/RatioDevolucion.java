@@ -11,6 +11,7 @@ import java.util.Date;
  */
 public class RatioDevolucion {
 	
+	private String coRatio;
 	private int ratio2Sd;
 	private int ratio4Sd;
 	private int ratio4Sh;
@@ -19,6 +20,12 @@ public class RatioDevolucion {
 	private Date feCrea;
 	private Date feModi;
 	
+	public String getCoRatio() {
+		return this.coRatio;
+	}
+	public void setCoRatio(String coRatio) {
+		this.coRatio = coRatio;
+	}
 	public int getRatio2Sd() {
 		return this.ratio2Sd;
 	}

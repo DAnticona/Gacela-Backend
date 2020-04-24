@@ -2,7 +2,7 @@ package com.wollcorp.restServices.responses;
 
 import java.util.List;
 
-import com.wollcorp.dto.TipoDocumentoDTO;
+import com.wollcorp.TEMP.TipoDocumentoDTO;
 import com.wollcorp.dto.usuarioDTO.UsuarioDTO;
 
 public class UsuarioRes {

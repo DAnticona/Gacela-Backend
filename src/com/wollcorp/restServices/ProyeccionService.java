@@ -12,10 +12,9 @@ import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
+import com.wollcorp.TEMP.ProyeccionEquipoExcelDTO;
+import com.wollcorp.TEMP.ProyeccionVentaCabDTO;
 import com.wollcorp.controladores.ProyeccionControlador;
-import com.wollcorp.dto.ProyeccionEquipoExcelDTO;
-import com.wollcorp.dto.ProyeccionVentaCabDTO;
-import com.wollcorp.dto.RatioDevolucionDTOTEMP;
 import com.wollcorp.globales.Log;
 import com.wollcorp.restServices.responses.ErrorRes;
 import com.wollcorp.restServices.responses.ProyeccionRes;
@@ -261,115 +260,115 @@ public class ProyeccionService {
 	
 	
 	
-	@POST
-	@Path("/equipo/ratio/registrar")
-	@Consumes(MediaType.APPLICATION_JSON)
-	@Produces(MediaType.APPLICATION_JSON)
-	public Response registraRatio(@HeaderParam("token") String token, RatioDevolucionDTOTEMP ratio) {
-
-		ProyeccionRes proyeccionRes = new ProyeccionRes();
-		
-		try {
-			
-			if (token != null) {
-				
-				proyeccionRes = proyeccionControlador.registraRatioDevolucion(token, ratio);
-
-				if (proyeccionRes.getError() == null) {
-
-					return Response.status(Response.Status.OK).entity(proyeccionRes).build();
-
-				} else {
-
-					proyeccionRes.setError(new ErrorRes());
-					proyeccionRes.getError().setMensaje("Error Interno al obtener las proyecciones");
-
-					return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(proyeccionRes).build();
-
-				}
-
-			} else {
-
-				proyeccionRes.setError(new ErrorRes());
-				proyeccionRes.getError().setMensaje("mal requerimiento ó token inválido al obtener las proyecciones de ventas");
-
-				return Response.status(Response.Status.BAD_REQUEST).entity(proyeccionRes).build();
-
-			}
-
-
-		
-		} catch (SQLException e) {
+//	@POST
+//	@Path("/equipo/ratio/registrar")
+//	@Consumes(MediaType.APPLICATION_JSON)
+//	@Produces(MediaType.APPLICATION_JSON)
+//	public Response registraRatio(@HeaderParam("token") String token, RatioDevolucionDTOTEMP ratio) {
+//
+//		ProyeccionRes proyeccionRes = new ProyeccionRes();
+//		
+//		try {
+//			
+//			if (token != null) {
+//				
+//				proyeccionRes = proyeccionControlador.registraRatioDevolucion(token, ratio);
+//
+//				if (proyeccionRes.getError() == null) {
+//
+//					return Response.status(Response.Status.OK).entity(proyeccionRes).build();
+//
+//				} else {
+//
+//					proyeccionRes.setError(new ErrorRes());
+//					proyeccionRes.getError().setMensaje("Error Interno al obtener las proyecciones");
+//
+//					return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(proyeccionRes).build();
+//
+//				}
+//
+//			} else {
+//
+//				proyeccionRes.setError(new ErrorRes());
+//				proyeccionRes.getError().setMensaje("mal requerimiento ó token inválido al obtener las proyecciones de ventas");
+//
+//				return Response.status(Response.Status.BAD_REQUEST).entity(proyeccionRes).build();
+//
+//			}
+//
+//
+//		
+//		} catch (SQLException e) {
+//	
+//			Log.mensaje = e.getMessage();
+//			Log.exception = e.toString();
+//			Log.codigo = e.getErrorCode();
+//			Log.estado = e.getSQLState();
+//			Log.nombreClase = this.getClass().getName();
+//			Log.registraError();
+//	
+//			proyeccionRes.setError(new ErrorRes());
+//			proyeccionRes.getError().setMensaje(e.toString());
+//	
+//			return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(proyeccionRes).build();
+//	
+//		}
+//
+//	}
 	
-			Log.mensaje = e.getMessage();
-			Log.exception = e.toString();
-			Log.codigo = e.getErrorCode();
-			Log.estado = e.getSQLState();
-			Log.nombreClase = this.getClass().getName();
-			Log.registraError();
-	
-			proyeccionRes.setError(new ErrorRes());
-			proyeccionRes.getError().setMensaje(e.toString());
-	
-			return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(proyeccionRes).build();
-	
-		}
-
-	}
-	
-	@GET
-	@Path("/equipo/ratio/obtener")
-	@Produces(MediaType.APPLICATION_JSON)
-	@Consumes(MediaType.APPLICATION_JSON)
-	public Response getRatio(@HeaderParam("token") String token, @QueryParam("codigo") String coFile) {
-
-		ProyeccionRes proyeccionRes = new ProyeccionRes();
-
-		try {
-
-			if (token != null) {
-
-				proyeccionRes = proyeccionControlador.obtieneRatioDevolucion(token);
-
-				if (proyeccionRes.getRatio() != null) {
-
-					return Response.status(Response.Status.OK).entity(proyeccionRes).build();
-
-				} else {
-
-					proyeccionRes.setError(new ErrorRes());
-					proyeccionRes.getError().setMensaje("Error Interno al obtener la proyeccion er");
-
-					return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(proyeccionRes).build();
-
-				}
-
-			} else {
-
-				proyeccionRes.setError(new ErrorRes());
-				proyeccionRes.getError().setMensaje("Token inválido");
-
-				return Response.status(Response.Status.BAD_REQUEST).entity(proyeccionRes).build();
-
-			}
-
-		} catch (SQLException e) {
-
-			Log.mensaje = e.getMessage();
-			Log.exception = e.toString();
-			Log.codigo = e.getErrorCode();
-			Log.estado = e.getSQLState();
-			Log.nombreClase = this.getClass().getName();
-			Log.registraError();
-
-			proyeccionRes.setError(new ErrorRes());
-			proyeccionRes.getError().setMensaje(e.toString());
-
-			return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(proyeccionRes).build();
-
-		}
-
-	}
+//	@GET
+//	@Path("/equipo/ratio/obtener")
+//	@Produces(MediaType.APPLICATION_JSON)
+//	@Consumes(MediaType.APPLICATION_JSON)
+//	public Response getRatio(@HeaderParam("token") String token, @QueryParam("codigo") String coFile) {
+//
+//		ProyeccionRes proyeccionRes = new ProyeccionRes();
+//
+//		try {
+//
+//			if (token != null) {
+//
+//				proyeccionRes = proyeccionControlador.obtieneRatioDevolucion(token);
+//
+//				if (proyeccionRes.getRatio() != null) {
+//
+//					return Response.status(Response.Status.OK).entity(proyeccionRes).build();
+//
+//				} else {
+//
+//					proyeccionRes.setError(new ErrorRes());
+//					proyeccionRes.getError().setMensaje("Error Interno al obtener la proyeccion er");
+//
+//					return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(proyeccionRes).build();
+//
+//				}
+//
+//			} else {
+//
+//				proyeccionRes.setError(new ErrorRes());
+//				proyeccionRes.getError().setMensaje("Token inválido");
+//
+//				return Response.status(Response.Status.BAD_REQUEST).entity(proyeccionRes).build();
+//
+//			}
+//
+//		} catch (SQLException e) {
+//
+//			Log.mensaje = e.getMessage();
+//			Log.exception = e.toString();
+//			Log.codigo = e.getErrorCode();
+//			Log.estado = e.getSQLState();
+//			Log.nombreClase = this.getClass().getName();
+//			Log.registraError();
+//
+//			proyeccionRes.setError(new ErrorRes());
+//			proyeccionRes.getError().setMensaje(e.toString());
+//
+//			return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(proyeccionRes).build();
+//
+//		}
+//
+//	}
 
 	
 	

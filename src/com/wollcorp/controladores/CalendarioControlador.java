@@ -5,9 +5,9 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import com.wollcorp.TEMP.CalendarioDTO;
 import com.wollcorp.beans.Calendario;
 import com.wollcorp.dao.CalendarioDaoImpl;
-import com.wollcorp.dto.CalendarioDTO;
 import com.wollcorp.globales.Token;
 import com.wollcorp.restServices.responses.CalendarioRes;
 

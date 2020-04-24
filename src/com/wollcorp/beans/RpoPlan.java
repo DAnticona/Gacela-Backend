@@ -10,7 +10,6 @@ public class RpoPlan {
 	private int ca2SdRpo;
 	private int ca4SdRpo;
 	private int ca4ShRpo;
-	private int ca4RhRpo;
 	private Date etaRpo;
 	private String fgActiRpo;
 	public String getCoRpo() {
@@ -48,12 +47,6 @@ public class RpoPlan {
 	}
 	public void setCa4ShRpo(int ca4ShRpo) {
 		this.ca4ShRpo = ca4ShRpo;
-	}
-	public int getCa4RhRpo() {
-		return ca4RhRpo;
-	}
-	public void setCa4RhRpo(int ca4RhRpo) {
-		this.ca4RhRpo = ca4RhRpo;
 	}
 	public Date getEtaRpo() {
 		return etaRpo;

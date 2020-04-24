@@ -4,9 +4,9 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.wollcorp.TEMP.LineaDTO;
 import com.wollcorp.beans.Linea;
 import com.wollcorp.dao.LineaDaoImpl;
-import com.wollcorp.dto.LineaDTO;
 import com.wollcorp.globales.Token;
 import com.wollcorp.restServices.responses.LineaRes;
 
