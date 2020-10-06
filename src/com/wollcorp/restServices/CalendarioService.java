@@ -15,9 +15,9 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
 import com.wollcorp.controladores.CalendarioControlador;
+import com.wollcorp.dto.CalendarioRes;
+import com.wollcorp.dto.ErrorDto;
 import com.wollcorp.globales.Log;
-import com.wollcorp.restServices.responses.CalendarioRes;
-import com.wollcorp.restServices.responses.ErrorRes;
 
 @Path("/calendario")
 public class CalendarioService {
@@ -51,7 +51,7 @@ public class CalendarioService {
 	
 				} else {
 					
-					calendarioRes.setError(new ErrorRes());
+					calendarioRes.setError(new ErrorDto());
 					calendarioRes.getError().setMensaje("Error Interno al obtener el perfil del usuario");
 	
 					return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(calendarioRes).build();
@@ -60,7 +60,7 @@ public class CalendarioService {
 	
 			} else {
 	
-				calendarioRes.setError(new ErrorRes());
+				calendarioRes.setError(new ErrorDto());
 				calendarioRes.getError().setMensaje("Requerimiento inválido al obtener el perfil del usuario");
 	
 				return Response.status(Response.Status.BAD_REQUEST).entity(calendarioRes).build();
@@ -76,7 +76,7 @@ public class CalendarioService {
 			Log.nombreClase = this.getClass().getName();
 			Log.registraError();
 	
-			calendarioRes.setError(new ErrorRes());
+			calendarioRes.setError(new ErrorDto());
 			calendarioRes.getError().setMensaje(e.toString());
 	
 			return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(calendarioRes).build();
@@ -90,9 +90,20 @@ public class CalendarioService {
 			
 			e.printStackTrace();
 			
-			calendarioRes.setError(new ErrorRes());
+			calendarioRes.setError(new ErrorDto());
 			calendarioRes.getError().setMensaje(e.toString());
 			
+			return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(calendarioRes).build();
+		} catch(Exception e) {
+			Log.mensaje = e.getMessage();
+			Log.exception = e.toString();
+			Log.nombreClase = this.getClass().getName();
+			Log.registraError();
+			
+			e.printStackTrace();
+			
+			calendarioRes.setError(new ErrorDto());
+			calendarioRes.getError().setMensaje(e.toString());
 			return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(calendarioRes).build();
 		}
 		

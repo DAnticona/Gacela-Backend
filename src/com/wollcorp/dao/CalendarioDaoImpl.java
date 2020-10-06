@@ -9,7 +9,7 @@ import java.util.Date;
 import java.util.List;
 
 import com.wollcorp.beans.Calendario;
-import com.wollcorp.conectores.Conector;
+import com.wollcorp.conexion.ConexionSQLServer;
 import com.wollcorp.globales.Log;
 
 public class CalendarioDaoImpl {
@@ -19,7 +19,7 @@ public class CalendarioDaoImpl {
 		List<Calendario> calendarios = new ArrayList<Calendario>();
 		Calendario calendario = null;
 
-		Connection conector = Conector.conectores.get(token);
+		Connection conector = ConexionSQLServer.conectores.get(token);
 
 		String sql = "SP_OBTIENE_CALENDARIO ?, ?";
 

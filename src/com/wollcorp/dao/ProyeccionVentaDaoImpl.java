@@ -9,19 +9,20 @@ import java.util.List;
 
 import com.wollcorp.TEMP.ProyeccionVentaCabDTO;
 import com.wollcorp.TEMP.ProyeccionVentaDetDTO;
-import com.wollcorp.beans.NaveTemp;
+import com.wollcorp.beans.Nave;
+// import com.wollcorp.beans.NaveTemp;
 import com.wollcorp.beans.ProyeccionGenerada;
 import com.wollcorp.beans.ProyeccionVentaCab;
 import com.wollcorp.beans.ProyeccionVentaDet;
 import com.wollcorp.beans.Servicio;
-import com.wollcorp.conectores.Conector;
+import com.wollcorp.conexion.ConexionSQLServer;
 import com.wollcorp.globales.Log;
 
 public class ProyeccionVentaDaoImpl {
 
 	public List<ProyeccionGenerada> generaResumenProyeccion(String token, String coFile) throws SQLException {
 
-		Connection conector = Conector.conectores.get(token);
+		Connection conector = ConexionSQLServer.conectores.get(token);
 
 		List<ProyeccionGenerada> proyeccionGenerada = new ArrayList<ProyeccionGenerada>();
 		// proyeccionCab.setDetalles(new ArrayList<ProyeccionVentaDet>());
@@ -60,7 +61,7 @@ public class ProyeccionVentaDaoImpl {
 
 	public List<ProyeccionVentaCab> listarProyeccionVenta(String token) throws SQLException {
 
-		Connection conector = Conector.conectores.get(token);
+		Connection conector = ConexionSQLServer.conectores.get(token);
 
 		List<ProyeccionVentaCab> proyecciones = new ArrayList<ProyeccionVentaCab>();
 		ProyeccionVentaCab proyeccion = null;
@@ -95,7 +96,7 @@ public class ProyeccionVentaDaoImpl {
 
 	public ProyeccionVentaCab getProyeccion(String token, String coProyyeccion) throws SQLException {
 
-		Connection conector = Conector.conectores.get(token);
+		Connection conector = ConexionSQLServer.conectores.get(token);
 
 		ProyeccionVentaCab proyeccion = new ProyeccionVentaCab();
 
@@ -194,7 +195,7 @@ public class ProyeccionVentaDaoImpl {
 
 			ProyeccionVentaDet detalle = new ProyeccionVentaDet();
 
-			NaveTemp nave = new NaveTemp();
+			Nave nave = new Nave();
 			Servicio servicio = new Servicio();
 
 			servicio.setCoServ(rs2.getString("CO_SERV"));
@@ -225,6 +226,7 @@ public class ProyeccionVentaDaoImpl {
 			detalle.setCa4ShNoFePick(rs2.getInt("CA_4SH_NO_FE_PICK"));
 			detalle.setCa4RhFePick(rs2.getInt("CA_4RH_FE_PICK"));
 			detalle.setCa4RhNoFePick(rs2.getInt("CA_4RH_NO_FE_PICK"));
+			detalle.setFgFile(rs2.getString("FG_FILE"));
 
 			proyeccion.getDetalles().add(detalle);
 
@@ -311,7 +313,7 @@ public class ProyeccionVentaDaoImpl {
 
 	public String registrarProyeccionCab(ProyeccionVentaCabDTO proyeccionVentaCab, String token) throws SQLException {
 
-		Connection conector = Conector.conectores.get(token);
+		Connection conector = ConexionSQLServer.conectores.get(token);
 
 		String coProyeccion = null;
 
@@ -365,7 +367,7 @@ public class ProyeccionVentaDaoImpl {
 
 		}
 
-		String sql2 = "EXEC SP_REGISTRA_DET_PROYECCION_VENTA ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?";
+		String sql2 = "EXEC SP_REGISTRA_DET_PROYECCION_VENTA ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?";
 
 		PreparedStatement ps2 = conector.prepareStatement(sql2);
 
@@ -397,6 +399,7 @@ public class ProyeccionVentaDaoImpl {
 			ps2.setInt(20, detalle.getCa4ShFePick());
 			ps2.setInt(21, detalle.getCa4RhNoFePick());
 			ps2.setInt(22, detalle.getCa4RhFePick());
+			ps2.setString(23, detalle.getFgFile());
 
 			rows = rows + ps2.executeUpdate();
 

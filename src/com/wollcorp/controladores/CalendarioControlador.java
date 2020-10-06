@@ -8,12 +8,12 @@ import java.util.List;
 import com.wollcorp.TEMP.CalendarioDTO;
 import com.wollcorp.beans.Calendario;
 import com.wollcorp.dao.CalendarioDaoImpl;
+import com.wollcorp.dto.CalendarioRes;
 import com.wollcorp.globales.Token;
-import com.wollcorp.restServices.responses.CalendarioRes;
 
 public class CalendarioControlador {
 	
-	public CalendarioRes getCalendario(String token, Date fechaIni, Date fechaFin) throws SQLException{
+	public CalendarioRes getCalendario(String token, Date fechaIni, Date fechaFin) throws Exception{
 		
 		CalendarioRes calendarioRes = new CalendarioRes();
 		

@@ -19,6 +19,14 @@ public class Usuario extends Persona{
 		
 	}
 	   
+	/**
+	 * @param noUsua
+	 */
+	public Usuario(String noUsua) {
+		super();
+		this.noUsua = noUsua;
+	}
+
 	public String getCoUsua() {
 		return coUsua;
 	}
@@ -68,6 +76,13 @@ public class Usuario extends Persona{
 
 	public void setPerfil(Perfil perfil) {
 		this.perfil = perfil;
+	}
+
+	@Override
+	public String toString() {
+		return "Usuario [coUsua=" + this.coUsua + ", noUsua=" + this.noUsua + ", feUltSes=" + this.feUltSes
+				+ ", usCreaUsua=" + this.usCreaUsua + ", usModiUsua=" + this.usModiUsua + ", feCreaUsua="
+				+ this.feCreaUsua + ", feModiUsua=" + this.feModiUsua + ", perfil=" + this.perfil + "]";
 	}
 
 }

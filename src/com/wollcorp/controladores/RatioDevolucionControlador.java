@@ -8,9 +8,9 @@ import java.sql.SQLException;
 import com.wollcorp.TEMP.RatioDevolucionDTO;
 import com.wollcorp.beans.RatioDevolucion;
 import com.wollcorp.dao.RatioDevolucionDaoImpl;
+import com.wollcorp.dto.ErrorDto;
+import com.wollcorp.dto.RatioDevolucionRes;
 import com.wollcorp.globales.Token;
-import com.wollcorp.restServices.responses.ErrorRes;
-import com.wollcorp.restServices.responses.RatioDevolucionRes;
 
 /**
  * Controlador para los ratios de devolución usados en
@@ -28,9 +28,9 @@ public class RatioDevolucionControlador {
 	 * @param token Es el token de seguridads otorgado por el backend.
 	 * @param ratio Es el objeto RatioDevolucion enviado desde el FrontEnd a ser registrado.
 	 * @return ratioDevolucionRes Objeto de respuesta. 
-	 * @throws SQLException Lanza la excepción SQLException heredada del DAO.
+	 * @throws Exception 
 	 */
-	public RatioDevolucionRes registraRatioDevolucion(String token, RatioDevolucionDTO ratio) throws SQLException {
+	public RatioDevolucionRes registraRatioDevolucion(String token, RatioDevolucionDTO ratio) throws Exception {
 		
 		RatioDevolucionRes ratioDevolucionRes = new RatioDevolucionRes();
 
@@ -40,7 +40,7 @@ public class RatioDevolucionControlador {
 
 		} else {
 
-			ratioDevolucionRes.setError(new ErrorRes());
+			ratioDevolucionRes.setError(new ErrorDto());
 
 			ratioDevolucionRes.getError().setMensaje("TOKEN INVÁLIDO");
 
@@ -55,9 +55,9 @@ public class RatioDevolucionControlador {
 	 * Obtiene los ratios de devolución de la capa DAO, los almacena en la clase DTO. 
 	 * @param token 
 	 * @return ratioDevolucionRes Objeto que contiene los datos obtenidos.
-	 * @throws SQLException
+	 * @throws Exception 
 	 */
-	public RatioDevolucionRes obtieneRatioDevolucion(String token) throws SQLException {
+	public RatioDevolucionRes obtieneRatioDevolucion(String token) throws Exception {
 
 		RatioDevolucionRes ratioDevolucionRes = new RatioDevolucionRes();
 
@@ -80,7 +80,7 @@ public class RatioDevolucionControlador {
 
 		} else {
 
-			ratioDevolucionRes.setError(new ErrorRes());
+			ratioDevolucionRes.setError(new ErrorDto());
 
 			ratioDevolucionRes.getError().setMensaje("TOKEN INVÁLIDO");
 

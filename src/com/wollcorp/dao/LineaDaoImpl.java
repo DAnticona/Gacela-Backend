@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.wollcorp.beans.Linea;
-import com.wollcorp.conectores.Conector;
+import com.wollcorp.conexion.ConexionSQLServer;
 
 public class LineaDaoImpl {
 	
@@ -17,7 +17,7 @@ public class LineaDaoImpl {
 		List<Linea> lineas = new ArrayList<Linea>();
 		Linea linea = null;
 
-		Connection conector = Conector.conectores.get(token);
+		Connection conector = ConexionSQLServer.conectores.get(token);
 		String sql = "SP_OBTIENE_LINEAS";
 
 		PreparedStatement ps = conector.prepareStatement(sql);

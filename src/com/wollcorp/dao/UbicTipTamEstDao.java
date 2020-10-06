@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.wollcorp.beans.forecast.UbicTipTamEst;
-import com.wollcorp.conectores.Conector;
+import com.wollcorp.conexion.ConexionSQLServer;
 import com.wollcorp.globales.Log;
 
 public class UbicTipTamEstDao {
@@ -19,7 +19,7 @@ public List<UbicTipTamEst> listar(String coServ, String token) {
 		
 		UbicTipTamEst col = null;
 		
-		Connection conector = Conector.conectores.get(token);
+		Connection conector = ConexionSQLServer.conectores.get(token);
 		
 		String sql = "EXEC SP_OBTIENE_COLS_FCST ?";
 		

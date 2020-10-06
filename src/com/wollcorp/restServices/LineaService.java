@@ -11,9 +11,9 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
 import com.wollcorp.controladores.LineaControlador;
+import com.wollcorp.dto.ErrorDto;
+import com.wollcorp.dto.LineaRes;
 import com.wollcorp.globales.Log;
-import com.wollcorp.restServices.responses.ErrorRes;
-import com.wollcorp.restServices.responses.LineaRes;
 
 @Path("/linea")
 public class LineaService {
@@ -39,7 +39,7 @@ public class LineaService {
 
 				} else {
 					
-					lineaRes.setError(new ErrorRes());
+					lineaRes.setError(new ErrorDto());
 					lineaRes.getError().setMensaje("Error Interno al obtener las naves");
 
 					return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(lineaRes).build();
@@ -48,7 +48,7 @@ public class LineaService {
 
 			} else {
 
-				lineaRes.setError(new ErrorRes());
+				lineaRes.setError(new ErrorDto());
 				lineaRes.getError().setMensaje("Requerimiento inválido al obtener las naves");
 
 				return Response.status(Response.Status.BAD_REQUEST).entity(lineaRes).build();
@@ -64,12 +64,24 @@ public class LineaService {
 			Log.nombreClase = this.getClass().getName();
 			Log.registraError();
 
-			lineaRes.setError(new ErrorRes());
+			lineaRes.setError(new ErrorDto());
 			lineaRes.getError().setMensaje(e.toString());
 
 			return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(lineaRes).build();
 			
-		}
+		} catch(Exception e) {
+			
+			Log.mensaje = e.getMessage();
+			Log.exception = e.toString();
+			Log.nombreClase = this.getClass().getName();
+			Log.registraError();
+
+			lineaRes.setError(new ErrorDto());
+			lineaRes.getError().setMensaje(e.toString());
+
+			return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(lineaRes).build();
+			
+		} 
 		
 
 		

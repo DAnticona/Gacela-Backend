@@ -7,14 +7,14 @@ import java.sql.SQLException;
 
 import com.wollcorp.TEMP.ProyeccionFileCabDTO;
 import com.wollcorp.TEMP.ProyeccionFileDetDTO;
-import com.wollcorp.conectores.Conector;
+import com.wollcorp.conexion.ConexionSQLServer;
 import com.wollcorp.globales.Log;
 
 public class ProyeccionFileDaoImpl {
 	
 	public String guardaProyeccionFile(ProyeccionFileCabDTO proyeccionFileCab, String token) throws SQLException {
 		
-		Connection conector = Conector.conectores.get(token);
+		Connection conector = ConexionSQLServer.conectores.get(token);
 		
 		String coProyFile = null;
 		

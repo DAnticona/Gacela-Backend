@@ -8,6 +8,7 @@ import java.nio.file.FileSystems;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.StandardCopyOption;
+import java.sql.SQLException;
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
@@ -19,12 +20,12 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 import com.wollcorp.beans.forecast.ForecastWSA4Partner;
 import com.wollcorp.beans.forecast.ForecastWSA4PartnerCargo;
-import com.wollcorp.dao.ForecastDaoImpl;
+import com.wollcorp.dao.ForecastDao;
 import com.wollcorp.globales.Log;
 
 public class ForecastWSA4PartnerControlador {
 	
-	public String generaForecastWSA4Partner(String coFcst, String noNave, String token) {
+	public String generaForecastWSA4Partner(String coFcst, String noNave, String token) throws SQLException {
 
 		List<ForecastWSA4Partner> forecast;
 		List<ForecastWSA4PartnerCargo> cargos;
@@ -49,17 +50,17 @@ public class ForecastWSA4PartnerControlador {
 	
 	
 
-	private List<ForecastWSA4Partner> obtieneForecastWSA4Partner(String coFcst, String token) {
+	private List<ForecastWSA4Partner> obtieneForecastWSA4Partner(String coFcst, String token) throws SQLException {
 
-		return (new ForecastDaoImpl()).obtieneForecastWSA4Partner(coFcst, token);
+		return (new ForecastDao()).obtieneForecastWSA4Partner(coFcst, token);
 
 	}
 	
 	
 
-	private List<ForecastWSA4PartnerCargo> obtieneForecastWSA4PartnerCargo(String coFcst, String token) {
+	private List<ForecastWSA4PartnerCargo> obtieneForecastWSA4PartnerCargo(String coFcst, String token) throws SQLException {
 
-		return (new ForecastDaoImpl()).obtieneForecastWSA4PartnerCargo(coFcst, token);
+		return (new ForecastDao()).obtieneForecastWSA4PartnerCargo(coFcst, token);
 
 	}
 	
@@ -353,6 +354,7 @@ public class ForecastWSA4PartnerControlador {
 					// cell = sheet1.createRow(r).createCell(1);
 					cell = sheet1.getRow(r).getCell(1);
 					cell.setCellValue(dg.get(i).getDescripcion());
+					Log.mensaje = dg.get(i).getDescripcion();
 					
 					r++;
 

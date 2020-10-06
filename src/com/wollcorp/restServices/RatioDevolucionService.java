@@ -17,9 +17,9 @@ import javax.ws.rs.core.Response;
 
 import com.wollcorp.TEMP.RatioDevolucionDTO;
 import com.wollcorp.controladores.RatioDevolucionControlador;
+import com.wollcorp.dto.ErrorDto;
+import com.wollcorp.dto.RatioDevolucionRes;
 import com.wollcorp.globales.Log;
-import com.wollcorp.restServices.responses.ErrorRes;
-import com.wollcorp.restServices.responses.RatioDevolucionRes;
 
 /**
  * @author David Anticona
@@ -51,7 +51,7 @@ public class RatioDevolucionService {
 
 				} else {
 
-					ratioDevolucionRes.setError(new ErrorRes());
+					ratioDevolucionRes.setError(new ErrorDto());
 					ratioDevolucionRes.getError().setMensaje("Error Interno al obtener las proyecciones");
 
 					return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(ratioDevolucionRes).build();
@@ -60,7 +60,7 @@ public class RatioDevolucionService {
 
 			} else {
 
-				ratioDevolucionRes.setError(new ErrorRes());
+				ratioDevolucionRes.setError(new ErrorDto());
 				ratioDevolucionRes.getError().setMensaje("mal requerimiento ó token inválido al obtener las proyecciones de ventas");
 
 				return Response.status(Response.Status.BAD_REQUEST).entity(ratioDevolucionRes).build();
@@ -78,7 +78,19 @@ public class RatioDevolucionService {
 			Log.nombreClase = this.getClass().getName();
 			Log.registraError();
 	
-			ratioDevolucionRes.setError(new ErrorRes());
+			ratioDevolucionRes.setError(new ErrorDto());
+			ratioDevolucionRes.getError().setMensaje(e.toString());
+	
+			return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(ratioDevolucionRes).build();
+	
+		} catch (Exception e) {
+	
+			Log.mensaje = e.getMessage();
+			Log.exception = e.toString();
+			Log.nombreClase = this.getClass().getName();
+			Log.registraError();
+	
+			ratioDevolucionRes.setError(new ErrorDto());
 			ratioDevolucionRes.getError().setMensaje(e.toString());
 	
 			return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(ratioDevolucionRes).build();
@@ -107,7 +119,7 @@ public class RatioDevolucionService {
 
 				} else {
 
-					ratioDevolucionRes.setError(new ErrorRes());
+					ratioDevolucionRes.setError(new ErrorDto());
 					ratioDevolucionRes.getError().setMensaje("Error Interno al obtener la proyeccion er");
 
 					return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(ratioDevolucionRes).build();
@@ -116,7 +128,7 @@ public class RatioDevolucionService {
 
 			} else {
 
-				ratioDevolucionRes.setError(new ErrorRes());
+				ratioDevolucionRes.setError(new ErrorDto());
 				ratioDevolucionRes.getError().setMensaje("Token inválido");
 
 				return Response.status(Response.Status.BAD_REQUEST).entity(ratioDevolucionRes).build();
@@ -132,11 +144,23 @@ public class RatioDevolucionService {
 			Log.nombreClase = this.getClass().getName();
 			Log.registraError();
 
-			ratioDevolucionRes.setError(new ErrorRes());
+			ratioDevolucionRes.setError(new ErrorDto());
 			ratioDevolucionRes.getError().setMensaje(e.toString());
 
 			return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(ratioDevolucionRes).build();
 
+		} catch (Exception e) {
+	
+			Log.mensaje = e.getMessage();
+			Log.exception = e.toString();
+			Log.nombreClase = this.getClass().getName();
+			Log.registraError();
+	
+			ratioDevolucionRes.setError(new ErrorDto());
+			ratioDevolucionRes.getError().setMensaje(e.toString());
+	
+			return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(ratioDevolucionRes).build();
+	
 		}
 
 	}

@@ -18,6 +18,13 @@ public class Menu {
 	private int nrOrde;
 	private List<SubMenu> subMenus;
 	
+	public Menu() {
+	}
+	public Menu(String coMenu) {
+		super();
+		this.coMenu = coMenu;
+	}
+
 	public String getCoMenu() {
 		return coMenu;
 	}
@@ -90,5 +97,11 @@ public class Menu {
 	public void setSubMenus(List<SubMenu> subMenus) {
 		this.subMenus = subMenus;
 	}
-
+	@Override
+	public String toString() {
+		return "Menu [coMenu=" + this.coMenu + ", noMenu=" + this.noMenu + ", lvMenu=" + this.lvMenu + ", alMenu="
+				+ this.alMenu + ", ruta=" + this.ruta + ", usCreaMenu=" + this.usCreaMenu + ", usModiMenu="
+				+ this.usModiMenu + ", feCreaMenu=" + this.feCreaMenu + ", feModiMenu=" + this.feModiMenu + ", coPadr="
+				+ this.coPadr + ", nrOrde=" + this.nrOrde + "]";
+	}
 }

@@ -8,13 +8,13 @@ import com.wollcorp.TEMP.RpoPlanDTO;
 import com.wollcorp.TEMP.RpoPlanesDTO;
 import com.wollcorp.beans.RpoPlan;
 import com.wollcorp.dao.RpoPlanDaoImpl;
+import com.wollcorp.dto.ErrorDto;
+import com.wollcorp.dto.RpoPlanRes;
 import com.wollcorp.globales.Token;
-import com.wollcorp.restServices.responses.ErrorRes;
-import com.wollcorp.restServices.responses.RpoPlanRes;
 
 public class RpoPlanControlador {
 	
-	public RpoPlanRes registraRpoPlan(String token, RpoPlanDTO rpo) throws SQLException {
+	public RpoPlanRes registraRpoPlan(String token, RpoPlanDTO rpo) throws Exception {
 		
 		RpoPlanRes rpoPlanRes = new RpoPlanRes();
 
@@ -24,7 +24,7 @@ public class RpoPlanControlador {
 
 		} else {
 
-			rpoPlanRes.setError(new ErrorRes());
+			rpoPlanRes.setError(new ErrorDto());
 
 			rpoPlanRes.getError().setMensaje("TOKEN INVÁLIDO");
 
@@ -34,7 +34,7 @@ public class RpoPlanControlador {
 	}
 	
 	
-	public RpoPlanRes obtieneRpoPlan(String token) throws SQLException {
+	public RpoPlanRes obtieneRpoPlan(String token) throws Exception {
 		
 		RpoPlanRes rpoPlanRes = new RpoPlanRes();
 		
@@ -70,7 +70,7 @@ public class RpoPlanControlador {
 
 		} else {
 
-			rpoPlanRes.setError(new ErrorRes());
+			rpoPlanRes.setError(new ErrorDto());
 
 			rpoPlanRes.getError().setMensaje("TOKEN INVÁLIDO");
 
@@ -79,7 +79,7 @@ public class RpoPlanControlador {
 		return rpoPlanRes;
 	}
 	
-	public RpoPlanRes eliminaRpoPlan(String token, RpoPlanDTO rpo) throws SQLException {
+	public RpoPlanRes eliminaRpoPlan(String token, RpoPlanDTO rpo) throws Exception {
 		
 		RpoPlanRes rpoPlanRes = new RpoPlanRes();
 
@@ -89,7 +89,7 @@ public class RpoPlanControlador {
 
 		} else {
 
-			rpoPlanRes.setError(new ErrorRes());
+			rpoPlanRes.setError(new ErrorDto());
 
 			rpoPlanRes.getError().setMensaje("TOKEN INVÁLIDO");
 

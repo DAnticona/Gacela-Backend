@@ -4,6 +4,7 @@ import java.awt.Color;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.sql.SQLException;
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
@@ -24,12 +25,12 @@ import org.apache.poi.xssf.usermodel.extensions.XSSFCellBorder.BorderSide;
 
 import com.wollcorp.beans.forecast.ForecastWSA3Partner;
 import com.wollcorp.beans.forecast.ForecastWSA3PartnerCargo;
-import com.wollcorp.dao.ForecastDaoImpl;
+import com.wollcorp.dao.ForecastDao;
 import com.wollcorp.globales.Log;
 
 public class ForecastWSA3PartnerControlador {
 	
-	public String generaForecastWSA3Partner(String coFcst, String alNave, String token) {
+	public String generaForecastWSA3Partner(String coFcst, String alNave, String token) throws SQLException {
 
 		List<ForecastWSA3Partner> forecast;
 		List<ForecastWSA3PartnerCargo> cargos;
@@ -54,17 +55,17 @@ public class ForecastWSA3PartnerControlador {
 	
 	
 
-	private List<ForecastWSA3Partner> obtieneForecastWSA3Partner(String coFcst, String token) {
+	private List<ForecastWSA3Partner> obtieneForecastWSA3Partner(String coFcst, String token) throws SQLException {
 
-		return (new ForecastDaoImpl()).obtieneForecastWSA3Partner(coFcst, token);
+		return (new ForecastDao()).obtieneForecastWSA3Partner(coFcst, token);
 
 	}
 	
 	
 
-	private List<ForecastWSA3PartnerCargo> obtieneForecastWSA3PartnerCargo(String coFcst, String token) {
+	private List<ForecastWSA3PartnerCargo> obtieneForecastWSA3PartnerCargo(String coFcst, String token) throws SQLException {
 
-		return (new ForecastDaoImpl()).obtieneForecastWSA3PartnerCargo(coFcst, token);
+		return (new ForecastDao()).obtieneForecastWSA3PartnerCargo(coFcst, token);
 
 	}
 	

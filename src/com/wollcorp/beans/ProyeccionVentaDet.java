@@ -5,7 +5,8 @@ import java.util.Date;
 public class ProyeccionVentaDet {
 	
 	private int idItem;
-	private NaveTemp nave;
+	// private NaveTemp nave;
+	private Nave nave;
 	private String viaje;
 	private Date eta;
 	
@@ -27,16 +28,18 @@ public class ProyeccionVentaDet {
 	private int ca4RhNoFePick;
 	private int ca4RhFePick;
 	
+	private String fgFile;
+	
 	public int getIdItem() {
 		return idItem;
 	}
 	public void setIdItem(int idItem) {
 		this.idItem = idItem;
 	}
-	public NaveTemp getNave() {
+	public Nave getNave() {
 		return nave;
 	}
-	public void setNave(NaveTemp nave) {
+	public void setNave(Nave nave) {
 		this.nave = nave;
 	}
 	public String getViaje() {
@@ -147,6 +150,10 @@ public class ProyeccionVentaDet {
 	public void setCa4RhFePick(int ca4RhFePick) {
 		this.ca4RhFePick = ca4RhFePick;
 	}
-		
-	
+	public String getFgFile() {
+		return this.fgFile;
+	}
+	public void setFgFile(String fgFile) {
+		this.fgFile = fgFile;
+	}
 }

@@ -45,8 +45,8 @@ public class ForecastExcel {
 		String filePath = ForecastExcel.filePath + fileName;
 
 		// System.out.println(fileName);
-		String titulo1 = "BOOKING FOR " + forecastCab.getNoServ() + " - Servicio EVL " + forecastCab.getNoServ();
-		String titulo2 = "VESSEL: " + forecastCab.getNoNave();
+		String titulo1 = "BOOKING FOR " + forecastCab.getServicio().getNoServ() + " - Servicio EVL " + forecastCab.getServicio().getNoServ();
+		String titulo2 = "VESSEL: " + forecastCab.getNave().getNoNave();
 
 		try {
 			Path origenPath = FileSystems.getDefault().getPath(templateWSA1);
@@ -469,7 +469,7 @@ public class ForecastExcel {
 		String fileName = "ForecastWSA1Partner" + coFcst + ".xlsx";
 		String filePath = ForecastExcel.filePath + fileName;
 
-		String titulo1 = "MV. " + forecastCab.getAlNave();
+		String titulo1 = "MV. " + forecastCab.getNave().getAlNave();
 
 		Path origenPath = FileSystems.getDefault().getPath(templateWSA1Partner);
 		Path destinoPath = FileSystems.getDefault().getPath(filePath);
@@ -713,8 +713,8 @@ public class ForecastExcel {
 		String fileName = "ForecastWSA2_" + coFcst + ".xlsx";
 		String filePath = ForecastExcel.filePath + fileName;
 
-		String titulo1 = "BOOKING FOR " + forecastCab.getNoServ() + " - Servicio EVL " + forecastCab.getNoServ();
-		String titulo2 = "VESSEL: " + forecastCab.getNoNave();
+		String titulo1 = "BOOKING FOR " + forecastCab.getServicio().getNoServ() + " - Servicio EVL " + forecastCab.getServicio().getNoServ();
+		String titulo2 = "VESSEL: " + forecastCab.getNave().getNoNave();
 
 		try {
 			// System.out.println("Antes de Copiar archivos");

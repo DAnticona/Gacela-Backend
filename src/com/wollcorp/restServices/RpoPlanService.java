@@ -15,9 +15,9 @@ import javax.ws.rs.core.Response;
 
 import com.wollcorp.TEMP.RpoPlanDTO;
 import com.wollcorp.controladores.RpoPlanControlador;
+import com.wollcorp.dto.ErrorDto;
+import com.wollcorp.dto.RpoPlanRes;
 import com.wollcorp.globales.Log;
-import com.wollcorp.restServices.responses.ErrorRes;
-import com.wollcorp.restServices.responses.RpoPlanRes;
 
 @Path("/rpoplan")
 public class RpoPlanService {
@@ -43,7 +43,7 @@ public class RpoPlanService {
 
 				} else {
 
-					rpoPlanRes.setError(new ErrorRes());
+					rpoPlanRes.setError(new ErrorDto());
 					rpoPlanRes.getError().setMensaje("Error Interno al obtener el plan RPO");
 
 					return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(rpoPlanRes).build();
@@ -52,7 +52,7 @@ public class RpoPlanService {
 
 			} else {
 
-				rpoPlanRes.setError(new ErrorRes());
+				rpoPlanRes.setError(new ErrorDto());
 				rpoPlanRes.getError().setMensaje("mal requerimiento ó token inválido al obtener el plan RPO");
 
 				return Response.status(Response.Status.BAD_REQUEST).entity(rpoPlanRes).build();
@@ -67,11 +67,23 @@ public class RpoPlanService {
 			Log.nombreClase = this.getClass().getName();
 			Log.registraError();
 
-			rpoPlanRes.setError(new ErrorRes());
+			rpoPlanRes.setError(new ErrorDto());
 			rpoPlanRes.getError().setMensaje(e.toString());
 
 			return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(rpoPlanRes).build();
 
+		} catch (Exception e) {
+	
+			Log.mensaje = e.getMessage();
+			Log.exception = e.toString();
+			Log.nombreClase = this.getClass().getName();
+			Log.registraError();
+	
+			rpoPlanRes.setError(new ErrorDto());
+			rpoPlanRes.getError().setMensaje(e.toString());
+	
+			return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(rpoPlanRes).build();
+	
 		}
 
 	}
@@ -98,7 +110,7 @@ public class RpoPlanService {
 
 				} else {
 
-					rpoPlanRes.setError(new ErrorRes());
+					rpoPlanRes.setError(new ErrorDto());
 					rpoPlanRes.getError().setMensaje("Error Interno al registrar la proyeccion");
 
 					return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(rpoPlanRes).build();
@@ -107,7 +119,7 @@ public class RpoPlanService {
 
 			} else {
 
-				rpoPlanRes.setError(new ErrorRes());
+				rpoPlanRes.setError(new ErrorDto());
 				rpoPlanRes.getError()
 						.setMensaje("mal requerimiento ó token inválido al registrar la proyeccion de ventas");
 
@@ -123,11 +135,23 @@ public class RpoPlanService {
 			Log.nombreClase = this.getClass().getName();
 			Log.registraError();
 
-			rpoPlanRes.setError(new ErrorRes());
+			rpoPlanRes.setError(new ErrorDto());
 			rpoPlanRes.getError().setMensaje(e.toString());
 
 			return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(rpoPlanRes).build();
 
+		} catch (Exception e) {
+	
+			Log.mensaje = e.getMessage();
+			Log.exception = e.toString();
+			Log.nombreClase = this.getClass().getName();
+			Log.registraError();
+	
+			rpoPlanRes.setError(new ErrorDto());
+			rpoPlanRes.getError().setMensaje(e.toString());
+	
+			return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(rpoPlanRes).build();
+	
 		}
 
 	}
@@ -157,7 +181,7 @@ public class RpoPlanService {
 
 				} else {
 
-					rpoPlanRes.setError(new ErrorRes());
+					rpoPlanRes.setError(new ErrorDto());
 					rpoPlanRes.getError().setMensaje("Error Interno al registrar la proyeccion");
 
 					return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(rpoPlanRes).build();
@@ -166,7 +190,7 @@ public class RpoPlanService {
 
 			} else {
 
-				rpoPlanRes.setError(new ErrorRes());
+				rpoPlanRes.setError(new ErrorDto());
 				rpoPlanRes.getError()
 						.setMensaje("mal requerimiento ó token inválido al registrar la proyeccion de ventas");
 
@@ -182,11 +206,23 @@ public class RpoPlanService {
 			Log.nombreClase = this.getClass().getName();
 			Log.registraError();
 
-			rpoPlanRes.setError(new ErrorRes());
+			rpoPlanRes.setError(new ErrorDto());
 			rpoPlanRes.getError().setMensaje(e.toString());
 
 			return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(rpoPlanRes).build();
 
+		} catch (Exception e) {
+	
+			Log.mensaje = e.getMessage();
+			Log.exception = e.toString();
+			Log.nombreClase = this.getClass().getName();
+			Log.registraError();
+	
+			rpoPlanRes.setError(new ErrorDto());
+			rpoPlanRes.getError().setMensaje(e.toString());
+	
+			return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(rpoPlanRes).build();
+	
 		}
 	}
 

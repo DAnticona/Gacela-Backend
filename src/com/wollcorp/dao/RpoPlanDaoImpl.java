@@ -9,13 +9,13 @@ import java.util.List;
 
 import com.wollcorp.TEMP.RpoPlanDTO;
 import com.wollcorp.beans.RpoPlan;
-import com.wollcorp.conectores.Conector;
+import com.wollcorp.conexion.ConexionSQLServer;
 
 public class RpoPlanDaoImpl {
 	
 	public void registraRpoPlan(RpoPlanDTO rpo, String token) throws SQLException {
 		
-		Connection conector = Conector.conectores.get(token);		
+		Connection conector = ConexionSQLServer.conectores.get(token);		
 		
 		String sql = "EXEC SP_REGISTRA_RPO_PLAN ?, ?, ?, ?, ?, ?, ?, ?";
 		
@@ -38,7 +38,7 @@ public class RpoPlanDaoImpl {
 	
 	public List<RpoPlan> obtieneRpoPlan(String token) throws SQLException {
 		
-		Connection conector = Conector.conectores.get(token);
+		Connection conector = ConexionSQLServer.conectores.get(token);
 		
 		String sql = "EXEC SP_OBTIENE_RPO_PLAN";
 		
@@ -74,7 +74,7 @@ public class RpoPlanDaoImpl {
 	
 	public void eliminaRpoPlan(RpoPlanDTO rpo, String token) throws SQLException {
 		
-		Connection conector = Conector.conectores.get(token);		
+		Connection conector = ConexionSQLServer.conectores.get(token);		
 		
 		String sql = "EXEC SP_ELIMINA_RPO_PLAN ?";
 		

@@ -15,9 +15,9 @@ import javax.ws.rs.core.Response;
 import com.wollcorp.TEMP.ProyeccionEquipoExcelDTO;
 import com.wollcorp.TEMP.ProyeccionVentaCabDTO;
 import com.wollcorp.controladores.ProyeccionControlador;
+import com.wollcorp.dto.ErrorDto;
+import com.wollcorp.dto.ProyeccionRes;
 import com.wollcorp.globales.Log;
-import com.wollcorp.restServices.responses.ErrorRes;
-import com.wollcorp.restServices.responses.ProyeccionRes;
 
 @Path("/proyecciones")
 public class ProyeccionService {
@@ -46,7 +46,7 @@ public class ProyeccionService {
 
 				} else {
 
-					proyeccionRes.setError(new ErrorRes());
+					proyeccionRes.setError(new ErrorDto());
 					proyeccionRes.getError().setMensaje("Error Interno al obtener las proyecciones");
 
 					return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(proyeccionRes).build();
@@ -55,7 +55,7 @@ public class ProyeccionService {
 
 			} else {
 
-				proyeccionRes.setError(new ErrorRes());
+				proyeccionRes.setError(new ErrorDto());
 				proyeccionRes.getError()
 						.setMensaje("mal requerimiento ó token inválido al obtener las proyecciones de ventas");
 
@@ -71,7 +71,19 @@ public class ProyeccionService {
 			Log.nombreClase = this.getClass().getName();
 			Log.registraError();
 
-			proyeccionRes.setError(new ErrorRes());
+			proyeccionRes.setError(new ErrorDto());
+			proyeccionRes.getError().setMensaje(e.toString());
+
+			return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(proyeccionRes).build();
+			
+		} catch (Exception e) {
+
+			Log.mensaje = e.getMessage();
+			Log.exception = e.toString();
+			Log.nombreClase = this.getClass().getName();
+			Log.registraError();
+
+			proyeccionRes.setError(new ErrorDto());
 			proyeccionRes.getError().setMensaje(e.toString());
 
 			return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(proyeccionRes).build();
@@ -101,7 +113,7 @@ public class ProyeccionService {
 
 				} else {
 
-					proyeccionRes.setError(new ErrorRes());
+					proyeccionRes.setError(new ErrorDto());
 					proyeccionRes.getError().setMensaje("Error Interno al obtener la proyeccion");
 
 					return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(proyeccionRes).build();
@@ -110,7 +122,7 @@ public class ProyeccionService {
 
 			} else {
 
-				proyeccionRes.setError(new ErrorRes());
+				proyeccionRes.setError(new ErrorDto());
 				proyeccionRes.getError()
 						.setMensaje("mal requerimiento ó token inválido al obtener la proyeccion de ventas");
 
@@ -127,7 +139,18 @@ public class ProyeccionService {
 			Log.nombreClase = this.getClass().getName();
 			Log.registraError();
 
-			proyeccionRes.setError(new ErrorRes());
+			proyeccionRes.setError(new ErrorDto());
+			proyeccionRes.getError().setMensaje(e.toString());
+
+			return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(proyeccionRes).build();
+		} catch (Exception e) {
+
+			Log.mensaje = e.getMessage();
+			Log.exception = e.toString();
+			Log.nombreClase = this.getClass().getName();
+			Log.registraError();
+
+			proyeccionRes.setError(new ErrorDto());
 			proyeccionRes.getError().setMensaje(e.toString());
 
 			return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(proyeccionRes).build();
@@ -161,7 +184,7 @@ public class ProyeccionService {
 
 				} else {
 
-					proyeccionRes.setError(new ErrorRes());
+					proyeccionRes.setError(new ErrorDto());
 					proyeccionRes.getError().setMensaje("Error Interno al registrar la proyeccion");
 
 					return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(proyeccionRes).build();
@@ -170,7 +193,7 @@ public class ProyeccionService {
 
 			} else {
 
-				proyeccionRes.setError(new ErrorRes());
+				proyeccionRes.setError(new ErrorDto());
 				proyeccionRes.getError()
 						.setMensaje("mal requerimiento ó token inválido al registrar la proyeccion de ventas");
 
@@ -186,11 +209,22 @@ public class ProyeccionService {
 			Log.nombreClase = this.getClass().getName();
 			Log.registraError();
 
-			proyeccionRes.setError(new ErrorRes());
+			proyeccionRes.setError(new ErrorDto());
 			proyeccionRes.getError().setMensaje(e.toString());
 
 			return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(proyeccionRes).build();
 
+		} catch (Exception e) {
+
+			Log.mensaje = e.getMessage();
+			Log.exception = e.toString();
+			Log.nombreClase = this.getClass().getName();
+			Log.registraError();
+
+			proyeccionRes.setError(new ErrorDto());
+			proyeccionRes.getError().setMensaje(e.toString());
+
+			return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(proyeccionRes).build();
 		}
 
 	}
@@ -218,7 +252,7 @@ public class ProyeccionService {
 
 				} else {
 
-					proyeccionRes.setError(new ErrorRes());
+					proyeccionRes.setError(new ErrorDto());
 					proyeccionRes.getError().setMensaje("Error Interno al obtener la proyeccion er");
 
 					return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(proyeccionRes).build();
@@ -227,7 +261,7 @@ public class ProyeccionService {
 
 			} else {
 
-				proyeccionRes.setError(new ErrorRes());
+				proyeccionRes.setError(new ErrorDto());
 				proyeccionRes.getError().setMensaje("Token inválido");
 
 				return Response.status(Response.Status.BAD_REQUEST).entity(proyeccionRes).build();
@@ -243,11 +277,22 @@ public class ProyeccionService {
 			Log.nombreClase = this.getClass().getName();
 			Log.registraError();
 
-			proyeccionRes.setError(new ErrorRes());
+			proyeccionRes.setError(new ErrorDto());
 			proyeccionRes.getError().setMensaje(e.toString());
 
 			return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(proyeccionRes).build();
 
+		} catch (Exception e) {
+
+			Log.mensaje = e.getMessage();
+			Log.exception = e.toString();
+			Log.nombreClase = this.getClass().getName();
+			Log.registraError();
+
+			proyeccionRes.setError(new ErrorDto());
+			proyeccionRes.getError().setMensaje(e.toString());
+
+			return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(proyeccionRes).build();
 		}
 
 	}
@@ -397,7 +442,7 @@ public class ProyeccionService {
 
 			} else {
 
-				proyeccionRes.setError(new ErrorRes());
+				proyeccionRes.setError(new ErrorDto());
 				proyeccionRes.getError().setMensaje("Error Interno al obtener las proyecciones");
 
 				return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(proyeccionRes).build();
@@ -406,7 +451,7 @@ public class ProyeccionService {
 
 		} else {
 
-			proyeccionRes.setError(new ErrorRes());
+			proyeccionRes.setError(new ErrorDto());
 			proyeccionRes.getError()
 					.setMensaje("mal requerimiento ó token inválido al obtener las proyecciones de ventas");
 

@@ -2,6 +2,8 @@ package com.wollcorp.TEMP;
 
 import java.util.List;
 
+import forTrash.ServicioDTO;
+
 public class PuertoDTO {
 	
 	private String coPuer;

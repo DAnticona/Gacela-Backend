@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.wollcorp.beans.forecast.UbicLinPod;
-import com.wollcorp.conectores.Conector;
+import com.wollcorp.conexion.ConexionSQLServer;
 import com.wollcorp.globales.Log;
 
 public class UbicLinPodDao {
@@ -19,7 +19,7 @@ public class UbicLinPodDao {
 		
 		UbicLinPod row = null;
 		
-		Connection conector = Conector.conectores.get(token);
+		Connection conector = ConexionSQLServer.conectores.get(token);
 		
 		String sql = "EXEC SP_OBTIENE_ROWS_FCST ?";
 		

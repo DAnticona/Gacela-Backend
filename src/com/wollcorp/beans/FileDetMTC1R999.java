@@ -208,5 +208,17 @@ public class FileDetMTC1R999 {
 	public void setIdItem(int idItem) {
 		IdItem = idItem;
 	}
+	@Override
+	public String toString() {
+		return "FileDetMTC1R999 [coFile=" + this.coFile + ", IdItem=" + this.IdItem + ", depot=" + this.depot
+				+ ", nave=" + this.nave + ", viaje=" + this.viaje + ", vsl_voy_s=" + this.vsl_voy_s + ", booking_no="
+				+ this.booking_no + ", rvs=" + this.rvs + ", qty=" + this.qty + ", pick=" + this.pick + ", balance="
+				+ this.balance + ", mode=" + this.mode + ", mta=" + this.mta + ", tpe=" + this.tpe + ", rct=" + this.rct
+				+ ", pol=" + this.pol + ", pod=" + this.pod + ", dly=" + this.dly + ", release=" + this.release
+				+ ", cut_off=" + this.cut_off + ", dry_use=" + this.dry_use + ", pre_cool=" + this.pre_cool + ", temp="
+				+ this.temp + ", vent=" + this.vent + ", commodity=" + this.commodity + ", special_handling="
+				+ this.special_handling + ", customer_ac=" + this.customer_ac + ", customer_name=" + this.customer_name
+				+ ", remark=" + this.remark + "]";
+	}
 
 }

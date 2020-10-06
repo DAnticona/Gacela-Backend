@@ -7,12 +7,12 @@ import java.util.List;
 import com.wollcorp.TEMP.LineaDTO;
 import com.wollcorp.beans.Linea;
 import com.wollcorp.dao.LineaDaoImpl;
+import com.wollcorp.dto.LineaRes;
 import com.wollcorp.globales.Token;
-import com.wollcorp.restServices.responses.LineaRes;
 
 public class LineaControlador {
 	
-	public LineaRes obtieneLineas(String token) throws SQLException {
+	public LineaRes obtieneLineas(String token) throws Exception {
 		
 		LineaRes lineaRes = new LineaRes();
 		

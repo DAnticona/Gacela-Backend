@@ -12,9 +12,9 @@ import javax.ws.rs.core.Response;
 
 import com.wollcorp.TEMP.ProyeccionFileCabDTO;
 import com.wollcorp.controladores.FileMTC1R999Controlador;
+import com.wollcorp.dto.ErrorDto;
+import com.wollcorp.dto.ProyeccionFileRes;
 import com.wollcorp.globales.Log;
-import com.wollcorp.restServices.responses.ErrorRes;
-import com.wollcorp.restServices.responses.ProyeccionFileRes;
 
 @Path("/proyeccionequipos")
 public class ProyeccionEquipoService {

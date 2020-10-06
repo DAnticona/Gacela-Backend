@@ -54,5 +54,11 @@ public class TipoDocumento {
 	public void setFeModi(LocalDateTime feModi) {
 		this.feModi = feModi;
 	}
+	@Override
+	public String toString() {
+		return "TipoDocumento [coTiDocu=" + this.coTiDocu + ", noTiDocu=" + this.noTiDocu + ", alTiDocu="
+				+ this.alTiDocu + ", usModi=" + this.usModi + ", usCrea=" + this.usCrea + ", feCrea=" + this.feCrea
+				+ ", feModi=" + this.feModi + "]";
+	}
 
 }

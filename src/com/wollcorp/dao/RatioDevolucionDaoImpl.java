@@ -7,13 +7,13 @@ import java.sql.SQLException;
 
 import com.wollcorp.TEMP.RatioDevolucionDTO;
 import com.wollcorp.beans.RatioDevolucion;
-import com.wollcorp.conectores.Conector;
+import com.wollcorp.conexion.ConexionSQLServer;
 
 public class RatioDevolucionDaoImpl {
 	
 	public void registraRatio(RatioDevolucionDTO ratio, String token) throws SQLException {
 		
-		Connection conector = Conector.conectores.get(token);
+		Connection conector = ConexionSQLServer.conectores.get(token);
 		
 		String sql1 = "EXEC SP_REGISTRA_RATIO_DEVOLUCION ?, ?, ?";
 		
@@ -33,7 +33,7 @@ public class RatioDevolucionDaoImpl {
 		
 		RatioDevolucion ratio = new RatioDevolucion();
 		
-		Connection conector = Conector.conectores.get(token);
+		Connection conector = ConexionSQLServer.conectores.get(token);
 		
 		String sql = "EXEC SP_OBTIENE_RATIO_DEVOLUCION";
 		

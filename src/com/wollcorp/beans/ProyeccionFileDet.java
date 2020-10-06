@@ -6,7 +6,8 @@ public class ProyeccionFileDet {
 	
 	private int item;
 	private String codigo;
-	private NaveTemp nave;
+	// private NaveTemp nave;
+	private Nave nave;
 	private String viaje;
 	private int ca2SdFe;
 	private int ca2SdFePick;
@@ -38,10 +39,10 @@ public class ProyeccionFileDet {
 	public void setCodigo(String codigo) {
 		this.codigo = codigo;
 	}
-	public NaveTemp getNave() {
+	public Nave getNave() {
 		return nave;
 	}
-	public void setNave(NaveTemp nave) {
+	public void setNave(Nave nave) {
 		this.nave = nave;
 	}
 	public String getViaje() {

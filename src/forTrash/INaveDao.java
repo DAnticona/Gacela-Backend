@@ -2,7 +2,7 @@ package forTrash;
 
 import java.util.List;
 
-import com.wollcorp.beans.NaveTemp;
+// import com.wollcorp.beans.NaveTemp;
 
 public interface INaveDao {
 	

@@ -5,61 +5,77 @@ import java.util.List;
 public class ForecastCab {
 	
 	private String coForecast;
-	private String coServ;
-	private String noServ;
-	private String coNave;
-	private String noNave;
-	private String alNave;
+	private Servicio servicio;
+	private Nave nave;
 	private String fgProp;
-	private List<ForecastDet> detalles;
-	
+	private List<ForecastDet> detalle;
+	/**
+	 * @return the coForecast
+	 */
 	public String getCoForecast() {
-		return coForecast;
+		return this.coForecast;
 	}
+	/**
+	 * @param coForecast the coForecast to set
+	 */
 	public void setCoForecast(String coForecast) {
 		this.coForecast = coForecast;
 	}
-	public String getCoServ() {
-		return coServ;
+	/**
+	 * @return the servicio
+	 */
+	public Servicio getServicio() {
+		return this.servicio;
 	}
-	public void setCoServ(String coServ) {
-		this.coServ = coServ;
+	/**
+	 * @param servicio the servicio to set
+	 */
+	public void setServicio(Servicio servicio) {
+		this.servicio = servicio;
 	}
-	public String getCoNave() {
-		return coNave;
+	/**
+	 * @return the nave
+	 */
+	public Nave getNave() {
+		return this.nave;
 	}
-	public void setCoNave(String coNave) {
-		this.coNave = coNave;
+	/**
+	 * @param nave the nave to set
+	 */
+	public void setNave(Nave nave) {
+		this.nave = nave;
 	}
-	public List<ForecastDet> getDetalles() {
-		return detalles;
-	}
-	public void setDetalles(List<ForecastDet> detalles) {
-		this.detalles = detalles;
-	}
-	public String getNoServ() {
-		return noServ;
-	}
-	public void setNoServ(String noServ) {
-		this.noServ = noServ;
-	}
-	public String getNoNave() {
-		return noNave;
-	}
-	public void setNoNave(String noNave) {
-		this.noNave = noNave;
-	}
-	public String getAlNave() {
-		return alNave;
-	}
-	public void setAlNave(String alNave) {
-		this.alNave = alNave;
-	}
+	/**
+	 * @return the fgProp
+	 */
 	public String getFgProp() {
-		return fgProp;
+		return this.fgProp;
 	}
+	/**
+	 * @param fgProp the fgProp to set
+	 */
 	public void setFgProp(String fgProp) {
 		this.fgProp = fgProp;
 	}
+	/**
+	 * @return the detalles
+	 */
+	public List<ForecastDet> getDetalle() {
+		return this.detalle;
+	}
+	/**
+	 * @param detalles the detalles to set
+	 */
+	public void setDetalle(List<ForecastDet> detalle) {
+		this.detalle = detalle;
+	}
+	
+	@Override
+	public String toString() {
+		return "ForecastCab [coForecast=" + this.coForecast + ", servicio=" + this.servicio + ", nave=" + this.nave
+				+ ", fgProp=" + this.fgProp + "]";
+	}
+	
+	
 	
 }

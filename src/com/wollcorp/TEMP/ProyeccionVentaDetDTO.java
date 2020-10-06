@@ -26,6 +26,7 @@ public class ProyeccionVentaDetDTO {
 	private int ca4ShFePick;
 	private int ca4RhNoFePick;
 	private int ca4RhFePick;
+	private String fgFile;
 	
 	public int getIdItem() {
 		return idItem;
@@ -146,6 +147,12 @@ public class ProyeccionVentaDetDTO {
 	}
 	public void setCa4RhFePick(int ca4RhFePick) {
 		this.ca4RhFePick = ca4RhFePick;
+	}
+	public String getFgFile() {
+		return this.fgFile;
+	}
+	public void setFgFile(String fgFile) {
+		this.fgFile = fgFile;
 	}
 	
 }

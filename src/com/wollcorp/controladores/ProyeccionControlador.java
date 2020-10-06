@@ -40,14 +40,14 @@ import com.wollcorp.beans.ProyeccionVentaCab;
 import com.wollcorp.beans.ProyeccionVentaDet;
 import com.wollcorp.dao.ProyeccionEquipoDaoImpl;
 import com.wollcorp.dao.ProyeccionVentaDaoImpl;
+import com.wollcorp.dto.ErrorDto;
+import com.wollcorp.dto.ProyeccionRes;
 import com.wollcorp.globales.Token;
-import com.wollcorp.restServices.responses.ErrorRes;
-import com.wollcorp.restServices.responses.ProyeccionRes;
 
 public class ProyeccionControlador {
 	
 	
-	public ProyeccionRes generaResumenProyeccion(String token, String coFile) throws SQLException {
+	public ProyeccionRes generaResumenProyeccion(String token, String coFile) throws Exception {
 
 		ProyeccionRes proyeccionRes = new ProyeccionRes();
 
@@ -77,7 +77,7 @@ public class ProyeccionControlador {
 
 		} else {
 
-			proyeccionRes.setError(new ErrorRes());
+			proyeccionRes.setError(new ErrorDto());
 
 			proyeccionRes.getError().setMensaje("TOKEN INVÁLIDO");
 
@@ -87,7 +87,7 @@ public class ProyeccionControlador {
 
 	}
 
-	public ProyeccionRes listarProyeccionesVenta(String token) throws SQLException {
+	public ProyeccionRes listarProyeccionesVenta(String token) throws Exception {
 
 		ProyeccionRes proyeccionVentaRes = new ProyeccionRes();
 
@@ -126,7 +126,7 @@ public class ProyeccionControlador {
 
 	}
 
-	public ProyeccionRes getProyeccionVenta(String token, String coProyeccion) throws SQLException {
+	public ProyeccionRes getProyeccionVenta(String token, String coProyeccion) throws Exception {
 
 		ProyeccionRes proyeccionVentaRes = new ProyeccionRes();
 
@@ -209,6 +209,7 @@ public class ProyeccionControlador {
 				proyeccionDetDTO.setCa4ShNoFePick(pd.getCa4ShNoFePick());
 				proyeccionDetDTO.setCa4RhFePick(pd.getCa4RhFePick());
 				proyeccionDetDTO.setCa4RhNoFePick(pd.getCa4RhNoFePick());
+				proyeccionDetDTO.setFgFile(pd.getFgFile());
 
 				proyeccionDTO.getDetalles().add(proyeccionDetDTO);
 
@@ -227,7 +228,7 @@ public class ProyeccionControlador {
 	}
 
 	public ProyeccionRes registraProyeccionVenta(String token, ProyeccionVentaCabDTO proyeccionVentaCab)
-			throws SQLException {
+			throws Exception {
 
 		ProyeccionRes proyeccionVentaRes = new ProyeccionRes();
 
@@ -247,7 +248,7 @@ public class ProyeccionControlador {
 
 			proyeccionVentaDTO = null;
 
-			proyeccionVentaRes.setError(new ErrorRes());
+			proyeccionVentaRes.setError(new ErrorDto());
 
 			proyeccionVentaRes.getError().setMensaje("TOKEN INVÁLIDO");
 
@@ -256,7 +257,7 @@ public class ProyeccionControlador {
 		return proyeccionVentaRes;
 	}
 
-	public ProyeccionRes registraProyeccionEquipo(String token, ProyeccionEquipoCabDTO proyeccionEquipoCab) throws SQLException {
+	public ProyeccionRes registraProyeccionEquipo(String token, ProyeccionEquipoCabDTO proyeccionEquipoCab) throws Exception {
 
 		ProyeccionRes proyeccionEquipoRes = new ProyeccionRes();
 
@@ -276,7 +277,7 @@ public class ProyeccionControlador {
 
 			proyeccionEquipoDTO = null;
 
-			proyeccionEquipoRes.setError(new ErrorRes());
+			proyeccionEquipoRes.setError(new ErrorDto());
 
 			proyeccionEquipoRes.getError().setMensaje("TOKEN INVÁLIDO");
 
@@ -1672,7 +1673,7 @@ public class ProyeccionControlador {
 				
 				// SUM
 				fila = sheet2.createRow(k);
-
+				filaSum = k + 1;
 				for (int i = 0; i < 14; i++) {
 
 					celda = fila.createCell(i);
@@ -1800,23 +1801,56 @@ public class ProyeccionControlador {
 				estilo = creaEstilosDetalle(wb, "DETALLE", "ETADET");
 				celda.setCellStyle(estilo);
 
+//				fila = sheet2.getRow(k);
+//				celda = fila.getCell(0);
+//				celda.setCellValue("TT Booking");
+//
+//				celda = fila.getCell(1);
+//				celda.setCellValue(proyeccionVenta.getTo2SdBook());
+//				sheet2.addMergedRegion(new CellRangeAddress(k, k, 1, 4));
+//
+//				celda = fila.getCell(5);
+//				celda.setCellValue(proyeccionVenta.getTo4SdBook());
+//				sheet2.addMergedRegion(new CellRangeAddress(k, k, 5, 8));
+//
+//				celda = fila.getCell(9);
+//				celda.setCellValue(proyeccionVenta.getTo4ShBook());
+//				sheet2.addMergedRegion(new CellRangeAddress(k, k, 9, 12));
+				
+				
 				fila = sheet2.getRow(k);
 				celda = fila.getCell(0);
 				celda.setCellValue("TT Booking");
 
 				celda = fila.getCell(1);
-				celda.setCellValue(proyeccionVenta.getTo2SdBook());
+				celda.setCellFormula("B" + filaSum + "+D" + filaSum);
 				sheet2.addMergedRegion(new CellRangeAddress(k, k, 1, 4));
 
 				celda = fila.getCell(5);
-				celda.setCellValue(proyeccionVenta.getTo4SdBook());
+				celda.setCellFormula("F" + filaSum + "+H" + filaSum);
 				sheet2.addMergedRegion(new CellRangeAddress(k, k, 5, 8));
 
 				celda = fila.getCell(9);
-				celda.setCellValue(proyeccionVenta.getTo4ShBook());
+				celda.setCellFormula("J" + filaSum + "+L" + filaSum);
 				sheet2.addMergedRegion(new CellRangeAddress(k, k, 9, 12));
 
 				k++;
+				
+				
+				
+				
+				
+				
+				
+				
+
+				
+				
+				
+				
+				
+				
+				
 
 				
 				

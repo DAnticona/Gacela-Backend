@@ -69,5 +69,11 @@ public class FileCabMTC1R999 {
 	public void setDetalle(List<FileDetMTC1R999> detalle) {
 		this.detalle = detalle;
 	}
+	@Override
+	public String toString() {
+		return "FileCabMTC1R999 [coFile=" + this.coFile + ", noFile=" + this.noFile + ", feCargaFile="
+				+ this.feCargaFile + ", fgActi=" + this.fgActi + ", usCrea=" + this.usCrea + ", usModi=" + this.usModi
+				+ ", feCrea=" + this.feCrea + ", feModi=" + this.feModi + "]";
+	}
 
 }

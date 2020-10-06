@@ -8,13 +8,13 @@ import java.util.List;
 
 import com.wollcorp.TEMP.ProyeccionEquipoCabDTO;
 import com.wollcorp.TEMP.ProyeccionEquipoDetDTO;
-import com.wollcorp.conectores.Conector;
+import com.wollcorp.conexion.ConexionSQLServer;
 
 public class ProyeccionEquipoDaoImpl {
 	
 	public String registrarProyeccionEquiposCab(String token, ProyeccionEquipoCabDTO proyeccionEquipoCab) throws SQLException{
 		
-		Connection conector = Conector.conectores.get(token);
+		Connection conector = ConexionSQLServer.conectores.get(token);
 
 		String coProyEqui = null;
 
@@ -85,7 +85,7 @@ public class ProyeccionEquipoDaoImpl {
 	
 	public void registrarProyeccionEquiposDet (String token, List<ProyeccionEquipoDetDTO> detalles) throws SQLException{
 		
-		Connection conector = Conector.conectores.get(token);
+		Connection conector = ConexionSQLServer.conectores.get(token);
 		
 		String sql1 = "DELETE FROM DET_PROY_EQUI WHERE CO_TI_PROY = ? AND CO_PROY_EQUI = ?";
 		
